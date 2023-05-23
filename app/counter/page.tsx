@@ -1,5 +1,7 @@
+import { SearchCoach } from "@/components/SearchCoach"
+
 export default function Home() {
   return (
-    <div>Counter panel</div>
+    <SearchCoach />
   )
 }
