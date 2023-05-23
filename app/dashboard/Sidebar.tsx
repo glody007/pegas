@@ -29,11 +29,6 @@ const items = [
     icon: HomeIcon
   },
   {
-    name: 'Transactions',
-    link: '/dashboard/transactions',
-    icon: BookOpenIcon
-  },
-  {
     name: 'Ticket details by PNR',
     link: '/dashboard/ticket-details',
     icon: TicketIcon
@@ -102,6 +97,11 @@ const items = [
     name: 'Dynamic Seat Plan Maker',
     link: '/dashboard/seat-plan-maker',
     icon: TableIcon
+  },
+  {
+    name: 'Transactions',
+    link: '/dashboard/transactions',
+    icon: BookOpenIcon
   }
 ]
 
