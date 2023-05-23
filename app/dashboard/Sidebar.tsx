@@ -19,93 +19,88 @@ import {
   CreditCardIcon,
   UserIcon,
   CalculatorIcon,
-  TrendingUpIcon,
-  StatusOnlineIcon,
-  ShoppingCartIcon,
-  CogIcon,
-  
-  MinusCircleIcon,
+  TrendingUpIcon
 } from "@heroicons/react/outline";
 
 const items = [
   {
     name: 'Dashboard',
-    link: '/',
+    link: '/dashboard',
     icon: HomeIcon
   },
   {
     name: 'Transactions',
-    link: '/transactions',
+    link: '/dashboard/transactions',
     icon: BookOpenIcon
   },
   {
     name: 'Ticket details by PNR',
-    link: 'ticket-details',
+    link: '/dashboard/ticket-details',
     icon: TicketIcon
   },
   {
     name: 'Fleet tracking',
-    link: 'fleet-tracking',
+    link: '/dashboard/fleet-tracking',
     icon: TruckIcon
   },
   {
     name: 'Schedule',
-    link: 'schedule',
+    link: '/dashboard/schedule',
     icon: ClockIcon
   },
   {
     name: 'Ticket cancel request',
-    link: 'ticket-cancel',
+    link: '/dashboard/ticket-cancel',
     icon: ArchiveIcon
   },
   {
     name: 'Discount',
-    link: 'discount',
+    link: '/dashboard/discount',
     icon: MinusIcon
   },
   {
     name: 'Departure',
-    link: 'departure',
+    link: '/dashboard/departure',
     icon: OfficeBuildingIcon
   },
   {
     name: 'Counter',
-    link: 'counter',
+    link: '/dashboard/counter',
     icon: DesktopComputerIcon,
   },
   {
     name: 'Route',
-    link: 'route',
+    link: '/dashboard/route',
     icon: MapIcon
   },
   {
     name: 'Ticket price',
-    link: 'ticket-price',
+    link: '/dashboard/ticket-price',
     icon: CurrencyDollarIcon
   },
   {
     name: 'Reservation',
-    link: 'reservation',
+    link: '/dashboard/reservation',
     icon: CreditCardIcon
   },
   {
     name: 'User',
-    link: 'user',
+    link: '/dashboard/user',
     icon: UserIcon
   },
   {
     name: 'Sales Dashboard',
-    link: 'sales-dashboard',
+    link: '/dashboard/sales-dashboard',
     icon: CalculatorIcon
   },
   {
     name: 'Report',
-    link: 'report',
+    link: '/dashboard/report',
     icon: TrendingUpIcon
   },
   {
     name: 'Dynamic Seat Plan Maker',
-    link: 'seat-plan-maker',
+    link: '/dashboard/seat-plan-maker',
     icon: TableIcon
   }
 ]
@@ -117,6 +112,7 @@ interface SidebarProps {
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const { pathname } = location;
+  const [currentPathName, setCurrentPathName] = useState(pathname)
 
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
@@ -125,6 +121,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const [sidebarExpanded, setSidebarExpanded] = useState(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
   );
+
+  const isSelected = (path: String) => path === currentPathName
 
   // close on click outside
   useEffect(() => {
@@ -185,14 +183,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         <Subtitle>Menu</Subtitle>
         <ul className="space-y-2 mt-4 -ml-2">
           {items.map(item => (
-            <li className="flex items-center text-sm text-white" key={item.name}>
-              <Icon 
-                color="gray"
-                size="md" 
-                icon={item.icon} 
-              />
-              {item.name}
-            </li>
+            <Link href={item.link}>
+              <li 
+                key={item.name} 
+                onClick={() => setCurrentPathName(item.link)}
+                className={`flex items-center text-sm text-white rounded ${isSelected(item.link) ? 'bg-blue-600' : 'hover:bg-gray-800'}`}
+              >
+                <Icon 
+                  color="gray"
+                  size="md" 
+                  icon={item.icon} 
+                />
+                {item.name}
+              </li>
+            </Link>
           ))}
         </ul>
       </div>
