@@ -39,7 +39,7 @@ const items = [
     icon: BookOpenIcon
   },
   {
-    name: 'Ticket details by pr',
+    name: 'Ticket details by PNR',
     link: 'ticket-details',
     icon: TicketIcon
   },
