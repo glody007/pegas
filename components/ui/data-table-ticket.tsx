@@ -86,7 +86,7 @@ export function DataTable<TData, TValue>({
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[280px] justify-start text-left font-normal",
+                    "w-[600px] justify-start text-left font-normal",
                     !date && "text-muted-foreground"
                   )}
                 >
@@ -106,6 +106,14 @@ export function DataTable<TData, TValue>({
                 />
               </PopoverContent>
             </Popover>
+            <Input
+              placeholder="Filter pnr..."
+              value={(table.getColumn("pnr")?.getFilterValue() as string) ?? ""}
+              onChange={(event) =>
+                table.getColumn("pnr")?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
           </div>
         <div className="rounded-md border">
             <Table>
