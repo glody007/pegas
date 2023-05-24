@@ -200,7 +200,7 @@ export function SearchCoach() {
                         )}
                         />
                     </div>
-                    <Button type="submit">Search</Button>
+                    <Button variant="outline" type="submit">Search</Button>
                 </form>
             </Form>
         </CardContent>
