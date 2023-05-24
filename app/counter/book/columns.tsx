@@ -66,7 +66,7 @@ export const columns: ColumnDef<Schedule>[] = [
       const boarding: Date = row.original.boarding
       const dropping: Date = row.original.dropping
 
-      const date = format(boarding, 'MM/dd/yyyy')
+      const date = format(boarding, 'dd/MM/yyyy')
       const boardingTime = format(boarding, 'HH:mm:ss')
       const droppingTime = format(dropping, 'HH:mm:ss')
  
