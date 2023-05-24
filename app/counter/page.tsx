@@ -338,7 +338,6 @@ export default async function Page() {
 
   return (
     <>
-      <SearchCoach />
       <div className="mx-auto mt-4">
         <DataTable columns={columns} data={data} />
       </div>

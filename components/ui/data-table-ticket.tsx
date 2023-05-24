@@ -11,10 +11,18 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
 } from "@tanstack/react-table"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { CalendarIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
 import React from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-
+import { Calendar } from "@/components/ui/calendar"
+import { format } from "date-fns"
 import {
   Table,
   TableBody,
@@ -37,6 +45,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
+  const [date, setDate] = React.useState<Date>()
 
   const table = useReactTable({
     data,
@@ -52,19 +61,52 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   })
-
+ 
   return (
         <div>
-          <div className="flex items-center py-4">
-          <Input
-            placeholder="Filter coachs..."
-            value={(table.getColumn("coach")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("coach")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
-        </div>
+          <div className="flex items-center py-4 space-x-8">
+            <Input
+              placeholder="Filter from..."
+              value={(table.getColumn("route")?.getFilterValue() as string) ?? ""}
+              onChange={(event) =>
+                table.getColumn("route")?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+            <Input
+              placeholder="Filter to..."
+              value={(table.getColumn("route")?.getFilterValue() as string) ?? ""}
+              onChange={(event) =>
+                table.getColumn("route")?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-[280px] justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {date ? format(date, "PPP") : <span>Pick a date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={(date) => {
+                    table.getColumn("time")?.setFilterValue(date ? format(date, 'dd/MM/yyyy'): "")
+                    setDate(date)
+                  }}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
         <div className="rounded-md border">
             <Table>
                 <TableHeader>
