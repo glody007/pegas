@@ -92,7 +92,7 @@ export function SellReserve() {
   }
 
   return (
-    <Card>
+    <div>
         <CardHeader>
             <div className="flex space-x-8">
                 <div>
@@ -308,6 +308,6 @@ export function SellReserve() {
                 </form>
             </Form>
         </CardContent>
-    </Card>
+    </div>
   )
 }
