@@ -101,9 +101,6 @@ export const columns: ColumnDef<Schedule>[] = [
             <DropdownMenuItem>
               View Seat
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              Manifest
-            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
