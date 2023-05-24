@@ -126,7 +126,7 @@ export const columns: ColumnDef<Schedule>[] = [
             <DropdownMenuSeparator />
             <DialogTrigger asChild>
               <DropdownMenuItem>          
-                  Sell Ticket
+                  Book Ticket
               </DropdownMenuItem>
             </DialogTrigger>
             <DropdownMenuItem>
