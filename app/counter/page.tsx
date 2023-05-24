@@ -1,5 +1,5 @@
 import { SearchCoach } from "@/components/SearchCoach"
-import { DataTable } from "@/components/ui/data-table-ticket"
+import { DataTable } from "@/components/ui/data-table-manifest"
 import { Schedule, columns } from "./columns"
 
 async function getData(): Promise<Schedule[]> {

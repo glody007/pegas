@@ -61,12 +61,14 @@ export const columns: ColumnDef<Schedule>[] = [
   },
   {
     accessorKey: "time",
-    header: () => <div className="text-center">Time</div>,
+    header: () => <div className="text-center">Departure</div>,
     cell: ({ row }) => {
       const boarding: Date = row.original.boarding
+      const dropping: Date = row.original.dropping
 
       const date = format(boarding, 'dd/MM/yyyy')
       const boardingTime = format(boarding, 'HH:mm:ss')
+      const droppingTime = format(dropping, 'HH:mm:ss')
  
       return (
         <div className="flex flex-col items-center justify-center">
@@ -74,7 +76,7 @@ export const columns: ColumnDef<Schedule>[] = [
             {date}
           </div>
           <div>
-            {boardingTime}
+            {boardingTime} - {droppingTime}
           </div>
         </div>
       )
@@ -90,11 +92,11 @@ export const columns: ColumnDef<Schedule>[] = [
   },
   {
     accessorKey: "available",
-    header: "Available",
+    header: "No Seats",
   },
   {
     accessorKey: "price",
-    header: "Price",
+    header: "Ticket price",
     cell: ({ row }) => {
       const price = parseFloat(row.getValue("price"))
       const formatted = new Intl.NumberFormat("en-US", {
@@ -122,11 +124,11 @@ export const columns: ColumnDef<Schedule>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DialogTrigger asChild>
+            {/* <DialogTrigger asChild>
               <DropdownMenuItem>          
                   Book Ticket
               </DropdownMenuItem>
-            </DialogTrigger>
+            </DialogTrigger> */}
             <DropdownMenuItem>
               View Seat
             </DropdownMenuItem>
