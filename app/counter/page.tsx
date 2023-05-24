@@ -1,33 +1,86 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogContentFull,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
 import { SearchCoach } from "@/components/SearchCoach"
-import { SellReserve } from "@/components/SellReserve"
+import { DataTable } from "@/components/ui/data-table"
+import { Schedule, columns } from "./columns"
 
-export default function Home() {
+async function getData(): Promise<Schedule[]> {
+  // Fetch data from your API here.
+  return [
+    {
+      id: "1",
+      coach: "LP-450",
+      boarding: new Date(), 
+      dropping: new Date(),
+      type: "MOUNTAIN LTD",
+      route: "Lubumbashi-Likasi",
+      manifest: "23",
+      available: 49,
+      price: 20,
+      status: "pending",
+      view: "view"
+    },
+    {
+      id: "1",
+      coach: "LP-600",
+      boarding: new Date(), 
+      dropping: new Date(),
+      type: "MOUNTAIN LTD",
+      route: "Lubumbashi-Kolwezi",
+      manifest: "23",
+      available: 49,
+      price: 20,
+      status: "pending",
+      view: "view"
+    },
+    {
+      id: "1",
+      coach: "LP-780",
+      boarding: new Date(), 
+      dropping: new Date(),
+      type: "MOUNTAIN LTD",
+      route: "Lubumbashi-Likasi",
+      manifest: "23",
+      available: 49,
+      price: 20,
+      status: "pending",
+      view: "view"
+    },
+    {
+      id: "1",
+      coach: "LP-450",
+      boarding: new Date(), 
+      dropping: new Date(),
+      type: "MOUNTAIN LTD",
+      route: "Lubumbashi-Kipushi",
+      manifest: "23",
+      available: 49,
+      price: 20,
+      status: "pending",
+      view: "view"
+    },
+    {
+      id: "1",
+      coach: "LP-460",
+      boarding: new Date(), 
+      dropping: new Date(),
+      type: "MOUNTAIN LTD",
+      route: "Lubumbashi-Kalemi",
+      manifest: "23",
+      available: 49,
+      price: 20,
+      status: "pending",
+      view: "view"
+    },
+  ]
+} 
+
+export default async function Page() {
+  const data = await getData()
+
   return (
     <>
       <SearchCoach />
-      <div className="mt-4 flex-1">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="outline">Sell Ticket</Button>
-          </DialogTrigger>
-          <DialogContentFull>
-            <DialogHeader>
-              <DialogTitle className="pl-6">Sell Ticket</DialogTitle>
-            </DialogHeader>
-            <SellReserve />   
-          </DialogContentFull>
-        </Dialog>
+      <div className="mx-auto mt-4">
+        <DataTable columns={columns} data={data} />
       </div>
     </>
   )
