@@ -153,7 +153,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li 
                 key={item.name} 
                 onClick={() => setCurrentPathName(item.link)}
-                className={`flex items-center text-sm px-4 py-1 ${isSelected(item.link) ? 'bg-white rounded-l-full text-gray-600' : 'hover:bg-indigo-500 text-white'}`}
+                className={`relative flex items-center text-sm px-4 py-1 ${isSelected(item.link) ? 'bg-white rounded-l-full text-gray-600' : 'hover:bg-indigo-500 text-white'}`}
               >
                 <Icon 
                   color={isSelected(item.link) ? 'gray' : 'white'}
@@ -162,6 +162,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   icon={item.icon} 
                 />
                 {item.name}
+                {isSelected(item.link) && (
+                  <>
+                    <div className='absolute right-0 -top-8 w-8 h-8 bg-white' />
+                    <div className='absolute right-0 -top-8 w-8 h-8 bg-indigo-600 rounded-br-full' />
+                    <div className='absolute right-0 -bottom-8 w-8 h-8 bg-white' />
+                    <div className='absolute right-0 -bottom-8 w-8 h-8 bg-indigo-600 rounded-tr-full' />
+                  </>
+                )}
               </li>
             </Link>
           ))}
