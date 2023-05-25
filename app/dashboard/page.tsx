@@ -1,12 +1,5 @@
 import IncomePerYear from "@/components/chart/income-per-year"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import Notifications from "@/components/notifications"
 
 export default function Home() {
   return (
@@ -22,7 +15,9 @@ export default function Home() {
         <div className="row-span-4 col-span-3 rounded-xl">
             <IncomePerYear />
         </div>
-        <div className="row-span-4 bg-indigo-600 rounded-xl">08</div>
+        <div className="row-span-4 rounded-xl">
+            <Notifications />
+        </div>
     </div>
   )
 }
