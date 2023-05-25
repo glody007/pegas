@@ -129,36 +129,36 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute p-4 left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-scroll bg-slate-900 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`absolute pt-4 left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-scroll bg-indigo-600 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
       {/* NAV BAR HEADER */}
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center justify-center space-x-2 mx-4">
         <Image 
           src={logo}
           alt="Logo"
-          width={40}
-          height={40}
-          className="rounded-sm"
+          width={80}
+          height={80}
+          className="rounded-full"
         />
-        <h2 className="text-3xl text-white">COUNTER</h2>
+        <h2 className="text-white"></h2>
       </div>
 
       {/* NAV BAR BODY */}
-      <div className="mt-8">
-        <Subtitle>Menu</Subtitle>
-        <ul className="space-y-2 mt-4 -ml-2">
+      <div className="mt-4">
+        <ul className="mt-4">
           {items.map(item => (
             <Link href={item.link}>
               <li 
                 key={item.name} 
                 onClick={() => setCurrentPathName(item.link)}
-                className={`flex items-center text-sm text-white rounded ${isSelected(item.link) ? 'bg-blue-600' : 'hover:bg-gray-800'}`}
+                className={`flex items-center text-sm px-4 py-1 ${isSelected(item.link) ? 'bg-white rounded-l-full text-gray-600' : 'hover:bg-indigo-500 text-white'}`}
               >
                 <Icon 
-                  color="gray"
+                  color={isSelected(item.link) ? 'gray' : 'white'}
                   size="md" 
+                  className='-ml-2'
                   icon={item.icon} 
                 />
                 {item.name}
