@@ -29,11 +29,6 @@ const items = [
     icon: HomeIcon
   },
   {
-    name: 'Ticket details by PNR',
-    link: '/dashboard/ticket-details',
-    icon: TicketIcon
-  },
-  {
     name: 'Fleet tracking',
     link: '/dashboard/fleet-tracking',
     icon: TruckIcon
@@ -42,11 +37,6 @@ const items = [
     name: 'Schedule',
     link: '/dashboard/schedule',
     icon: ClockIcon
-  },
-  {
-    name: 'Ticket cancel request',
-    link: '/dashboard/ticket-cancel',
-    icon: ArchiveIcon
   },
   {
     name: 'Discount',
@@ -69,9 +59,24 @@ const items = [
     icon: MapIcon
   },
   {
+    name: 'Dynamic Seat Plan Maker',
+    link: '/dashboard/seat-plan-maker',
+    icon: TableIcon
+  },
+  {
     name: 'Ticket price',
     link: '/dashboard/ticket-price',
     icon: CurrencyDollarIcon
+  },
+  {
+    name: 'Ticket details by PNR',
+    link: '/dashboard/ticket-details',
+    icon: TicketIcon
+  },
+  {
+    name: 'Ticket cancel request',
+    link: '/dashboard/ticket-cancel',
+    icon: ArchiveIcon
   },
   {
     name: 'Reservation',
@@ -92,11 +97,6 @@ const items = [
     name: 'Report',
     link: '/dashboard/report',
     icon: TrendingUpIcon
-  },
-  {
-    name: 'Dynamic Seat Plan Maker',
-    link: '/dashboard/seat-plan-maker',
-    icon: TableIcon
   },
   {
     name: 'Transactions',
