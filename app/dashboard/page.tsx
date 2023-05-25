@@ -1,5 +1,28 @@
+import IncomePerYear from "@/components/chart/income-per-year"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+
 export default function Home() {
   return (
-    <div>Dashboard</div>
+    <div className="grid grid-rows-6 grid-cols-4 gap-4">
+        <div className="row-span-2 rounded-xl h-60">
+            
+        </div>
+        <div className="row-span-2 bg-indigo-600 rounded-xl">02</div>
+        <div className="bg-indigo-600 rounded-xl">03</div>
+        <div className="bg-indigo-600 rounded-xl">04</div>
+        <div className="bg-indigo-600 rounded-xl">05</div>
+        <div className="bg-indigo-600 rounded-xl">06</div>
+        <div className="row-span-4 col-span-3 rounded-xl">
+            <IncomePerYear />
+        </div>
+        <div className="row-span-4 bg-indigo-600 rounded-xl">08</div>
+    </div>
   )
 }
