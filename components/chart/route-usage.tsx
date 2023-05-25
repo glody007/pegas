@@ -31,7 +31,6 @@ export default function RouteUsage() {
     if(ctx) window.myDoughnut = new Chart(ctx, config);
   }, []);
   return (
-    <>
       <div className="relative flex flex-col min-w-0 break-words bg-white w-full h-full mb-6 shadow-lg rounded">
         <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
           <div className="flex flex-wrap items-center">
@@ -52,6 +51,5 @@ export default function RouteUsage() {
           </div>
         </div>
       </div>
-    </>
   );
 }
