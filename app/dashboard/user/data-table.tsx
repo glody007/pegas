@@ -41,7 +41,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import DepartureForm from "@/components/form/departure-form"
+import UserForm from "@/components/form/user-form"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -88,17 +88,17 @@ export function DataTable<TData, TValue>({
               <DialogTrigger asChild>
                 <Button>
                   <PlusIcon />
-                  New departure
+                  New user
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>New departure</DialogTitle>
+                  <DialogTitle>New user</DialogTitle>
                   <DialogDescription>
-                    Fill the departure form. Click save when you're done.
+                    Fill the user form. Click save when you're done.
                   </DialogDescription>
                 </DialogHeader>
-                <DepartureForm />
+                <UserForm />
               </DialogContent>
             </Dialog>
           </div>
