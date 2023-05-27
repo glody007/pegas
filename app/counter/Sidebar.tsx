@@ -129,7 +129,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute pt-4 left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-scroll bg-indigo-600 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`absolute pt-4 left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-scroll no-scrollbar bg-indigo-600 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
@@ -153,7 +153,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li 
                 key={item.name} 
                 onClick={() => setCurrentPathName(item.link)}
-                className={`relative flex items-center text-sm px-4 py-1 ${isSelected(item.link) ? 'bg-white rounded-l-full text-gray-600' : 'hover:bg-indigo-500 text-white'}`}
+                className={`relative flex items-center text-sm px-4 py-1 ${isSelected(item.link) ? 'bg-white rounded-l-full text-gray-600' : 'hover:bg-indigo-500 z-50 text-white'}`}
               >
                 <Icon 
                   color={isSelected(item.link) ? 'gray' : 'white'}
