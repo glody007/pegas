@@ -31,7 +31,7 @@ export interface ComboboxProps {
 
 export function Combobox({ placeholder, searchHint, items } : ComboboxProps) {
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  const [selected, setSelected] = React.useState<ComboboxItem | undefined>(undefined)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -42,8 +42,8 @@ export function Combobox({ placeholder, searchHint, items } : ComboboxProps) {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value
-            ? items.find((item) => item.value.toLowerCase() === value.toLowerCase())?.label
+          {selected
+            ? items.find((item) => item.value.toLowerCase() === selected.value.toLowerCase())?.label
             : placeholder}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -57,14 +57,14 @@ export function Combobox({ placeholder, searchHint, items } : ComboboxProps) {
               <CommandItem
                 key={item.value}
                 onSelect={(currentValue) => {
-                  setValue(currentValue === value ? "" : currentValue)
+                  setSelected(currentValue === selected?.label.toLowerCase() ? undefined : item)
                   setOpen(false)
                 }}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === item.value ? "opacity-100" : "opacity-0"
+                    selected?.value === item.value ? "opacity-100" : "opacity-0"
                   )}
                 />
                 {item.label}
