@@ -28,16 +28,38 @@ export default function RouteMaker({ places, initials }: RouteMakerProps) {
         }, {} as {[key: string | number]: departure})
     }, [places, initials])
 
+    const routePlacesMap = useMemo(() => {
+        return state.places.reduce((placesMap, place, index) => {
+            placesMap[place.id || String(index)] = place
+            return placesMap
+        }, {} as {[key: string | number]: departure})
+    }, [state])
+
+    const selectablePlaces = places.filter((place, index) => !routePlacesMap[place.id || index])
+
     const reorderPlaces = (places: Array<any>, startIndex: number, endIndex: number) => {
-        const newTaskList = Array.from(places);
-        const [removed] = newTaskList.splice(startIndex, 1);
-        newTaskList.splice(endIndex, 0, removed);
-        return newTaskList;
+        const newPlaceList = Array.from(places);
+        const [removed] = newPlaceList.splice(startIndex, 1);
+        newPlaceList.splice(endIndex, 0, removed);
+        return newPlaceList;
     };
 
-    const removePlace = (places: Array<any>, startIndex: number, endIndex: number) => {
-        const newTaskList = Array.from(places);
-        return newTaskList
+    const removePlace = (place: departure) => {
+        let index = 0
+        let newPlaces = [...state.places]
+
+        do {
+            index = newPlaces.findIndex((item) => item.id === place.id)
+    
+            if(index >= 0) {
+                newPlaces.splice(index, 1)
+            } else {
+                const newState = {
+                    places: newPlaces,
+                };
+                setState(newState)
+            }
+        } while(index >= 0)
     };
 
     const addPlace = (newPlace: departure) => {
@@ -53,10 +75,6 @@ export default function RouteMaker({ places, initials }: RouteMakerProps) {
     
         return draggedDOM;
     };
-
-    const handleSelectPlace = (item: comboboxItem) => {
-        addPlace(placesMap[item.value])
-    }
     
     const onDragEnd = (result: any) => {
         const { source, destination } = result;
@@ -82,12 +100,16 @@ export default function RouteMaker({ places, initials }: RouteMakerProps) {
         setState(newState)
     }
 
+    const handleSelectPlace = (item: comboboxItem) => {
+        addPlace(placesMap[item.value])
+    }
+
     return (
         <div className="flex flex-col">
             <Combobox 
                 placeholder="Add place" 
                 searchHint="Search place" 
-                items={places.map((departure, index) => ({
+                items={selectablePlaces.map((departure, index) => ({
                     value: departure.id || String(index),
                     label: departure.city
                 }))}
@@ -120,7 +142,10 @@ export default function RouteMaker({ places, initials }: RouteMakerProps) {
                                                 <div className="flex-1 text-white text-xs">
                                                     {place.city}
                                                 </div>
-                                                <div className="rounded-full bg-blue-300 p-1">
+                                                <div 
+                                                    className="rounded-full bg-blue-300 p-1 cursor-pointer"
+                                                    onClick={() => removePlace(place)}
+                                                >
                                                     <XIcon size="16" color="white" />
                                                 </div>
                                             </div>
