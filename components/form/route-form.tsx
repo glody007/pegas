@@ -134,7 +134,8 @@ export default function RouteForm() {
                                         <div>
                                             <Combobox 
                                                 ref={refFrom}
-                                                placeholder="Select place" 
+                                                disabled
+                                                placeholder="Add place" 
                                                 searchHint="Search place" 
                                                 items={data.map((departure, index) => ({
                                                     value: departure.id || String(index),
@@ -157,7 +158,8 @@ export default function RouteForm() {
                                             <div>
                                                 <Combobox 
                                                     ref={refTo}
-                                                    placeholder="Select place" 
+                                                    disabled
+                                                    placeholder="Add place" 
                                                     searchHint="Search place" 
                                                     items={data.map((departure, index) => ({
                                                         value: departure.id || String(index),

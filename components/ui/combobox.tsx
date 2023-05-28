@@ -27,7 +27,8 @@ export interface ComboboxProps {
     placeholder: string
     searchHint: string
     items: Array<comboboxItem>
-    handleSelect?: (item: comboboxItem | undefined) => void
+    handleSelect?: (item: comboboxItem | undefined) => void,
+    disabled?: boolean
 }
 
 export type ComboboxHandle = {
@@ -38,7 +39,8 @@ const Combobox = React.forwardRef(({
     placeholder, 
     searchHint, 
     items,
-    handleSelect
+    handleSelect,
+    disabled
 } : ComboboxProps, ref: any) => {
   const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState<comboboxItem | undefined>(undefined)
@@ -64,6 +66,7 @@ const Combobox = React.forwardRef(({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
+          disabled={disabled}
           variant="outline"
           role="combobox"
           aria-expanded={open}
