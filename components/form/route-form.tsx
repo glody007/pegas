@@ -22,6 +22,7 @@ import { Label } from "@/components/ui/label"
 import * as z from "zod"
 import { departure } from "@/types/departure"
 import { Combobox } from "../ui/combobox"
+import RouteMaker from "../route-maker"
 
 const formSchema = z.object({
     from: z.string().min(2, {
@@ -54,7 +55,7 @@ function getData(): departure[] {
         country: "DRC"
       },
       {
-        id: "1",
+        id: "3",
         name: "Kolwezi T-1",
         city: "Kolwezi",
         country: "DRC"
@@ -142,19 +143,7 @@ export default function RouteForm() {
                                 )}
                             />
                         </div>
-                        <div className="flex flex-col">
-                            <Combobox 
-                                placeholder="Add place" 
-                                searchHint="Search place" 
-                                items={data.map((departure, index) => ({
-                                    value: departure.id || String(index),
-                                    label: departure.city
-                                }))}
-                            />
-                            <div className="border flex-1">
-
-                            </div>
-                        </div>
+                        <RouteMaker places={data} initials={[]} />
                     </div>
                     <Button type="submit" className="mt-8">Save</Button>
                 </form>

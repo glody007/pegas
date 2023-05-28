@@ -18,7 +18,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-export type ComboboxItem = {
+export type comboboxItem = {
     value: string
     label: string
 }
@@ -26,12 +26,25 @@ export type ComboboxItem = {
 export interface ComboboxProps {
     placeholder: string
     searchHint: string
-    items: Array<ComboboxItem>
+    items: Array<comboboxItem>
+    handleSelect?: (item: comboboxItem) => void
 }
 
-export function Combobox({ placeholder, searchHint, items } : ComboboxProps) {
+export function Combobox({ 
+    placeholder, 
+    searchHint, 
+    items,
+    handleSelect
+} : ComboboxProps) {
   const [open, setOpen] = React.useState(false)
-  const [selected, setSelected] = React.useState<ComboboxItem | undefined>(undefined)
+  const [selected, setSelected] = React.useState<comboboxItem | undefined>(undefined)
+
+  const onSelect = (currentValue: string, selectedItem: comboboxItem) => {
+    setSelected(currentValue === selected?.label.toLowerCase() ? undefined : selectedItem)
+    setOpen(false)
+
+    if(handleSelect) handleSelect(selectedItem)
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -56,10 +69,7 @@ export function Combobox({ placeholder, searchHint, items } : ComboboxProps) {
             {items.map((item) => (
               <CommandItem
                 key={item.value}
-                onSelect={(currentValue) => {
-                  setSelected(currentValue === selected?.label.toLowerCase() ? undefined : item)
-                  setOpen(false)
-                }}
+                onSelect={(currentValue) => onSelect(currentValue, item)}
               >
                 <Check
                   className={cn(
