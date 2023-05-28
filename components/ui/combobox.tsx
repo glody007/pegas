@@ -27,24 +27,38 @@ export interface ComboboxProps {
     placeholder: string
     searchHint: string
     items: Array<comboboxItem>
-    handleSelect?: (item: comboboxItem) => void
+    handleSelect?: (item: comboboxItem | undefined) => void
 }
 
-export function Combobox({ 
+export type ComboboxHandle = {
+    selectItem: (item: comboboxItem | undefined) => void
+}
+
+const Combobox = React.forwardRef(({ 
     placeholder, 
     searchHint, 
     items,
     handleSelect
-} : ComboboxProps) {
+} : ComboboxProps, ref: any) => {
   const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState<comboboxItem | undefined>(undefined)
 
   const onSelect = (currentValue: string, selectedItem: comboboxItem) => {
-    setSelected(currentValue === selected?.label.toLowerCase() ? undefined : selectedItem)
+    const currentItem = currentValue === selected?.label.toLowerCase() ? undefined : selectedItem
+    setSelected(currentItem)
     setOpen(false)
 
-    if(handleSelect) handleSelect(selectedItem)
+    if(handleSelect) handleSelect(currentItem)
   }
+
+  React.useImperativeHandle(ref, () => ({
+        selectItem(item: comboboxItem | undefined) {
+            setSelected(item)
+            setOpen(false)
+
+            if(handleSelect) handleSelect(item)
+        }
+  }))
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -85,4 +99,8 @@ export function Combobox({
       </PopoverContent>
     </Popover>
   )
+})
+
+export {
+    Combobox
 }

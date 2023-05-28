@@ -1,7 +1,7 @@
 "use client"
 
 import { departure } from '@/types/departure'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Combobox, comboboxItem } from './ui/combobox'
 import { 
     Droppable, 
@@ -12,14 +12,19 @@ import { XIcon } from 'lucide-react'
 
 export interface RouteMakerProps {
     places: Array<departure>,
-    initials: Array<departure>
+    initials: Array<departure>,
+    onChange?: (places: Array<departure>) => void
 }
 
-export default function RouteMaker({ places, initials }: RouteMakerProps) {
+export default function RouteMaker({ places, initials, onChange }: RouteMakerProps) {
     const queryAttr = "data-rbd-drag-handle-draggable-id";
     const [state, setState] = useState({
         places: initials
     });
+
+    useEffect(() => {
+        if(onChange) onChange(state.places)
+    }, [state])
 
     const placesMap = useMemo(() => {
         return places.reduce((placesMap, place, index) => {
@@ -100,12 +105,12 @@ export default function RouteMaker({ places, initials }: RouteMakerProps) {
         setState(newState)
     }
 
-    const handleSelectPlace = (item: comboboxItem) => {
-        addPlace(placesMap[item.value])
+    const handleSelectPlace = (item: comboboxItem | undefined) => {
+        if(item) addPlace(placesMap[item.value])
     }
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col min-h-[240px]">
             <Combobox 
                 placeholder="Add place" 
                 searchHint="Search place" 
