@@ -17,6 +17,7 @@ import { PlusIcon } from "lucide-react"
 import BusForm from "@/components/form/BusForm"
 import ScheduleCard from "@/components/ScheduleCard"
 import { Schedule } from "@/lib/validators/schedule"
+import ScheduleForm from "@/components/form/ScheduleForm"
 
 interface ScheduleListProps {
   data: Array<Schedule>
@@ -54,18 +55,18 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ data }) => {
                   <DialogTrigger asChild>
                     <Button>
                       <PlusIcon />
-                      New bus
+                      New schedule
                     </Button>
                   </DialogTrigger>
                   <DialogContentFull>
                     <DialogHeader>
-                      <DialogTitle>New bus</DialogTitle>
+                      <DialogTitle>New schedule</DialogTitle>
                       <DialogDescription>
                         Fill the bus form. Click save when you're done.
                       </DialogDescription>
                     </DialogHeader>
                     <div className="mt-4">
-                      <BusForm />
+                      <ScheduleForm />
                     </div>
                   </DialogContentFull>
                 </Dialog>

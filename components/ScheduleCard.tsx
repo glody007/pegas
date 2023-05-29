@@ -24,11 +24,11 @@ import {
   } from "@/components/ui/dialog"
 import { Bus } from '@/lib/validators/bus';
 import { MoreVertical } from 'lucide-react';
-import BusForm from './form/BusForm';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Route } from '@/lib/validators/route';
 import { User } from '@/lib/validators/user';
 import { Schedule } from '@/lib/validators/schedule';
+import ScheduleForm from './form/ScheduleForm';
 
 interface ScheduleCardProps {
     schedule: Schedule
@@ -198,7 +198,7 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({ schedule }) => {
                                 <DialogTitle className="pl-6"></DialogTitle>
                             </DialogHeader>
                             <div className="min-w-[300px]">
-                                <BusForm /> 
+                                <ScheduleForm /> 
                             </div>  
                             </DialogContentFull>
                         </Dialog>
