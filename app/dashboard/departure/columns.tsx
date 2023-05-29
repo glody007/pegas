@@ -49,7 +49,7 @@ export const columns: ColumnDef<departure>[] = [
     },
     cell: ({ row }) => {
       const name: String = row.getValue("name")
-      return <div className="font-semibold">{name}</div>
+      return <div className="font-semibold ml-4">{name}</div>
     },
   },
   {
@@ -67,7 +67,7 @@ export const columns: ColumnDef<departure>[] = [
     },
     cell: ({ row }) => {
       const city: String = row.getValue("city")
-      return <div className="">{city}</div>
+      return <div className="ml-4">{city}</div>
     },
   },
   {
@@ -85,7 +85,7 @@ export const columns: ColumnDef<departure>[] = [
     },
     cell: ({ row }) => {
       const country: String = row.getValue("country")
-      return <div className="">{country}</div>
+      return <div className="ml-4">{country}</div>
     },
   },
   {
