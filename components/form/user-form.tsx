@@ -29,24 +29,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import * as z from "zod"
-
-const formSchema = z.object({
-    name: z.string().min(2, {
-      message: "Name must be at least 2 characters.",
-    }),
-    email: z.string().email({
-      message: "This is not a valid email.",
-    }),
-    sex: z.string().min(1, {
-      message: "Sex must be at least 1 character.",
-    }),
-    birthday: z.coerce.date(),
-    role: z.string()
-})
+import { UserSchema } from "@/lib/validators/user"
 
 export default function UserForm() {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof UserSchema>>({
+        resolver: zodResolver(UserSchema),
         defaultValues: {
             name: "",
             email: "",
@@ -56,7 +43,7 @@ export default function UserForm() {
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: z.infer<typeof UserSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         console.log(values)

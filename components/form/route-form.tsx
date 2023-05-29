@@ -24,21 +24,7 @@ import { departure } from "@/types/departure"
 import { Combobox, ComboboxHandle } from "../ui/combobox"
 import RouteMaker from "../route-maker"
 import { useRef } from "react"
-
-const formSchema = z.object({
-    from: z.string().min(1, {
-      message: "From is required.",
-    }),
-    to: z.string().min(1, {
-      message: "To is required.",
-    }),
-    duration: z.string().min(2, {
-      message: "Duration is required.",
-    }),
-    places: z.array(z.string()).min(2, {
-        message: "Minimum 2 places.",
-    }),
-})
+import { RouteSchema } from "@/lib/validators/route"
 
 function getData(): departure[] {
     // Fetch data from your API here.
@@ -65,8 +51,8 @@ function getData(): departure[] {
 } 
 
 export default function RouteForm() {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof RouteSchema>>({
+        resolver: zodResolver(RouteSchema),
         defaultValues: {
             from: "",
             to: "",
@@ -81,7 +67,7 @@ export default function RouteForm() {
     const refTo = useRef<ComboHandle>(null); 
 
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: z.infer<typeof RouteSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         console.log(values)
