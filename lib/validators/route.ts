@@ -1,6 +1,7 @@
 import {z} from "zod"
 
 export const RouteSchema = z.object({
+    id: z.number().optional(),
     from: z.string().min(1, {
       message: "From is required.",
     }),
