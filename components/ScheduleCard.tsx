@@ -121,11 +121,11 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({ schedule }) => {
                         <Badge>{bus.name} | {format(schedule.start, "dd/MM/yyyy")} | {format(schedule.start, "HH:mm")}-{format(schedule.end, "HH:mm")}</Badge>
                     </div>
                     <div className="flex flex-col items-center">
-                        <Avatar>
+                    <div className="text-xs text-gray-500">Driver</div>
+                        <Avatar className="mt-2">
                             <AvatarImage src="https://github.com/shadcn.png" />
                             <AvatarFallback>{driver.name[0]}</AvatarFallback>
                         </Avatar>
-                        <div className="text-xs text-gray-500 mt-2">Driver</div>
                         <div className="mt-1">
                             <Badge variant="secondary">{driver.name}</Badge> 
                         </div>
