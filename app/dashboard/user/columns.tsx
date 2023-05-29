@@ -54,7 +54,7 @@ export const columns: ColumnDef<departure>[] = [
     },
     cell: ({ row }) => {
       const name: String = row.getValue("name")
-      return <div className="font-semibold">{name}</div>
+      return <div className="font-semibold ml-4">{name}</div>
     },
   },
   {
@@ -72,7 +72,7 @@ export const columns: ColumnDef<departure>[] = [
     },
     cell: ({ row }) => {
       const email: String = row.getValue("email")
-      return <div className="">{email}</div>
+      return <div className="ml-4">{email}</div>
     },
   },
   {
@@ -90,7 +90,7 @@ export const columns: ColumnDef<departure>[] = [
     },
     cell: ({ row }) => {
       const sex: String = row.getValue("sex")
-      return <Badge variant="secondary">{sex}</Badge>
+      return <div className="ml-6"><Badge variant="secondary">{sex}</Badge></div>
     },
   },
   {
