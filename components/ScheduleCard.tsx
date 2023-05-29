@@ -113,25 +113,30 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({ schedule }) => {
     return (
         <Card>
             <CardContent className="flex mt-4 space-x-4">
-                <div className="flex flex-col justify-between">
-                    <div className="text-xs text-gray-500 text-center mt-2">
-                        Bus | Date | Start-End
+                
+
+                <div className="flex-[0.6] flex flex-col">
+                    <div className="text-xs text-gray-500 mt-2">
+                        Bus | driver
+                    </div>
+                    <div className="flex space-x-2 mt-2">
+                        <Badge variant="secondary">{bus.name}</Badge>
+                        <Badge variant="secondary">{driver.name}</Badge> 
+                    </div>
+                    <div className="text-xs text-gray-500 mt-2">
+                        Date
                     </div>
                     <div className="flex space-x-2">
-                        <Badge>{bus.name} | {format(schedule.start, "dd/MM/yyyy")} | {format(schedule.start, "HH:mm")}-{format(schedule.end, "HH:mm")}</Badge>
+                        <Badge variant="secondary">{format(schedule.start, "dd/MM/yyyy")}</Badge>
                     </div>
-                    <div className="flex flex-col items-center">
-                    <div className="text-xs text-gray-500">Driver</div>
-                        <Avatar className="mt-2">
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback>{driver.name[0]}</AvatarFallback>
-                        </Avatar>
-                        <div className="mt-1">
-                            <Badge variant="secondary">{driver.name}</Badge> 
-                        </div>
+                    <div className="text-xs text-gray-500 mt-2">
+                        Start - End
+                    </div>
+                    <div className="flex space-x-2 mt-2">
+                        <Badge variant="secondary">{format(schedule.start, "HH:mm")}-{format(schedule.end, "HH:mm")}</Badge>
                     </div>
                 </div>
-                <div className="flex flex-col justify-between">
+                <div className="flex-[0.6] flex flex-col justify-between">
                     <div className="mt-2">
                         <div className="text-xs text-gray-500">Route</div>
                         <div className="mt-1">
@@ -147,28 +152,23 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({ schedule }) => {
                         </div>
                     </div>
                 </div>
-                <div className="flex-[0.5] flex flex-col">
+                <div className="flex-1 flex flex-col">
                     <div className="relative flex-1 border border-zinc-100 flex flex-col justify-between rounded-xs mt-2 p-4">
                         <Image fill src={bus.photoUrl} alt="Bus image" />
                     </div>
                 </div>
-                <div className="flex-1 flex flex-col">
-                <div className="relative flex-1 flex flex-col justify-center">
-                        <div className="absolute top-[46%] w-full flex h-2 rounded-xl bg-blue-200" />
-                        <div className="z-50 flex justify-between items-center">
-                            {route.places.map((place, index) => (
-                                <div className="relative bg-blue-200 rounded-full">
-                                    <div className="m-2 w-8 h-8 text-white flex items-center justify-center bg-blue-400 rounded-full">
-                                        {index + 1}
-                                    </div>
-                                    <div className="absolute flex text-xs text-gray-400">
-                                        {place}
-                                    </div>
-                                </div>
-                            ))}
+
+                <div className="flex-[0.5] flex flex-col justify-between">
+                    <div className="flex-1 flex flex-col justify-center items-center mt-2">
+                        <div className="p-8 bg-blue-100 rounded-full">
+                            <Avatar>
+                                <AvatarImage src="https://github.com/shadcn.png" />
+                                <AvatarFallback>{driver.name[0]}</AvatarFallback>
+                            </Avatar>
                         </div>
                     </div>
                 </div>
+                
                 <div className="flex flex-col justify-between">
                     <div className="flex justify-end">
                         <Dialog>
