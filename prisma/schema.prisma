@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  role      String
+  email     String  @unique
+  name      String
+  sex       String?
+  birthday  DateTime?
+  schedules Schedule[]
+}
+
+model Plan {
+  id          Int     @id @default(autoincrement())
+  seatsConfig String  
+  buses       Bus[]
+}
+
+model Bus {
+  id              Int     @id @default(autoincrement())
+  name            String
+  brand           String
+  numberOfSeats   Int
+  photoUrl        String
+  plan            Plan    @relation(fields: [planId], references: [id])
+  planId          Int
+  schedules       Schedule[]
+}
+
+
+model Route {
+  id              Int     @id @default(autoincrement())
+  from            String   
+  to              String
+  duration        Int
+  stops           String[]
+  schedules       Schedule[]
+}
+
+model Schedule {
+  id              Int     @id @default(autoincrement())
+  start           DateTime
+  end             DateTime
+  driver          User    @relation(fields: [driverId], references: [id])
+  driverId        Int
+  bus             Bus    @relation(fields: [busId], references: [id])
+  busId           Int
+  route           Route    @relation(fields: [routeId], references: [id])
+  routeId         Int
+  tickets         Ticket[]
+}
+
+model Ticket {
+  id              Int         @id @default(autoincrement())
+  schedule        Schedule    @relation(fields: [scheduleId], references: [id])
+  scheduleId      Int 
+  name            String
+  price           Int
+  seat            String
+}
+
