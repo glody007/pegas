@@ -21,6 +21,7 @@ import {
   CalculatorIcon,
   TrendingUpIcon
 } from "@heroicons/react/outline";
+import { MapPinIcon } from 'lucide-react';
 
 const items = [
   {
@@ -29,9 +30,14 @@ const items = [
     icon: HomeIcon
   },
   {
+    name: 'Fleet',
+    link: '/dashboard/fleet',
+    icon: TruckIcon
+  },
+  {
     name: 'Fleet tracking',
     link: '/dashboard/fleet-tracking',
-    icon: TruckIcon
+    icon: MapPinIcon
   },
   {
     name: 'Schedule',
