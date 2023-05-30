@@ -54,17 +54,18 @@ model User {
 
 model Plan {
   id          String         @id @default(cuid())
+  name        String         @unique
   seatsConfig String  
   buses       Bus[]
 }
 
 model Bus {
   id              String         @id @default(cuid())
-  name            String
+  name            String         @unique
   brand           String
   numberOfSeats   Int
   photoUrl        String
-  plan            Plan    @relation(fields: [planId], references: [id])
+  plan            Plan           @relation(fields: [planId], references: [id])
   planId          String
   schedules       Schedule[]
 }
@@ -83,18 +84,18 @@ model Schedule {
   id              String         @id @default(cuid())
   start           DateTime
   end             DateTime
-  driver          User    @relation(fields: [driverId], references: [id])
+  driver          User           @relation(fields: [driverId], references: [id])
   driverId        String
-  bus             Bus    @relation(fields: [busId], references: [id])
+  bus             Bus            @relation(fields: [busId], references: [id])
   busId           String
-  route           Route    @relation(fields: [routeId], references: [id])
+  route           Route          @relation(fields: [routeId], references: [id])
   routeId         String
   tickets         Ticket[]
 }
 
 model Ticket {
   id              String         @id @default(cuid())
-  schedule        Schedule    @relation(fields: [scheduleId], references: [id])
+  schedule        Schedule       @relation(fields: [scheduleId], references: [id])
   scheduleId      String 
   name            String
   price           Int
