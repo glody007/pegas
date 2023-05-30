@@ -29,8 +29,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import * as z from "zod"
-import { Bus } from "@/lib/validators/bus"
-import { ScheduleSchema } from "@/lib/validators/schedule"
+import { Schedule, ScheduleSchema } from "@/lib/validators/schedule"
 
 export default function ScheduleForm() {
     const form = useForm<z.infer<typeof ScheduleSchema>>({
@@ -44,7 +43,7 @@ export default function ScheduleForm() {
         },
     })
 
-    function onSubmit(values: Bus) {
+    function onSubmit(values: Schedule) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         console.log(values)

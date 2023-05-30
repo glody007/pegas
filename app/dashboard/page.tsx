@@ -1,4 +1,4 @@
-import Fleet from "@/components/chart/Fleet"
+import Fleet from "@/components/chart/fleet"
 import Counter from "@/components/chart/counter"
 import IncomePerYear from "@/components/chart/income-per-year"
 import RouteUsage from "@/components/chart/route-usage"
