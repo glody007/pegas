@@ -10,10 +10,7 @@ async function getData(): Promise<Bus[]> {
         id: 1,
         name: "Y-49",
         brand: "Yuton bus",
-        plan: {
-          id: 1,
-          seatsConfig: "A1 A2"
-        },
+        planId: "1",
         numberOfSeats: 60,
         photoUrl: "https://ik.imagekit.io/vbjy0pcazvn/yutong_nfKWGHAMY.jpeg?updatedAt=1685336064650"
       },
@@ -21,10 +18,7 @@ async function getData(): Promise<Bus[]> {
         id: 1,
         name: "H-3",
         brand: "Higer bus",
-        plan: {
-          id: 1,
-          seatsConfig: "A1 A2"
-        },
+        planId: "2",
         numberOfSeats: 40,
         photoUrl: "https://ik.imagekit.io/vbjy0pcazvn/higer_XB13xgbMH.png?updatedAt=1685336064695"
       },

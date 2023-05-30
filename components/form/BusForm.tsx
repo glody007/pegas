@@ -8,8 +8,6 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { cn } from "@/lib/utils"
-import { format } from "date-fns"
 import {
     Select,
     SelectContent,
@@ -17,19 +15,13 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-import { CalendarIcon } from "lucide-react"
-import { Calendar } from "@/components/ui/calendar"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
 import * as z from "zod"
 import { Bus, BusSchema } from "@/lib/validators/bus"
+import { useMutation, useQueryClient } from "react-query"
+import axios from "axios"
 
 export default function BusForm() {
     const form = useForm<z.infer<typeof BusSchema>>({
@@ -37,18 +29,18 @@ export default function BusForm() {
         defaultValues: {
             name: "",
             brand: "",
-            plan: {
-                seatsConfig: ""
-            },
+            planId: "",
             photoUrl: "",
             numberOfSeats: 0
         },
     })
 
+    const {mutate} = useMutation(
+        async (bus: Bus) => await axios.post('/api/buses/addBus', bus)
+    )
+
     function onSubmit(values: Bus) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+        mutate(values)
     }
 
     return (
@@ -93,19 +85,22 @@ export default function BusForm() {
 
                         <FormField
                             control={form.control}
-                            name="plan"
+                            name="planId"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Plan</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value.seatsConfig}>
+                                    <Select 
+                                        onValueChange={field.onChange} 
+                                        defaultValue={field.value}
+                                    >
                                         <FormControl>
                                         <SelectTrigger>
                                             <SelectValue placeholder="Select a plan" />
                                         </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="A1 A4">Plan XM</SelectItem>
-                                            <SelectItem value="A6">Plan RG</SelectItem>
+                                            <SelectItem value="clia09lj0000008moh9ua53c1">Plan XM</SelectItem>
+                                            <SelectItem value="clia09lj0000008moh9ua53c1">Plan RG</SelectItem>
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -134,7 +129,14 @@ export default function BusForm() {
                                 <FormItem>
                                     <FormLabel>Number of seats</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="56" {...field} />
+                                        <Input placeholder="56" {...field} onChange={(e) =>
+                                                field.onChange(
+                                                    Number.isNaN(parseFloat(e.target.value))
+                                                    ? 0
+                                                    : parseFloat(e.target.value)
+                                                )
+                                            }
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

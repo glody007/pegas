@@ -15,7 +15,9 @@ export const BusSchema = z.object({
     brand: z.string().min(1, {
         message: "Marque obligatoire"
     }),
-    plan: PlanSchema,
+    planId: z.string({
+        required_error: "Plan obligatoire"
+    }),
     numberOfSeats: z.number().min(1, {
         message: "Nombre de places obligatoire"
     }),
