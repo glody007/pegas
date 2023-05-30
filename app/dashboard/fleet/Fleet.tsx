@@ -17,14 +17,31 @@ import { PlusIcon } from "lucide-react"
 import { Bus } from "@/lib/validators/bus"
 import BusCard from "@/components/BusCard"
 import BusForm from "@/components/form/BusForm"
+import { useQuery } from "react-query"
+import axios from "axios"
+import { SkeletonTable } from "@/components/SkeletonTable"
 
 interface FleetProps {
   data: Array<Bus>
 }
 
-const  BusList: React.FC<FleetProps> = ({ data }) => {
+const allBuses = async () => {
+  const response = await axios.get("/api/buses/getBuses")
+  return response.data
+}
+
+const  BusList = ({ data }: FleetProps) => {
     const [name, setName] = useState("")
     const [brand, setBrand] = useState("")
+
+    const { data: response, error, isLoading } = useQuery({
+      queryFn: allBuses,
+      queryKey: ["buses"]
+    })
+
+    if(error) return error
+
+    if(isLoading) return <SkeletonTable />
 
     const filteredData = data.filter(bus => (
       bus.name.toLowerCase().includes(name.toLowerCase()) &&
