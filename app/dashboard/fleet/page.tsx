@@ -1,5 +1,4 @@
 import React from "react"
-import { route } from "@/types/route"
 import BusList from "./Fleet"
 import { Bus } from "@/lib/validators/bus"
 
