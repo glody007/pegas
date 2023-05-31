@@ -8,23 +8,17 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
 import * as z from "zod"
 import { departure } from "@/types/departure"
 import { Combobox, ComboboxHandle } from "../ui/combobox"
 import RouteMaker from "../route-maker"
 import { useRef } from "react"
-import { RouteSchema } from "@/lib/validators/route"
+import { Route, RouteSchema } from "@/lib/validators/route"
+import { useMutation } from "react-query"
+import axios from "axios"
 
 function getData(): departure[] {
     // Fetch data from your API here.
@@ -47,6 +41,12 @@ function getData(): departure[] {
         city: "Kolwezi",
         country: "DRC"
       },
+      {
+        id: "4",
+        name: "Kasumbalesa T-1",
+        city: "Kasumbalesa",
+        country: "DRC"
+      },
     ]
 } 
 
@@ -66,11 +66,12 @@ export default function RouteForm() {
     const refFrom = useRef<ComboHandle>(null); 
     const refTo = useRef<ComboHandle>(null); 
 
+    const {mutate} = useMutation(
+        async (route: Route) => await axios.post('/api/routes/addRoute', route)
+    )
 
-    function onSubmit(values: z.infer<typeof RouteSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    function onSubmit(values: Route) {
+        mutate(values)
     }
 
     const data = getData()
@@ -164,9 +165,18 @@ export default function RouteForm() {
                                 name="duration"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Duration</FormLabel>
+                                        <FormLabel>Duration(minutes)</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="5 hours" {...field} />
+                                            <Input 
+                                                placeholder="300" {...field} 
+                                                onChange={(e) =>
+                                                    field.onChange(
+                                                        Number.isNaN(parseFloat(e.target.value))
+                                                        ? 0
+                                                        : parseFloat(e.target.value)
+                                                    )
+                                                }
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
