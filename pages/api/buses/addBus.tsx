@@ -38,7 +38,7 @@ export default async function handler(
             res.status(201).json({
                 success: true,
                 code: 201,
-                data: bus
+                data: result
             })
         } catch(err) {
             console.log(err)
