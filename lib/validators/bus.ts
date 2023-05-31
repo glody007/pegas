@@ -8,7 +8,7 @@ export const PlanSchema = z.object({
 })
 
 export const BusSchema = z.object({
-    id: z.number().optional(),
+    id: z.string().optional(),
     name: z.string().min(1, {
         message: "Nom obligatoire"
     }),

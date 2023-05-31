@@ -30,8 +30,17 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import * as z from "zod"
 import { Schedule, ScheduleSchema } from "@/lib/validators/schedule"
+import { Bus } from "@/lib/validators/bus"
+import { Route } from "@/lib/validators/route"
+import { User } from "@/lib/validators/user"
 
-export default function ScheduleForm() {
+interface ScheduleFormProps {
+    buses: Bus[],
+    routes: Route[],
+    drivers: User[]
+}
+
+export default function ScheduleForm({ buses, routes, drivers }: ScheduleFormProps) {
     const form = useForm<z.infer<typeof ScheduleSchema>>({
         resolver: zodResolver(ScheduleSchema),
         defaultValues: {
@@ -150,8 +159,9 @@ export default function ScheduleForm() {
                                         </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="1">Higer</SelectItem>
-                                            <SelectItem value="2">Yutton</SelectItem>
+                                            {buses.map((bus, index) => (
+                                                <SelectItem key={index} value={bus.id || String(index)}>{bus.name}</SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -172,8 +182,9 @@ export default function ScheduleForm() {
                                         </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="1">Lubumbashi-Likasi</SelectItem>
-                                            <SelectItem value="2">Lubumbashi-Kolwezi</SelectItem>
+                                            {routes.map((route, index) => (
+                                                <SelectItem key={index} value={route.id || String(index)}>{route.from}-{route.to}</SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -194,8 +205,9 @@ export default function ScheduleForm() {
                                         </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="1">Ace</SelectItem>
-                                            <SelectItem value="2">Luffy</SelectItem>
+                                            {drivers.map((driver, index) => (
+                                                <SelectItem key={index} value={driver.id || String(index)}>{driver.name}</SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />

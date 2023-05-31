@@ -88,7 +88,7 @@ export default function RouteForm() {
 
         currentFrom.selectItem({
             label: places[0].country,
-            value: places[0].id || "0"
+            value: places[0].city
         })
         
         if(places.length === 1) {
@@ -99,7 +99,7 @@ export default function RouteForm() {
         if(places.length > 1) {
             currentTo.selectItem({
                 label: places.slice(-1)[0].country,
-                value: places.slice(-1)[0].id || "0"
+                value: places.slice(-1)[0].city
             })
             return
         }

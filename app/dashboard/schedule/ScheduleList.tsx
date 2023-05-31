@@ -18,6 +18,14 @@ import BusForm from "@/components/form/BusForm"
 import ScheduleCard from "@/components/ScheduleCard"
 import { Schedule } from "@/lib/validators/schedule"
 import ScheduleForm from "@/components/form/ScheduleForm"
+import { useQuery } from "react-query"
+import { allRoutes } from "@/service/route"
+import { allBuses } from "@/service/bus"
+import { allUsers } from "@/service/user"
+import { SkeletonTable } from "@/components/SkeletonTable"
+import { Bus } from "@/lib/validators/bus"
+import { Route } from "@/lib/validators/route"
+import { RoleSchema, User } from "@/lib/validators/user"
 
 interface ScheduleListProps {
   data: Array<Schedule>
@@ -26,6 +34,30 @@ interface ScheduleListProps {
 const  ScheduleList: React.FC<ScheduleListProps> = ({ data }) => {
     const [busName, setBusName] = useState("")
     const [driverName, setDriverName] = useState("")
+
+    const { data: responseRoute, error: errorRoute, isLoading: isLoadingRoute } = useQuery({
+      queryFn: allRoutes,
+      queryKey: ["routes"]
+    })
+
+    const { data: responseBus, error: errorBus, isLoading: isLoadingBus } = useQuery({
+      queryFn: allBuses,
+      queryKey: ["buses"]
+    })
+
+    const { data: responseUser, error: errorUser, isLoading: isLoadingUser } = useQuery({
+      queryFn: allUsers,
+      queryKey: ["users"]
+    })
+
+    const isLoading = isLoadingBus || isLoadingRoute || isLoadingUser
+
+    if(isLoading) return <SkeletonTable />
+
+    const buses: Bus[] = responseBus.data
+    const routes: Route[] = responseRoute.data
+    const users: User[] = responseUser.data
+    const drivers = users.filter(user => user.role === RoleSchema.enum.driver)
 
     const filteredData = data.filter(schedule => (
       String(schedule.driverId).toLowerCase().includes(driverName.toLowerCase()) &&
@@ -66,7 +98,7 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ data }) => {
                       </DialogDescription>
                     </DialogHeader>
                     <div className="mt-4">
-                      <ScheduleForm />
+                      <ScheduleForm buses={buses} routes={routes} drivers={drivers} />
                     </div>
                   </DialogContentFull>
                 </Dialog>
