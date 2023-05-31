@@ -7,12 +7,12 @@ interface UserRoleProps {
 export default function UserRole({ role }: UserRoleProps) {
     return (
         <div className={`
-            p-1 w-20 flex justify-center text-white rounded-full 
-            ${role === "admin" && "bg-black"}
-            ${role === "controller" && "bg-violet-600"}
-            ${role === "driver" && "bg-blue-600"}
-            ${role === "passenger" && "bg-indigo-400"}
-            ${role === "seller" && "bg-blue-900"}
+            p-1 w-20 flex justify-center rounded-full 
+            ${role === "admin" && "bg-black text-white"}
+            ${role === "controller" && "bg-gray-100"}
+            ${role === "driver" && "bg-gray-100"}
+            ${role === "passenger" && "border"}
+            ${role === "seller" && "bg-gray-100"}
         `}> 
             {role}
         </div>
