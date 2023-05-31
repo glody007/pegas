@@ -39,7 +39,7 @@ const  BusList = ({ data }: FleetProps) => {
       queryKey: ["buses"]
     })
 
-    if(error) return <>{error}</>
+    if(error) return <>error...</>
 
     if(isLoading) return <SkeletonTable />
 

@@ -1,6 +1,5 @@
-import { DataTable } from "./data-table"
-import { columns } from "./columns"
 import { Role, RoleSchema, User } from "@/lib/validators/user"
+import Users from "./Users"
 
 function getData(): User[] {
     // Fetch data from your API here.
@@ -53,7 +52,7 @@ export default async function Departure() {
 
     return (
         <div className="mx-auto mt-4">
-            <DataTable columns={columns} data={data} />
+            <Users data={data} />
         </div>
     )
 }
