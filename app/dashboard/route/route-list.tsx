@@ -18,14 +18,31 @@ import { Input } from "@/components/ui/input"
 import { PlusIcon } from "lucide-react"
 import RouteForm from "@/components/form/route-form"
 import { Route } from "@/lib/validators/route"
+import axios from "axios"
+import { useQuery } from "react-query"
+import { SkeletonTable } from "@/components/SkeletonTable"
 
 interface RouteListProps {
   data: Array<Route>
 }
 
+const allRoutes = async () => {
+  const response = await axios.get("/api/routes/getRoutes")
+  return response.data
+}
+
 export default function RouteList({ data }: RouteListProps) {
     const [from, setFrom] = useState("")
     const [to, setTo] = useState("")
+
+    const { data: response, error, isLoading } = useQuery({
+      queryFn: allRoutes,
+      queryKey: ["routes"]
+    })
+
+    if(error) return <>Error</>
+
+    if(isLoading) return <SkeletonTable />
 
     const filteredData = data.filter(route => (
       route.from.toLowerCase().includes(from.toLowerCase()) &&

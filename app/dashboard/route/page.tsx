@@ -2,7 +2,7 @@ import React from "react"
 import RouteList from "./route-list"
 import { Route } from "@/lib/validators/route"
 
-async function getData(): Promise<Route[]> {
+function getData(): Route[] {
     // Fetch data from your API here.
     return [
       {
@@ -20,10 +20,10 @@ async function getData(): Promise<Route[]> {
         stops: ["Lubumbashi", "Kambove", "Likasi", "Kolwezi"]
       },
     ]
-  } 
+}
 
-export default async function Departure() {
-    const data = await getData()
+export default function Departure() {
+    const data = getData()
 
     return (
         <div className="mx-auto mt-4">
