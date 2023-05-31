@@ -56,8 +56,8 @@ export default function RouteForm() {
         defaultValues: {
             from: "",
             to: "",
-            duration: "",
-            places: []
+            duration: 0,
+            stops: []
         },
     })
 
@@ -175,7 +175,7 @@ export default function RouteForm() {
                         </div>
                         <FormField
                             control={form.control}
-                            name="places"
+                            name="stops"
                             render={({ field }) => (
                                 <FormItem>
                                     <RouteMaker 
