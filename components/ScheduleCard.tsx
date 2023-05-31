@@ -27,6 +27,7 @@ import { MoreVertical } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Route } from '@/lib/validators/route';
 import { User } from '@/lib/validators/user';
+import { Role } from '@/lib/validators/user';
 import { Schedule } from '@/lib/validators/schedule';
 import ScheduleForm from './form/ScheduleForm';
 
@@ -42,7 +43,7 @@ function getUser(id: number): User {
             email: "marco@gmail.com",
             sex: "F",
             birthday: new Date(),
-            role: "driver"
+            role: "driver" as Role
         },
         {
             id: "2",
@@ -50,7 +51,7 @@ function getUser(id: number): User {
             email: "marco@gmail.com",
             sex: "M",
             birthday: new Date(),
-            role: "driver"
+            role: "driver" as Role
         },
     ]
     return users[id-1]

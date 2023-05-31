@@ -1,7 +1,8 @@
 import { DataTable } from "./data-table"
-import { columns, departure } from "./columns"
+import { columns } from "./columns"
+import { Role, RoleSchema, User } from "@/lib/validators/user"
 
-async function getData(): Promise<departure[]> {
+function getData(): User[] {
     // Fetch data from your API here.
     return [
       {
@@ -10,7 +11,7 @@ async function getData(): Promise<departure[]> {
         email: "alchemy@gmail.com",
         sex: "M",
         birthday: new Date(),
-        role: "admin"
+        role: RoleSchema.Enum.admin
       },
       {
         id: "2",
@@ -18,7 +19,7 @@ async function getData(): Promise<departure[]> {
         email: "controller@gmail.com",
         sex: "M",
         birthday: new Date(),
-        role: "controller"
+        role: RoleSchema.Enum.controller 
       },
       {
         id: "3",
@@ -26,7 +27,7 @@ async function getData(): Promise<departure[]> {
         email: "driver@gmail.com",
         sex: "F",
         birthday: new Date(),
-        role: "driver"
+        role: RoleSchema.Enum.driver
       },
       {
         id: "4",
@@ -34,7 +35,7 @@ async function getData(): Promise<departure[]> {
         email: "driver@gmail.com",
         sex: "M",
         birthday: new Date(),
-        role: "passenger"
+        role: RoleSchema.Enum.passenger
       },
       {
         id: "5",
@@ -42,13 +43,13 @@ async function getData(): Promise<departure[]> {
         email: "driver@gmail.com",
         sex: "F",
         birthday: new Date(),
-        role: "seller"
+        role: RoleSchema.Enum.seller
       },
     ]
   } 
 
 export default async function Departure() {
-    const data = await getData()
+    const data = getData()
 
     return (
         <div className="mx-auto mt-4">

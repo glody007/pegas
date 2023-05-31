@@ -26,6 +26,7 @@ import { SellReserve } from "@/components/SellReserve"
 import { Role } from "@/types/role"
 import UserRole from "@/components/role"
 import { Badge } from "@/components/ui/badge"
+import { User } from "@/lib/validators/user"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -38,7 +39,7 @@ export type departure = {
   role: Role
 }
 
-export const columns: ColumnDef<departure>[] = [
+export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {

@@ -27,9 +27,10 @@ import { Calendar } from "@/components/ui/calendar"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
 import * as z from "zod"
-import { UserSchema } from "@/lib/validators/user"
+import { RoleSchema, SexSchema, User, UserSchema } from "@/lib/validators/user"
+import { useMutation } from "react-query"
+import axios from "axios"
 
 export default function UserForm() {
     const form = useForm<z.infer<typeof UserSchema>>({
@@ -37,16 +38,21 @@ export default function UserForm() {
         defaultValues: {
             name: "",
             email: "",
-            sex: "M",
+            sex: SexSchema.enum.M,
             birthday: new Date(),
-            role: "passenger"
+            role: RoleSchema.enum.passenger
         },
     })
 
-    function onSubmit(values: z.infer<typeof UserSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    const roles = Object.values(RoleSchema.Values).map(value => value)
+    const sexes = Object.values(SexSchema.Values).map(value => value)
+
+    const {mutate} = useMutation(
+        async (user: User) => await axios.post('/api/users/addUser', user)
+    )
+
+    function onSubmit(values: User) {
+        mutate(values)
     }
 
     return (
@@ -83,6 +89,29 @@ export default function UserForm() {
 
                         <FormField
                             control={form.control}
+                            name="role"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Role</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a role" />
+                                        </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {roles.map(value => (
+                                                <SelectItem key={value} value={value}>{value}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
                             name="sex"
                             render={({ field }) => (
                                 <FormItem>
@@ -94,8 +123,9 @@ export default function UserForm() {
                                         </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="M">M</SelectItem>
-                                            <SelectItem value="F">F</SelectItem>
+                                            {sexes.map(value => (
+                                                <SelectItem key={value} value={value}>{value}</SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -115,7 +145,7 @@ export default function UserForm() {
                                         <Button
                                         variant={"outline"}
                                         className={cn(
-                                            "w-[240px] pl-3 text-left font-normal",
+                                            " pl-3 text-left font-normal",
                                             !field.value && "text-muted-foreground"
                                         )}
                                         >
