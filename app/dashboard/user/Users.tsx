@@ -7,14 +7,10 @@ import React from 'react'
 import axios from 'axios'
 import { SkeletonTable } from '@/components/SkeletonTable'
 import { useQuery } from 'react-query'
+import { allUsers } from '@/service/user'
 
 type Props = {
     data: User[]
-}
-
-const allUsers = async () => {
-    const response = await axios.get("/api/users/getUsers")
-    return response.data
 }
 
 export default function Users({data}: Props) {

@@ -21,14 +21,10 @@ import { Route } from "@/lib/validators/route"
 import axios from "axios"
 import { useQuery } from "react-query"
 import { SkeletonTable } from "@/components/SkeletonTable"
+import { allRoutes } from "@/service/route"
 
 interface RouteListProps {
   data: Array<Route>
-}
-
-const allRoutes = async () => {
-  const response = await axios.get("/api/routes/getRoutes")
-  return response.data
 }
 
 export default function RouteList({ data }: RouteListProps) {

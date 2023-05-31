@@ -20,14 +20,10 @@ import BusForm from "@/components/form/BusForm"
 import { useQuery } from "react-query"
 import axios from "axios"
 import { SkeletonTable } from "@/components/SkeletonTable"
+import { allBuses } from "@/service/bus"
 
 interface FleetProps {
   data: Array<Bus>
-}
-
-const allBuses = async () => {
-  const response = await axios.get("/api/buses/getBuses")
-  return response.data
 }
 
 const  BusList = ({ data }: FleetProps) => {
