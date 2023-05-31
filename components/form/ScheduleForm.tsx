@@ -33,6 +33,8 @@ import { Schedule, ScheduleSchema } from "@/lib/validators/schedule"
 import { Bus } from "@/lib/validators/bus"
 import { Route } from "@/lib/validators/route"
 import { User } from "@/lib/validators/user"
+import { useMutation } from "react-query"
+import axios from "axios"
 
 interface ScheduleFormProps {
     buses: Bus[],
@@ -46,16 +48,18 @@ export default function ScheduleForm({ buses, routes, drivers }: ScheduleFormPro
         defaultValues: {
             start: new Date(),
             end: new Date(),
-            busId: 0,
-            driverId: 0,
-            routeId: 0
+            busId: "0",
+            driverId: "0",
+            routeId: "0"
         },
     })
 
+    const {mutate} = useMutation(
+        async (schedule: Schedule) => await axios.post('/api/schedules/addSchedule', schedule)
+    )
+
     function onSubmit(values: Schedule) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+        mutate(values)
     }
 
     return (
