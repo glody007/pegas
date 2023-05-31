@@ -1,23 +1,23 @@
 import React from "react"
-import { route } from "@/types/route"
 import RouteList from "./route-list"
+import { Route } from "@/lib/validators/route"
 
-async function getData(): Promise<route[]> {
+async function getData(): Promise<Route[]> {
     // Fetch data from your API here.
     return [
       {
         id: "1",
         from: "Lubumbashi",
         to: "Likasi",
-        duration: "3 hours",
-        places: ["Lubumbashi", "Kambove", "Likasi"]
+        duration: 180,
+        stops: ["Lubumbashi", "Kambove", "Likasi"]
       },
       {
         id: "2",
         from: "Lubumbashi",
         to: "Kolwezi",
-        duration: "6 hours",
-        places: ["Lubumbashi", "Kambove", "Likasi", "Kolwezi"]
+        duration: 360,
+        stops: ["Lubumbashi", "Kambove", "Likasi", "Kolwezi"]
       },
     ]
   } 

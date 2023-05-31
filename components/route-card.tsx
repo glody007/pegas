@@ -1,10 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { route } from "@/types/route"
+import { Route } from "@/lib/validators/route"
 
 interface RouteCardProps {
-    route: route
+    route: Route
 }
 
 export default function RouteCard({ route }: RouteCardProps) {
@@ -41,7 +41,7 @@ export default function RouteCard({ route }: RouteCardProps) {
                     <div className="relative flex-1 flex flex-col justify-center">
                         <div className="absolute top-[46%] w-full flex h-2 rounded-xl bg-blue-200" />
                         <div className="z-50 flex justify-between items-center">
-                            {route.places.map((place, index) => (
+                            {route.stops.map((place, index) => (
                                 <div className="relative bg-blue-200 rounded-full">
                                     <div className="m-2 w-8 h-8 text-white flex items-center justify-center bg-blue-400 rounded-full">
                                         {index + 1}

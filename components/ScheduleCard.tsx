@@ -82,18 +82,18 @@ function getRoute(id: number): Route {
     // Fetch data from your API here.
     const routes = [
       {
-        id: 1,
+        id: "1",
         from: "Lubumbashi",
         to: "Likasi",
-        duration: "3 hours",
-        places: ["Lubumbashi", "Kambove", "Likasi"]
+        duration: 180,
+        stops: ["Lubumbashi", "Kambove", "Likasi"]
       },
       {
-        id: 2,
+        id: "2",
         from: "Lubumbashi",
         to: "Kolwezi",
-        duration: "6 hours",
-        places: ["Lubumbashi", "Kambove", "Likasi", "Kolwezi"]
+        duration: 360,
+        stops: ["Lubumbashi", "Kambove", "Likasi", "Kolwezi"]
       },
     ]
     return routes[id-1]

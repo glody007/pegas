@@ -17,10 +17,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { PlusIcon } from "lucide-react"
 import RouteForm from "@/components/form/route-form"
-import { route } from "@/types/route"
+import { Route } from "@/lib/validators/route"
 
 interface RouteListProps {
-  data: Array<route>
+  data: Array<Route>
 }
 
 export default function RouteList({ data }: RouteListProps) {
