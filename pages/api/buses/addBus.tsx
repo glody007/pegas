@@ -20,6 +20,16 @@ export default async function handler(
         
         const validate = BusSchema.safeParse(bus)
 
+        if(!validate.success) {
+            return res.status(403).json({
+                success: false,
+                code: 403,
+                errors: validate.error.issues.map(issue => ({
+                    message: issue.message
+                }))
+            })
+        }
+
         const exist = await prisma.bus.findUnique({
             where: {
                 name: bus.name
@@ -31,16 +41,6 @@ export default async function handler(
                 success: false,
                 code: 403,
                 errors: [{ message: "Nom déja utilisé" }]
-            })
-        }
-
-        if(!validate.success) {
-            return res.status(403).json({
-                success: false,
-                code: 403,
-                errors: validate.error.issues.map(issue => ({
-                    message: issue.message
-                }))
             })
         }
 
