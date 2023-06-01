@@ -20,22 +20,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import * as z from "zod"
-
-const formSchema = z.object({
-    name: z.string().min(2, {
-      message: "Name must be at least 2 characters.",
-    }),
-    city: z.string().min(2, {
-      message: "City must be at least 2 characters.",
-    }),
-    country: z.string().min(2, {
-      message: "Country must be at least 2 characters.",
-    }),
-})
+import { Counter, CounterSchema } from "@/lib/validators/counter"
+import { CitySchema } from "@/lib/validators/city"
+import { CountrySchema } from "@/lib/validators/country"
+import axios from "axios"
+import { useMutation } from "react-query"
 
 export default function CounterForm() {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<Counter>({
+        resolver: zodResolver(CounterSchema),
         defaultValues: {
             name: "",
             city: "",
@@ -43,11 +36,16 @@ export default function CounterForm() {
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    const {mutate} = useMutation(
+        async (counter: Counter) => await axios.post('/api/counters/addCounter', counter)
+    )
+
+    function onSubmit(values: Counter) {
+        mutate(values)
     }
+
+    const cities = Object.values(CitySchema.Values).map(value => value)
+    const countries = Object.values(CountrySchema.Values).map(value => value)
 
     return (
         <Form {...form}>
@@ -60,7 +58,7 @@ export default function CounterForm() {
                                 <FormItem>
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Lubumbashi" {...field} />
+                                        <Input placeholder="counter L-1" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -80,9 +78,9 @@ export default function CounterForm() {
                                         </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                        <SelectItem value="lubumbashi">Lubumbashi</SelectItem>
-                                        <SelectItem value="likasi">Likasi</SelectItem>
-                                        <SelectItem value="kolwezi">Kolwezi</SelectItem>
+                                            {cities.map(value => (
+                                                <SelectItem value={value}>{value}</SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -103,9 +101,9 @@ export default function CounterForm() {
                                         </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                        <SelectItem value="drc">DRC</SelectItem>
-                                        <SelectItem value="sa">South africa</SelectItem>
-                                        <SelectItem value="ouganda">Ouganda</SelectItem>
+                                            {countries.map(value => (
+                                                <SelectItem value={value}>{value}</SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
