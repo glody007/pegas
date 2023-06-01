@@ -23,17 +23,9 @@ import {
 } from "@/components/ui/dialog"
 import { format } from "date-fns"
 import { SellReserve } from "@/components/SellReserve"
+import { Counter } from "@/lib/validators/counter"
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type counter = {
-  id: string
-  name: string
-  city: string
-  country: string
-}
-
-export const columns: ColumnDef<counter>[] = [
+export const columns: ColumnDef<Counter>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
