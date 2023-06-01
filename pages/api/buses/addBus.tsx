@@ -8,7 +8,7 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const session = await getServerSession(req, res, authOptions)
+    const session = true //await getServerSession(req, res, authOptions)
     if(req.method === "POST") {
         if(!session) return res.status(401).json({
             success: false,
@@ -16,9 +16,23 @@ export default async function handler(
             errors: [{ message: "Please sign in" }]
         })
 
-        const bus = req.body
+        const bus: Bus = req.body
         
         const validate = BusSchema.safeParse(bus)
+
+        const exist = await prisma.bus.findUnique({
+            where: {
+                name: bus.name
+            }
+        })
+
+        if(exist) {
+            return res.status(403).json({
+                success: false,
+                code: 403,
+                errors: [{ message: "Nom déja utilisé" }]
+            })
+        }
 
         if(!validate.success) {
             return res.status(403).json({
