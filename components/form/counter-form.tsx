@@ -18,15 +18,24 @@ import {
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import * as z from "zod"
 import { Counter, CounterSchema } from "@/lib/validators/counter"
 import { CitySchema } from "@/lib/validators/city"
 import { CountrySchema } from "@/lib/validators/country"
-import axios from "axios"
-import { useMutation } from "react-query"
+import axios, { AxiosError } from "axios"
+import { useMutation, useQueryClient } from "react-query"
+import { useState } from "react"
+import toast from "react-hot-toast"
 
-export default function CounterForm() {
+interface UserFormProps {
+    handleSuccess?: () => void
+}
+
+export default function CounterForm({ handleSuccess }: UserFormProps) {
+    const [isDisabled, setIsDisabled] = useState(false)
+    let toastAddId: string
+
+    const queryClient = useQueryClient()
+
     const form = useForm<Counter>({
         resolver: zodResolver(CounterSchema),
         defaultValues: {
@@ -37,10 +46,26 @@ export default function CounterForm() {
     })
 
     const {mutate} = useMutation(
-        async (counter: Counter) => await axios.post('/api/counters/addCounter', counter)
+        async (counter: Counter) => await axios.post('/api/counters/addCounter', counter),
+        {
+            onError: (error) => {
+                if(error instanceof AxiosError) {
+                    toast.error(error?.response?.data.errors[0].message, {id: toastAddId})
+                }
+                setIsDisabled(false)
+            },
+            onSuccess: (data) => {
+                toast.success("Ajout reussi 👏", { id: toastAddId })
+                setIsDisabled(false)
+                queryClient.invalidateQueries(["counters"])
+                if(handleSuccess) handleSuccess()
+            }
+        }
     )
 
     function onSubmit(values: Counter) {
+        toastAddId = toast.loading("Ajout en cours", { id: toastAddId })
+        setIsDisabled(true)
         mutate(values)
     }
 
@@ -111,7 +136,7 @@ export default function CounterForm() {
                             )}
                         />
                     </div>
-                    <Button type="submit" className="mt-8">Save</Button>
+                    <Button disabled={isDisabled} type="submit" className="mt-8">Save</Button>
                 </form>
             </Form>
     )

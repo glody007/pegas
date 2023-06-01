@@ -3,7 +3,7 @@ import { NextApiResponse, NextApiRequest } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import prisma from "@/prisma/client";
-import { CounterSchema } from "@/lib/validators/counter";
+import { Counter, CounterSchema } from "@/lib/validators/counter";
 
 export default async function handler(
     req: NextApiRequest,
@@ -17,7 +17,7 @@ export default async function handler(
             errors: [{ message: "Please sign in" }]
         })
 
-        const counter = req.body
+        const counter: Counter = req.body
         
         const validate = CounterSchema.safeParse(counter)
 
@@ -28,6 +28,20 @@ export default async function handler(
                 errors: validate.error.issues.map(issue => ({
                     message: issue.message
                 }))
+            })
+        }
+
+        const exist = await prisma.counter.findUnique({
+            where: {
+                name: counter.name
+            }
+        })
+
+        if(exist) {
+            return res.status(403).json({
+                success: false,
+                code: 403,
+                errors: [{ message: "Nom déja utilisé" }]
             })
         }
 

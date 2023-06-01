@@ -57,6 +57,7 @@ export function DataTable<TData, TValue>({
     []
   )
   const [date, setDate] = React.useState<Date>()
+  const [openModal, setOpenModal] = React.useState(false)
 
   const table = useReactTable({
     data,
@@ -72,6 +73,10 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   })
+
+  const handleSuccess = () => {
+    setOpenModal(false)
+  }
  
   return (
         <div>
@@ -84,7 +89,7 @@ export function DataTable<TData, TValue>({
               }
               className="max-w-sm"
             />
-            <Dialog>
+            <Dialog open={openModal} onOpenChange={setOpenModal}>
               <DialogTrigger asChild>
                 <Button>
                   <PlusIcon />
@@ -98,7 +103,7 @@ export function DataTable<TData, TValue>({
                     Fill the counter form. Click save when you're done.
                   </DialogDescription>
                 </DialogHeader>
-                <CounterForm />
+                <CounterForm handleSuccess={handleSuccess} />
               </DialogContent>
             </Dialog>
           </div>

@@ -97,7 +97,7 @@ model Schedule {
 
 model Counter {
   id              String         @id @default(cuid())
-  name            String
+  name            String         @unique
   city            String
   country         String
   sellers         User[]
