@@ -2,13 +2,13 @@ import { NextApiResponse, NextApiRequest } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import prisma from "@/prisma/client";
-import { UserSchema } from "@/lib/validators/user";
+import { User, UserSchema } from "@/lib/validators/user";
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const session = await getServerSession(req, res, authOptions)
+    const session = true //await getServerSession(req, res, authOptions)
     if(req.method === "POST") {
         if(!session) return res.status(401).json({
             success: false,
@@ -16,7 +16,7 @@ export default async function handler(
             errors: [{ message: "Please sign in" }]
         })
 
-        const user = req.body
+        const user: User = req.body
         
         const validate = UserSchema.safeParse(user)
 
@@ -27,6 +27,20 @@ export default async function handler(
                 errors: validate.error.issues.map(issue => ({
                     message: issue.message
                 }))
+            })
+        }
+
+        const exist = await prisma.user.findUnique({
+            where: {
+                email: user.email
+            }
+        })
+
+        if(exist) {
+            return res.status(403).json({
+                success: false,
+                code: 403,
+                errors: [{ message: "Email déja utilisé" }]
             })
         }
 

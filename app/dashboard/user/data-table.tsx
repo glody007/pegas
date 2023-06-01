@@ -11,18 +11,9 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
 } from "@tanstack/react-table"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { CalendarIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
 import React from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Calendar } from "@/components/ui/calendar"
-import { format } from "date-fns"
 import { PlusIcon } from "lucide-react"
 import {
   Table,
@@ -57,6 +48,7 @@ export function DataTable<TData, TValue>({
     []
   )
   const [date, setDate] = React.useState<Date>()
+  const [openModal, setOpenModal] = React.useState(false)
 
   const table = useReactTable({
     data,
@@ -72,6 +64,10 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   })
+
+  const handleSuccess = () => {
+    setOpenModal(false)
+  }
  
   return (
         <div>
@@ -84,7 +80,7 @@ export function DataTable<TData, TValue>({
               }
               className="max-w-sm"
             />
-            <Dialog>
+            <Dialog open={openModal} onOpenChange={setOpenModal}>
               <DialogTrigger asChild>
                 <Button>
                   <PlusIcon />
@@ -98,7 +94,7 @@ export function DataTable<TData, TValue>({
                     Fill the user form. Click save when you're done.
                   </DialogDescription>
                 </DialogHeader>
-                <UserForm />
+                <UserForm handleSuccess={handleSuccess} />
               </DialogContent>
             </Dialog>
           </div>
