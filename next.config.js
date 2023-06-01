@@ -2,7 +2,8 @@
 const nextConfig = {
     images: {
         domains: [
-          'ik.imagekit.io'
+          'ik.imagekit.io',
+          'avatars.githubusercontent.com'
         ],
       },
 }
