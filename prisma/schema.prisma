@@ -50,6 +50,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  counter       Counter?           @relation(fields: [counterId], references: [id])
+  counterId     String?
 }
 
 model Plan {
@@ -91,6 +93,14 @@ model Schedule {
   route           Route          @relation(fields: [routeId], references: [id])
   routeId         String
   tickets         Ticket[]
+}
+
+model Counter {
+  id              String         @id @default(cuid())
+  name            String
+  city            String
+  country         String
+  sellers         User[]
 }
 
 model Ticket {
