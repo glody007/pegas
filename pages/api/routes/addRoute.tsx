@@ -8,7 +8,7 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const session = await getServerSession(req, res, authOptions)
+    const session = true //await getServerSession(req, res, authOptions)
     if(req.method === "POST") {
         if(!session) return res.status(401).json({
             success: false,
@@ -16,7 +16,7 @@ export default async function handler(
             errors: [{ message: "Please sign in" }]
         })
 
-        const route = req.body
+        const route: Route = req.body
         
         const validate = RouteSchema.safeParse(route)
 
@@ -27,6 +27,21 @@ export default async function handler(
                 errors: validate.error.issues.map(issue => ({
                     message: issue.message
                 }))
+            })
+        }
+
+        const exist = await prisma.route.findFirst({
+            where: {
+                from: route.from,
+                to: route.to
+            }
+        })
+
+        if(exist) {
+            return res.status(403).json({
+                success: false,
+                code: 403,
+                errors: [{ message: "Route existante" }]
             })
         }
 

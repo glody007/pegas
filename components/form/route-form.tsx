@@ -15,36 +15,41 @@ import * as z from "zod"
 import { departure } from "@/types/departure"
 import { Combobox, ComboboxHandle } from "../ui/combobox"
 import RouteMaker from "../route-maker"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { Route, RouteSchema } from "@/lib/validators/route"
-import { useMutation } from "react-query"
-import axios from "axios"
+import { useMutation, useQueryClient } from "react-query"
+import axios, { AxiosError } from "axios"
 import { CountrySchema } from "@/lib/validators/country"
+import toast from "react-hot-toast"
+
+interface RouteFormProps {
+    handleSuccess?: () => void
+}
 
 function getData(): departure[] {
     // Fetch data from your API here.
     return [
       {
         id: "1",
-        name: "Lubumbashi T-1",
+        name: "Lubumbashi",
         city: "Lubumbashi",
         country: CountrySchema.enum["RDC (congo)"]
       },
       {
         id: "2",
-        name: "Likasi T-4",
+        name: "Likasi",
         city: "Likasi",
         country: CountrySchema.enum["RDC (congo)"]
       },
       {
         id: "3",
-        name: "Kolwezi T-1",
+        name: "Kolwezi",
         city: "Kolwezi",
         country: CountrySchema.enum["RDC (congo)"]
       },
       {
         id: "4",
-        name: "Kasumbalesa T-1",
+        name: "Kasumbalesa",
         city: "Kasumbalesa",
         country: CountrySchema.enum["RDC (congo)"]
       },
@@ -69,7 +74,12 @@ function getData(): departure[] {
     ]
 } 
 
-export default function RouteForm() {
+export default function RouteForm({ handleSuccess }: RouteFormProps) {
+    const [isDisabled, setIsDisabled] = useState(false)
+    let toastAddId: string
+
+    const queryClient = useQueryClient()
+
     const form = useForm<z.infer<typeof RouteSchema>>({
         resolver: zodResolver(RouteSchema),
         defaultValues: {
@@ -86,10 +96,26 @@ export default function RouteForm() {
     const refTo = useRef<ComboHandle>(null); 
 
     const {mutate} = useMutation(
-        async (route: Route) => await axios.post('/api/routes/addRoute', route)
+        async (route: Route) => await axios.post('/api/routes/addRoute', route),
+        {
+            onError: (error) => {
+                if(error instanceof AxiosError) {
+                    toast.error(error?.response?.data.errors[0].message, {id: toastAddId})
+                }
+                setIsDisabled(false)
+            },
+            onSuccess: (data) => {
+                toast.success("Ajout reussi 👏", { id: toastAddId })
+                setIsDisabled(false)
+                queryClient.invalidateQueries(["routes"])
+                if(handleSuccess) handleSuccess()
+            }
+        }
     )
 
     function onSubmit(values: Route) {
+        toastAddId = toast.loading("Ajout en cours", { id: toastAddId })
+        setIsDisabled(true)
         mutate(values)
     }
 
@@ -106,7 +132,7 @@ export default function RouteForm() {
         }
 
         currentFrom.selectItem({
-            label: places[0].country,
+            label: places[0].city,
             value: places[0].city
         })
         
@@ -117,7 +143,7 @@ export default function RouteForm() {
 
         if(places.length > 1) {
             currentTo.selectItem({
-                label: places.slice(-1)[0].country,
+                label: places.slice(-1)[0].city,
                 value: places.slice(-1)[0].city
             })
             return
@@ -144,7 +170,7 @@ export default function RouteForm() {
                                                 placeholder="Add place" 
                                                 searchHint="Search place" 
                                                 items={data.map((departure, index) => ({
-                                                    value: departure.id || String(index),
+                                                    value: departure.city || String(index),
                                                     label: departure.city
                                                 }))}
                                                 handleSelect={(item) => field.onChange(item?.value)}
@@ -168,7 +194,7 @@ export default function RouteForm() {
                                                     placeholder="Add place" 
                                                     searchHint="Search place" 
                                                     items={data.map((departure, index) => ({
-                                                        value: departure.id || String(index),
+                                                        value: departure.city || String(index),
                                                         label: departure.city
                                                     }))}
                                                     handleSelect={(item) => {field.onChange(item?.value)}}
@@ -220,7 +246,7 @@ export default function RouteForm() {
                             )}
                         />
                     </div>
-                    <Button type="submit" className="mt-8">Save</Button>
+                    <Button disabled={isDisabled} type="submit" className="mt-8">Save</Button>
                 </form>
             </Form>
     )

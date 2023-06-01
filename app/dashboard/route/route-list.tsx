@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import DepartureForm from "@/components/form/departure-form"
 import RouteCard from "@/components/route-card"
 import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -18,7 +17,6 @@ import { Input } from "@/components/ui/input"
 import { PlusIcon } from "lucide-react"
 import RouteForm from "@/components/form/route-form"
 import { Route } from "@/lib/validators/route"
-import axios from "axios"
 import { useQuery } from "react-query"
 import { SkeletonTable } from "@/components/SkeletonTable"
 import { allRoutes } from "@/service/route"
@@ -30,6 +28,7 @@ interface RouteListProps {
 export default function RouteList({ data }: RouteListProps) {
     const [from, setFrom] = useState("")
     const [to, setTo] = useState("")
+    const [openModal, setOpenModal] = useState(false)
 
     const { data: response, error, isLoading } = useQuery({
       queryFn: allRoutes,
@@ -40,10 +39,16 @@ export default function RouteList({ data }: RouteListProps) {
 
     if(isLoading) return <SkeletonTable />
 
-    const filteredData = data.filter(route => (
+    const routes: Route[] = response.data
+
+    const filteredData = routes.filter(route => (
       route.from.toLowerCase().includes(from.toLowerCase()) &&
       route.to.toLowerCase().includes(to.toLowerCase())
     ))
+
+    const handleSuccess = () => {
+      setOpenModal(false)
+    }
 
     return (
       <>
@@ -64,7 +69,7 @@ export default function RouteList({ data }: RouteListProps) {
                   className="max-w-sm"
                 />
               </div>
-                <Dialog>
+                <Dialog open={openModal} onOpenChange={setOpenModal}>
                   <DialogTrigger asChild>
                     <Button>
                       <PlusIcon />
@@ -79,7 +84,7 @@ export default function RouteList({ data }: RouteListProps) {
                       </DialogDescription>
                     </DialogHeader>
                     <div className="mt-4">
-                      <RouteForm />
+                      <RouteForm handleSuccess={handleSuccess} />
                     </div>
                   </DialogContentFull>
                 </Dialog>
