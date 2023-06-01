@@ -10,10 +10,10 @@ import { useQuery } from 'react-query'
 import { allUsers } from '@/service/user'
 
 type Props = {
-    data: User[]
+
 }
 
-export default function Users({data}: Props) {
+export default function Users({}: Props) {
 
   const { data: response, error, isLoading } = useQuery({
     queryFn: allUsers,
@@ -24,9 +24,11 @@ export default function Users({data}: Props) {
 
   if(isLoading) return <SkeletonTable />
 
+  const users: User[] = response.data
+
   return (
     <>
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={users} />
     </>
   )
 }
