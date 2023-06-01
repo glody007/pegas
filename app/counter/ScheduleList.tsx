@@ -125,7 +125,7 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ }) => {
                           {date ? (
                               format(date, "PPP")
                           ) : (
-                              <span>Pick a date</span>
+                              <span>Date...</span>
                           )}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
