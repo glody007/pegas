@@ -33,16 +33,29 @@ import { Schedule, ScheduleSchema } from "@/lib/validators/schedule"
 import { Bus } from "@/lib/validators/bus"
 import { Route } from "@/lib/validators/route"
 import { User } from "@/lib/validators/user"
-import { useMutation } from "react-query"
-import axios from "axios"
+import { useMutation, useQueryClient } from "react-query"
+import axios, { AxiosError } from "axios"
+import { useState } from "react"
+import toast from "react-hot-toast"
 
 interface ScheduleFormProps {
     buses: Bus[],
     routes: Route[],
-    drivers: User[]
+    drivers: User[],
+    handleSuccess?: () => void
 }
 
-export default function ScheduleForm({ buses, routes, drivers }: ScheduleFormProps) {
+export default function ScheduleForm({ 
+    buses, 
+    routes, 
+    drivers,
+    handleSuccess
+}: ScheduleFormProps) {
+    const [isDisabled, setIsDisabled] = useState(false)
+    let toastAddId: string
+
+    const queryClient = useQueryClient()
+
     const form = useForm<z.infer<typeof ScheduleSchema>>({
         resolver: zodResolver(ScheduleSchema),
         defaultValues: {
@@ -55,10 +68,26 @@ export default function ScheduleForm({ buses, routes, drivers }: ScheduleFormPro
     })
 
     const {mutate} = useMutation(
-        async (schedule: Schedule) => await axios.post('/api/schedules/addSchedule', schedule)
+        async (schedule: Schedule) => await axios.post('/api/schedules/addSchedule', schedule),
+        {
+            onError: (error) => {
+                if(error instanceof AxiosError) {
+                    toast.error(error?.response?.data.errors[0].message, {id: toastAddId})
+                }
+                setIsDisabled(false)
+            },
+            onSuccess: (data) => {
+                toast.success("Ajout reussi 👏", { id: toastAddId })
+                setIsDisabled(false)
+                queryClient.invalidateQueries(["schedules"])
+                if(handleSuccess) handleSuccess()
+            }
+        }
     )
 
     function onSubmit(values: Schedule) {
+        toastAddId = toast.loading("Ajout en cours", { id: toastAddId })
+        setIsDisabled(true)
         mutate(values)
     }
 
@@ -97,7 +126,7 @@ export default function ScheduleForm({ buses, routes, drivers }: ScheduleFormPro
                                         selected={field.value}
                                         onSelect={field.onChange}
                                         disabled={(date) =>
-                                            date > new Date() || date < new Date("1900-01-01")
+                                            date < new Date()
                                         }
                                         initialFocus
                                     />
@@ -139,7 +168,7 @@ export default function ScheduleForm({ buses, routes, drivers }: ScheduleFormPro
                                         selected={field.value}
                                         onSelect={field.onChange}
                                         disabled={(date) =>
-                                            date > new Date() || date < new Date("1900-01-01")
+                                            date < new Date()
                                         }
                                         initialFocus
                                     />
@@ -219,7 +248,7 @@ export default function ScheduleForm({ buses, routes, drivers }: ScheduleFormPro
                             )}
                         />
                     </div>
-                    <Button type="submit" className="mt-8">Save</Button>
+                    <Button disabled={isDisabled} type="submit" className="mt-8">Save</Button>
                 </form>
             </Form>
     )

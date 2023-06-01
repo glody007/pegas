@@ -35,6 +35,7 @@ interface ScheduleListProps {
 const  ScheduleList: React.FC<ScheduleListProps> = ({ data }) => {
     const [busName, setBusName] = useState("")
     const [driverName, setDriverName] = useState("")
+    const [openModal, setOpenModal] = useState(false)
 
     const { data: responseRoute, error: errorRoute, isLoading: isLoadingRoute } = useQuery({
       queryFn: allRoutes,
@@ -55,6 +56,10 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ data }) => {
       queryFn: allSchedules,
       queryKey: ["schedules"]
     })
+
+    const handleSuccess = () => {
+      setOpenModal(false)
+    }
 
     const isLoading = isLoadingBus || isLoadingRoute || isLoadingUser || isLoadingSchedule
     const error = errorBus || errorRoute || errorUser || errorSchedule
@@ -93,7 +98,7 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ data }) => {
                   className="max-w-sm"
                 />
               </div>
-                <Dialog>
+                <Dialog open={openModal} onOpenChange={setOpenModal}>
                   <DialogTrigger asChild>
                     <Button>
                       <PlusIcon />
@@ -108,7 +113,12 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ data }) => {
                       </DialogDescription>
                     </DialogHeader>
                     <div className="mt-4">
-                      <ScheduleForm buses={buses} routes={routes} drivers={drivers} />
+                      <ScheduleForm  
+                        handleSuccess={handleSuccess} 
+                        buses={buses} 
+                        routes={routes} 
+                        drivers={drivers} 
+                      />
                     </div>
                   </DialogContentFull>
                 </Dialog>
