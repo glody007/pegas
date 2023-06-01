@@ -25,7 +25,11 @@ import axios, { AxiosError } from "axios"
 import toast from "react-hot-toast"
 import { useState } from "react"
 
-export default function BusForm() {
+interface BusFormProps {
+    handleSuccess?: () => void
+}
+
+export default function BusForm({ handleSuccess }: BusFormProps) {
     const [isDisabled, setIsDisabled] = useState(false)
     let toastAddId: string
 
@@ -55,6 +59,7 @@ export default function BusForm() {
                 toast.success("Ajout reussi 👏", { id: toastAddId })
                 setIsDisabled(false)
                 queryClient.invalidateQueries(["buses"])
+                if(handleSuccess) handleSuccess()
             }
         }
     )

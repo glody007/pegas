@@ -28,6 +28,7 @@ interface FleetProps {
 const  BusList = ({ }: FleetProps) => {
     const [name, setName] = useState("")
     const [brand, setBrand] = useState("")
+    const [openModal, setOpenModal] = useState(false)
 
     const { data: response, error, isLoading } = useQuery({
       queryFn: allBuses,
@@ -43,6 +44,10 @@ const  BusList = ({ }: FleetProps) => {
       bus.name.toLowerCase().includes(name.toLowerCase()) &&
       bus.brand.toLowerCase().includes(brand.toLowerCase()) 
     ))
+
+    const handleSuccess = () => {
+      setOpenModal(false)
+    }
 
     return (
       <>
@@ -63,7 +68,7 @@ const  BusList = ({ }: FleetProps) => {
                   className="max-w-sm"
                 />
               </div>
-                <Dialog>
+                <Dialog open={openModal} onOpenChange={setOpenModal}>
                   <DialogTrigger asChild>
                     <Button>
                       <PlusIcon />
@@ -78,7 +83,7 @@ const  BusList = ({ }: FleetProps) => {
                       </DialogDescription>
                     </DialogHeader>
                     <div className="mt-4">
-                      <BusForm />
+                      <BusForm handleSuccess={handleSuccess} />
                     </div>
                   </DialogContentFull>
                 </Dialog>
