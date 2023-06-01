@@ -29,6 +29,8 @@ export default function BusForm() {
     const [isDisabled, setIsDisabled] = useState(false)
     let toastAddId: string
 
+    const queryClient = useQueryClient()
+
     const form = useForm<z.infer<typeof BusSchema>>({
         resolver: zodResolver(BusSchema),
         defaultValues: {
@@ -52,6 +54,7 @@ export default function BusForm() {
             onSuccess: (data) => {
                 toast.success("Ajout reussi 👏", { id: toastAddId })
                 setIsDisabled(false)
+                queryClient.invalidateQueries(["buses"])
             }
         }
     )

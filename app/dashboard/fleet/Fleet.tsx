@@ -18,15 +18,14 @@ import { Bus } from "@/lib/validators/bus"
 import BusCard from "@/components/BusCard"
 import BusForm from "@/components/form/BusForm"
 import { useQuery } from "react-query"
-import axios from "axios"
 import { SkeletonTable } from "@/components/SkeletonTable"
 import { allBuses } from "@/service/bus"
 
 interface FleetProps {
-  data: Array<Bus>
+
 }
 
-const  BusList = ({ data }: FleetProps) => {
+const  BusList = ({ }: FleetProps) => {
     const [name, setName] = useState("")
     const [brand, setBrand] = useState("")
 
@@ -39,7 +38,8 @@ const  BusList = ({ data }: FleetProps) => {
 
     if(isLoading) return <SkeletonTable />
 
-    const filteredData = data.filter(bus => (
+    const buses: Bus[] = response.data
+    const filteredData = buses.filter(bus => (
       bus.name.toLowerCase().includes(name.toLowerCase()) &&
       bus.brand.toLowerCase().includes(brand.toLowerCase()) 
     ))
