@@ -19,6 +19,7 @@ import { useRef } from "react"
 import { Route, RouteSchema } from "@/lib/validators/route"
 import { useMutation } from "react-query"
 import axios from "axios"
+import { CountrySchema } from "@/lib/validators/country"
 
 function getData(): departure[] {
     // Fetch data from your API here.
@@ -27,25 +28,43 @@ function getData(): departure[] {
         id: "1",
         name: "Lubumbashi T-1",
         city: "Lubumbashi",
-        country: "DRC"
+        country: CountrySchema.enum["RDC (congo)"]
       },
       {
         id: "2",
         name: "Likasi T-4",
         city: "Likasi",
-        country: "DRC"
+        country: CountrySchema.enum["RDC (congo)"]
       },
       {
         id: "3",
         name: "Kolwezi T-1",
         city: "Kolwezi",
-        country: "DRC"
+        country: CountrySchema.enum["RDC (congo)"]
       },
       {
         id: "4",
         name: "Kasumbalesa T-1",
         city: "Kasumbalesa",
-        country: "DRC"
+        country: CountrySchema.enum["RDC (congo)"]
+      },
+      {
+        id: "5",
+        name: "Kambove",
+        city: "Kambove",
+        country:  CountrySchema.enum["RDC (congo)"]
+      },
+      {
+        id: "6",
+        name: "Kitwe",
+        city: "Kitwe",
+        country:  CountrySchema.enum.Zambie
+      },
+      {
+        id: "7",
+        name: "Cape town",
+        city: "Cape town",
+        country:  CountrySchema.enum["Afrique du sud"]
       },
     ]
 } 
