@@ -21,9 +21,14 @@ import { Button } from "@/components/ui/button"
 import * as z from "zod"
 import { Bus, BusSchema } from "@/lib/validators/bus"
 import { useMutation, useQueryClient } from "react-query"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
+import toast from "react-hot-toast"
+import { useState } from "react"
 
 export default function BusForm() {
+    const [isDisabled, setIsDisabled] = useState(false)
+    let toastAddId: string
+
     const form = useForm<z.infer<typeof BusSchema>>({
         resolver: zodResolver(BusSchema),
         defaultValues: {
@@ -36,10 +41,24 @@ export default function BusForm() {
     })
 
     const {mutate} = useMutation(
-        async (bus: Bus) => await axios.post('/api/buses/addBus', bus)
+        async (bus: Bus) => await axios.post('/api/buses/addBus', bus),
+        {
+            onError: (error) => {
+                if(error instanceof AxiosError) {
+                    toast.error(error?.response?.data.errors[0].message, {id: toastAddId})
+                }
+                setIsDisabled(false)
+            },
+            onSuccess: (data) => {
+                toast.success("Ajout reussi 👏", { id: toastAddId })
+                setIsDisabled(false)
+            }
+        }
     )
 
     function onSubmit(values: Bus) {
+        toastAddId = toast.loading("Ajout en cours", { id: toastAddId })
+        setIsDisabled(true)
         mutate(values)
     }
 
@@ -143,7 +162,7 @@ export default function BusForm() {
                             )}
                         />
                     </div>
-                    <Button type="submit" className="mt-8">Save</Button>
+                    <Button disabled={isDisabled} type="submit" className="mt-8">Save</Button>
                 </form>
             </Form>
     )
