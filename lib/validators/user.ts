@@ -15,6 +15,7 @@ export const UserSchema = z.object({
       message: "Sex must be at least 1 character.",
     }),
     birthday: z.coerce.date(),
+    photo: z.string().url().optional(),
     role: RoleSchema
 })
 

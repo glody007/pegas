@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 import { PlusIcon } from "lucide-react"
 import BusForm from "@/components/form/BusForm"
 import ScheduleCard from "@/components/ScheduleCard"
-import { Schedule } from "@/lib/validators/schedule"
+import { Schedule, ScheduleFull } from "@/lib/validators/schedule"
 import ScheduleForm from "@/components/form/ScheduleForm"
 import { useQuery } from "react-query"
 import { allRoutes } from "@/service/route"
@@ -26,6 +26,7 @@ import { SkeletonTable } from "@/components/SkeletonTable"
 import { Bus } from "@/lib/validators/bus"
 import { Route } from "@/lib/validators/route"
 import { RoleSchema, User } from "@/lib/validators/user"
+import { allSchedules } from "@/service/schedule"
 
 interface ScheduleListProps {
   data: Array<Schedule>
@@ -50,18 +51,27 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ data }) => {
       queryKey: ["users"]
     })
 
-    const isLoading = isLoadingBus || isLoadingRoute || isLoadingUser
+    const { data: responseSchedule, error: errorSchedule, isLoading: isLoadingSchedule } = useQuery({
+      queryFn: allSchedules,
+      queryKey: ["schedules"]
+    })
+
+    const isLoading = isLoadingBus || isLoadingRoute || isLoadingUser || isLoadingSchedule
+    const error = errorBus || errorRoute || errorUser || errorSchedule
+
+    if(error) return <>error...</>
 
     if(isLoading) return <SkeletonTable />
 
     const buses: Bus[] = responseBus.data
     const routes: Route[] = responseRoute.data
     const users: User[] = responseUser.data
+    const schedules: ScheduleFull[] = responseSchedule.data
     const drivers = users.filter(user => user.role === RoleSchema.enum.driver)
 
-    const filteredData = data.filter(schedule => (
-      String(schedule.driverId).toLowerCase().includes(driverName.toLowerCase()) &&
-      String(schedule.busId).toLowerCase().includes(busName.toLowerCase()) 
+    const filteredData = schedules.filter(schedule => (
+      String(schedule.driver.name).toLowerCase().includes(driverName.toLowerCase()) &&
+      String(schedule.bus.name).toLowerCase().includes(busName.toLowerCase()) 
     ))
 
     return (

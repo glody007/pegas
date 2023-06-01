@@ -28,83 +28,16 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Route } from '@/lib/validators/route';
 import { User } from '@/lib/validators/user';
 import { Role } from '@/lib/validators/user';
-import { Schedule } from '@/lib/validators/schedule';
+import { Schedule, ScheduleFull } from '@/lib/validators/schedule';
 import ScheduleForm from './form/ScheduleForm';
 
 interface ScheduleCardProps {
-    schedule: Schedule
-}
-
-function getUser(id: number): User {
-    const users = [
-        {
-            id: "1",
-            name: "Namy",
-            email: "marco@gmail.com",
-            sex: "F",
-            birthday: new Date(),
-            role: "driver" as Role
-        },
-        {
-            id: "2",
-            name: "Marco",
-            email: "marco@gmail.com",
-            sex: "M",
-            birthday: new Date(),
-            role: "driver" as Role
-        },
-    ]
-    return users[id-1]
-}
-
-function getBus(id: number): Bus {
-    const buses = [
-        {
-            id: 1,
-            name: "Y-49",
-            brand: "Yuton bus",
-            planId: "12",
-            numberOfSeats: 60,
-            photoUrl: "https://ik.imagekit.io/vbjy0pcazvn/yutong_nfKWGHAMY.jpeg?updatedAt=1685336064650"
-        },
-        {
-            id: 1,
-            name: "H-3",
-            brand: "Higer bus",
-            planId: "21",
-            numberOfSeats: 40,
-            photoUrl: "https://ik.imagekit.io/vbjy0pcazvn/higer_XB13xgbMH.png?updatedAt=1685336064695"
-        }
-    ]
-    return buses[id-1]
-}
-
-function getRoute(id: number): Route {
-    // Fetch data from your API here.
-    const routes = [
-      {
-        id: "1",
-        from: "Lubumbashi",
-        to: "Likasi",
-        duration: 180,
-        stops: ["Lubumbashi", "Kambove", "Likasi"]
-      },
-      {
-        id: "2",
-        from: "Lubumbashi",
-        to: "Kolwezi",
-        duration: 360,
-        stops: ["Lubumbashi", "Kambove", "Likasi", "Kolwezi"]
-      },
-    ]
-    return routes[id-1]
+    schedule: ScheduleFull
 }
 
 const ScheduleCard: React.FC<ScheduleCardProps> = ({ schedule }) => {
-    const route = getRoute(schedule.routeId)
-    const driver = getUser(schedule.driverId)
-    const bus = getBus(schedule.busId)
-
+    const start = new Date(schedule.start)
+    const end = new Date(schedule.end)
     return (
         <Card>
             <CardContent className="flex mt-4 space-x-4">
@@ -115,27 +48,27 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({ schedule }) => {
                         Bus | driver
                     </div>
                     <div className="flex space-x-2 mt-2">
-                        <Badge variant="secondary">{bus.name}</Badge>
-                        <Badge variant="secondary">{driver.name}</Badge> 
+                        <Badge variant="secondary">{schedule.bus.name}</Badge>
+                        <Badge variant="secondary">{schedule.driver.name}</Badge> 
                     </div>
                     <div className="text-xs text-gray-500 mt-2">
                         Date
                     </div>
                     <div className="flex space-x-2">
-                        <Badge variant="secondary">{format(schedule.start, "dd/MM/yyyy")}</Badge>
+                        <Badge variant="secondary">{format(start, "dd/MM/yyyy")}</Badge>
                     </div>
                     <div className="text-xs text-gray-500 mt-2">
                         Start - End
                     </div>
                     <div className="flex space-x-2 mt-2">
-                        <Badge variant="secondary">{format(schedule.start, "HH:mm")}-{format(schedule.end, "HH:mm")}</Badge>
+                        <Badge variant="secondary">{format(start, "HH:mm")}-{format(end, "HH:mm")}</Badge>
                     </div>
                 </div>
                 <div className="flex-[0.6] flex flex-col justify-between">
                     <div className="mt-2">
                         <div className="text-xs text-gray-500">Route</div>
                         <div className="mt-1">
-                            <Badge variant="secondary">{route.from}-{route.to}</Badge> 
+                            <Badge variant="secondary">{schedule.route.from}-{schedule.route.to}</Badge> 
                         </div>
                         <div className="text-xs text-gray-500 mt-2">Duration</div>
                         <div className="mt-1">
@@ -143,13 +76,13 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({ schedule }) => {
                         </div>
                         <div className="text-xs text-gray-500 mt-2">Number of seats</div>
                         <div className="mt-1">
-                            <Badge variant="secondary">{bus.numberOfSeats}</Badge> 
+                            <Badge variant="secondary">{schedule.bus.numberOfSeats}</Badge> 
                         </div>
                     </div>
                 </div>
                 <div className="flex-1 flex flex-col">
                     <div className="relative flex-1 border border-zinc-100 flex flex-col justify-between rounded-xs mt-2 p-4">
-                        <Image fill src={bus.photoUrl} alt="Bus image" />
+                        <Image fill src={schedule.bus.photoUrl} alt="Bus image" />
                     </div>
                 </div>
 
@@ -157,8 +90,8 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({ schedule }) => {
                     <div className="flex-1 flex flex-col justify-center items-center mt-2">
                         <div className="p-8 bg-blue-100 rounded-full">
                             <Avatar>
-                                <AvatarImage src="https://github.com/shadcn.png" />
-                                <AvatarFallback>{driver.name[0]}</AvatarFallback>
+                                <AvatarImage src={schedule.driver.photo} />
+                                <AvatarFallback>{schedule.driver.name[0]}</AvatarFallback>
                             </Avatar>
                         </div>
                     </div>
@@ -193,7 +126,7 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({ schedule }) => {
                                 <DialogTitle className="pl-6"></DialogTitle>
                             </DialogHeader>
                             <div className="min-w-[300px]">
-                                <ScheduleForm /> 
+                                
                             </div>  
                             </DialogContentFull>
                         </Dialog>
