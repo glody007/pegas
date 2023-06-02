@@ -80,55 +80,56 @@ const  TicketList: React.FC<TicketListProps> = ({ }) => {
 
     return (
       <>
-            <div className="flex items-center justify-between py-4 space-x-8">
-              <div className="flex space-x-8">
-                <Input
-                  placeholder="Origine..."
-                  value={from}
-                    onChange={(event) => setFrom(event.target.value)
-                  }
-                  className="max-w-sm"
-                />
-                <Input
-                  placeholder="Destination..."
-                  value={to}
-                  onChange={(event) => setTo(event.target.value)
-                  }
-                  className="max-w-sm"
-                />
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                              "w-full pl-3 text-left font-normal",
-                              !date && "text-muted-foreground"
-                          )}
-                        >
-                          {date ? (
-                              format(date, "PPP")
-                          ) : (
-                              <span>Date...</span>
-                          )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                        mode="single"
-                        selected={date}
-                        onSelect={handleSelectDate}
-                        disabled={(date) =>
-                            date < new Date()
-                        }
-                        initialFocus
-                    />
-                    </PopoverContent>
-                </Popover>
-              </div>
-                
-              </div>
-              <div className="rounded-md space-y-4">
+            <div className="flex flex-col items-center py-4 space-x-8">
+
+              <div className="flex flex-col pl-8 rounded-md space-y-4">
+
+                <div className="flex space-x-8">
+                  <Input
+                    placeholder="Origine..."
+                    value={from}
+                      onChange={(event) => setFrom(event.target.value)
+                    }
+                    className="max-w-sm"
+                  />
+                  <Input
+                    placeholder="Destination..."
+                    value={to}
+                    onChange={(event) => setTo(event.target.value)
+                    }
+                    className="max-w-sm"
+                  />
+                  <Popover>
+                      <PopoverTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !date && "text-muted-foreground"
+                            )}
+                          >
+                            {date ? (
+                                format(date, "PPP")
+                            ) : (
+                                <span>Date...</span>
+                            )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                          mode="single"
+                          selected={date}
+                          onSelect={handleSelectDate}
+                          disabled={(date) =>
+                              date < new Date()
+                          }
+                          initialFocus
+                      />
+                      </PopoverContent>
+                  </Popover>
+                </div>
+
                 {filteredData.map(ticket => (
                   <TicketRow ticket={ticket} />
                 ))}
@@ -138,6 +139,8 @@ const  TicketList: React.FC<TicketListProps> = ({ }) => {
                   <p className="p-4 rounded bg-gray-100 text-sm text-gray-500">Pas de resultat pour cette recherche</p>
                 </div>
               )}
+                
+            </div>
         </>
     )
 }
