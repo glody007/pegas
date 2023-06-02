@@ -34,17 +34,40 @@ import { cn, dateAreEquals } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
-import { TicketFull } from "@/lib/validators/ticket"
+import { Ticket, TicketFull } from "@/lib/validators/ticket"
+import { TicketDetails } from "@/components/TicketDetails"
 
 interface ScheduleListProps {
   
+}
+
+const ticket: TicketFull = {
+  name: "Kaido",
+  scheduleId: "minks",
+  createdAt: new Date(),
+  email: "kizaru@cp.com",
+  seat: "Marin ford",
+  schedule: {
+    id: "minks",
+    start: new Date(),
+    end: new Date(),
+    bus: {
+      id: "chapeau de paille",
+      name: "Mobidik"
+    },
+    route: {
+      id: "grande line",
+      from: "Cap des jumeaux",
+      to: "Laugh tale"
+    }
+  }
 }
 
 const  ScheduleList: React.FC<ScheduleListProps> = ({ }) => {
     const [from, setFrom] = useState("")
     const [to, setTo] = useState("")
     const [date, setDate] = useState<Date | undefined>(undefined)
-    const [openModal, setOpenModal] = useState(false)
+    const [openModal, setOpenModal] = useState(true)
 
     const { data: responseRoute, error: errorRoute, isLoading: isLoadingRoute } = useQuery({
       queryFn: allRoutes,
@@ -92,9 +115,8 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ }) => {
         setDate(selected as Date)
     }
 
-    const handleSuccess = (ticket: TicketFull) => {
-      //setOpenModal(false)
-      console.log(ticket)
+    const handleSuccess = () => {
+      setOpenModal(false)
     }
 
     return (
@@ -146,18 +168,12 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ }) => {
                 </Popover>
               </div>
                 <Dialog open={openModal} onOpenChange={setOpenModal}>
-                  <DialogTrigger asChild>
-                    {/* <Button>
-                      <PlusIcon />
-                      New schedule
-                    </Button> */}
-                  </DialogTrigger>
                   <DialogContentFull>
                     <DialogHeader>
                      
                     </DialogHeader>
                     <div className="mt-4">
-                      
+                      <TicketDetails ticket={ticket} handleSuccess={handleSuccess} />
                     </div>
                   </DialogContentFull>
                 </Dialog>

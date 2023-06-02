@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import prisma from "@/prisma/client";
 import { Schedule, ScheduleSchema } from "@/lib/validators/schedule";
-
+import logo from '../../images/logo.png';
 
 export default async function handler(
     req: NextApiRequest,
