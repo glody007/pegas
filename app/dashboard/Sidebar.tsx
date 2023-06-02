@@ -168,7 +168,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute pt-4 left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-scroll no-scrollbar bg-sky-600 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`absolute pt-4 left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-scroll no-scrollbar bg-slate-900 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
@@ -192,7 +192,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li 
                 key={item.name} 
                 onClick={() => setCurrentPathName(item.link)}
-                className={`relative flex items-center text-sm px-4 py-1 ${isSelected(item.link) ? 'bg-white rounded-l-full text-gray-600' : 'hover:bg-sky-500 z-50 text-white'}`}
+                className={`relative flex items-center text-sm px-4 py-1 ${isSelected(item.link) ? 'bg-white rounded-l-full text-gray-600' : 'hover:bg-slate-500 z-50 text-white'}`}
               >
                 <Icon 
                   color={isSelected(item.link) ? 'gray' : 'white'}
@@ -204,9 +204,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 {isSelected(item.link) && (
                   <>
                     <div className='absolute right-0 -top-8 w-8 h-8 bg-white' />
-                    <div className='absolute right-0 -top-8 w-8 h-8 bg-sky-600 rounded-br-full' />
+                    <div className='absolute right-0 -top-8 w-8 h-8 bg-slate-900 rounded-br-full' />
                     <div className='absolute right-0 -bottom-8 w-8 h-8 bg-white' />
-                    <div className='absolute right-0 -bottom-8 w-8 h-8 bg-sky-600 rounded-tr-full' />
+                    <div className='absolute right-0 -bottom-8 w-8 h-8 bg-slate-900 rounded-tr-full' />
                   </>
                 )}
               </li>
