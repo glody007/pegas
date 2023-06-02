@@ -2,6 +2,7 @@
 
 import { TicketFull } from "@/lib/validators/ticket"
 import { format } from "date-fns" 
+import { useQRCode } from 'next-qrcode';
 
 interface TicketMiniFrontProps {
     ticket: TicketFull
@@ -9,6 +10,8 @@ interface TicketMiniFrontProps {
 
 export function TicketMiniFront({ ticket }: TicketMiniFrontProps) {
   const start = new Date(ticket.schedule.start)
+  const { Canvas } = useQRCode();
+  const qrCodeData = ticket.id || ""
 
   return (
     <div className="w-[800px] h-[260] flex flex-col border rounded-xl">
@@ -61,12 +64,16 @@ export function TicketMiniFront({ ticket }: TicketMiniFrontProps) {
                     <h2 className="text-lg font-bold">
                         {ticket.schedule.route.from}
                     </h2>
-                    <h2 className="text-xs text-gray-500 mt-2">
-                        DATE
-                    </h2>
-                    <h2 className="text-lg font-bold">
-                        {format(start, "dd-mm-yyyy")}
-                    </h2>
+                    <div className="flex space-x-4">
+                        <div>
+                            <h2 className="text-xs text-gray-500 mt-2">
+                                DATE
+                            </h2>
+                            <h2 className="text-lg font-bold">
+                                {format(start, "dd-mm-yyyy")}
+                            </h2>
+                        </div>
+                    </div>
                 </div>
                 <div className="flex flex-col">
                     <h2 className="text-xs text-gray-500">
@@ -81,6 +88,21 @@ export function TicketMiniFront({ ticket }: TicketMiniFrontProps) {
                     <h2 className="text-lg font-bold">
                         {ticket.schedule.route.to}
                     </h2>
+                    <div>
+                        <Canvas
+                            text={qrCodeData}
+                            options={{
+                                level: 'M',
+                                margin: 2,
+                                scale: 4,
+                                width: 50,
+                                color: {
+                                    dark: '#020617',
+                                    light: '#e2e8f0',
+                                },
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
             <div className="flex flex-[0.4] p-2">
@@ -125,6 +147,21 @@ export function TicketMiniFront({ ticket }: TicketMiniFrontProps) {
                             <h1 className="font-bold">
                                 {format(start, "HH:mm")}
                             </h1>
+                        </div>
+                        <div>
+                            <Canvas
+                                text={qrCodeData}
+                                options={{
+                                    level: 'M',
+                                    margin: 2,
+                                    scale: 4,
+                                    width: 50,
+                                    color: {
+                                        dark: '#020617',
+                                        light: '#e2e8f0',
+                                    },
+                                }}
+                            />
                         </div>
                     </div>
                 </div>
