@@ -6,7 +6,7 @@ import { format } from "date-fns"
 import { TicketMiniBack } from "./TicketMiniBack"
 import { TicketMiniFront } from "./TicketMiniFront"
 import { Button } from "./ui/button"
-import { FileIcon } from "lucide-react"
+import { FileIcon, PrinterIcon } from "lucide-react"
 
   
 
@@ -32,7 +32,10 @@ export function TicketDetails({ ticket, handleSuccess }: TicketDetailsProps) {
       <TabsContent value="print">
         <div className="flex flex-col space-y-8 mt-4">
             <div className="flex justify-end space-x-4">
-              <Button>Imprimer</Button>
+              <Button>
+                <PrinterIcon />
+                Imprimer
+              </Button>
               <Button variant="secondary">
                 <FileIcon />
                 Download PDF
