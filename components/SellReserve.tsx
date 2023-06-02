@@ -115,6 +115,7 @@ export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
             toast.success("Achat effectué avec succès👏", { id: toastAddId })
             setIsDisabled(false)
             queryClient.invalidateQueries(["schedules", "tickets"])
+            setTicket(response.data.data)
             setSuccess(true)
             //if(handleSuccess) handleSuccess(response.data.data)
         }

@@ -8,7 +8,7 @@ interface TicketMiniFrontProps {
 }
 
 export function TicketMiniFront({ ticket }: TicketMiniFrontProps) {
-    console.log(ticket)
+  const start = new Date(ticket.schedule.start)
 
   return (
     <div className="w-[800px] h-[260] flex flex-col border rounded-xl">
@@ -65,7 +65,7 @@ export function TicketMiniFront({ ticket }: TicketMiniFrontProps) {
                         DATE
                     </h2>
                     <h2 className="text-lg font-bold">
-                        {format(ticket.schedule.start, "dd-mm-yyyy")}
+                        {format(start, "dd-mm-yyyy")}
                     </h2>
                 </div>
                 <div className="flex flex-col">
@@ -73,7 +73,7 @@ export function TicketMiniFront({ ticket }: TicketMiniFrontProps) {
                         HEURE
                     </h2>
                     <h2 className="text-lg font-bold">
-                        {format(ticket.schedule.start, "HH:mm")}
+                        {format(start, "HH:mm")}
                     </h2>
                     <h2 className="text-xs text-gray-500 mt-2">
                         TO
@@ -115,7 +115,7 @@ export function TicketMiniFront({ ticket }: TicketMiniFrontProps) {
                                 DATE
                             </h2>
                             <h1 className="font-bold">
-                                {format(ticket.schedule.start, "dd-mm-yyyy")}
+                                {format(start, "dd-mm-yyyy")}
                             </h1>
                         </div>
                         <div>
@@ -123,7 +123,7 @@ export function TicketMiniFront({ ticket }: TicketMiniFrontProps) {
                                 HEURE
                             </h2>
                             <h1 className="font-bold">
-                                {format(ticket.schedule.start, "HH:mm")}
+                                {format(start, "HH:mm")}
                             </h1>
                         </div>
                     </div>

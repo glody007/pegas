@@ -9,6 +9,7 @@ interface TicketMiniBackProps {
 }
 
 export function TicketMiniBack({ ticket }: TicketMiniBackProps) {
+  const start = new Date(ticket.schedule.start)
 
   return (
     <div className="w-[800px] h-[260] flex border rounded-xl">
@@ -56,7 +57,7 @@ export function TicketMiniBack({ ticket }: TicketMiniBackProps) {
                             DATE
                         </h2>
                         <h1 className="font-bold">
-                            {format(ticket.schedule.start, "dd-mm-yyyy")}
+                            {format(start, "dd-mm-yyyy")}
                         </h1>
                     </div>
                     <div>
@@ -64,7 +65,7 @@ export function TicketMiniBack({ ticket }: TicketMiniBackProps) {
                             HEURE
                         </h2>
                         <h1 className="font-bold">
-                            {format(ticket.schedule.start, "HH:mm")}
+                            {format(start, "HH:mm")}
                         </h1>
                     </div>
                 </div>
