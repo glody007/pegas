@@ -10,7 +10,7 @@ import {
 export default function SeatsPreview() {
     return (
         <Card>
-            <div className="min-w-[300px] min-h-[400px]">
+            <div className="min-w-[300px] min-h-[420px]">
                 <div className="flex">
 
                 </div>

@@ -110,7 +110,7 @@ export const columns: ColumnDef<Counter>[] = [
           <DialogHeader>
             <DialogTitle className="pl-6"></DialogTitle>
           </DialogHeader>
-          <SellReserve />   
+            
         </DialogContentFull>
         </Dialog>
       )

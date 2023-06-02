@@ -93,7 +93,7 @@ const ManifestCard: React.FC<ManifestCardProps> = ({ schedule }) => {
                                     <DialogTitle className="pl-6"></DialogTitle>
                                 </DialogHeader>
                                 <div className="min-w-[300px]">
-                                    <SellReserve />
+                                    <SellReserve schedule={schedule} />
                                 </div>  
                             </DialogContentFull>
                         </Dialog>
@@ -127,7 +127,7 @@ const ManifestCard: React.FC<ManifestCardProps> = ({ schedule }) => {
                                 <DialogTitle className="pl-6"></DialogTitle>
                             </DialogHeader>
                             <div className="min-w-[300px]">
-                                <SellReserve />
+                                <SellReserve schedule={schedule} />
                             </div>  
                             </DialogContentFull>
                         </Dialog>

@@ -43,44 +43,39 @@ import {
 } from "@/components/ui/card"
 import SeatsPreview from "./SeatsPreview"
 import { Badge } from "@/components/ui/badge"
+import { ScheduleFull } from "@/lib/validators/schedule"
   
 
 const formSchema = z.object({
   seat: z.string().min(1, {
-    message: "Seat must be at least 1 characters.",
+    message: "Siege obligatoire",
   }),
-  mobile: z.string().min(1, {
-    message: "Mobile must be at least 1 characters.",
+  email: z.string().email({
+    message: "Email invalide.",
   }),
   name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
-  gender: z.string().min(1, {
-    message: "Gender must be at least 1 characters.",
-  }),
-  type: z.string().min(1, {
-    message: "Type must be at least 1 characters.",
-  }),
-  boarding: z.string().min(1, {
-    message: "Bording must be at least 1 characters.",
-  }),
-  dropping: z.string().min(1, {
-    message: "Dropping must be at least 1 characters.",
+    message: "Nom obligatoire.",
   })
 })
 
-export function SellReserve() {
+interface SellReserveProps {
+    schedule: ScheduleFull,
+    handleSuccess?: () => void
+}
+
+export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
+  const start = new Date(schedule.start)
+  const end = new Date(schedule.end)
+  const routePrice = 20
+  const busTypeMultiplicationFactor = 1.5
+  const price = routePrice * busTypeMultiplicationFactor
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
         seat: "",
-        mobile: "",
-        name: "",
-        gender: "",
-        type: "",
-        boarding: "",
-        dropping: ""
+        email: "",
+        name: ""
     },
   })
 
@@ -96,24 +91,20 @@ export function SellReserve() {
         <CardHeader>
             <div className="flex space-x-8">
                 <div>
-                    <p className="text-xs">Coach No</p>
-                    <p className="text-xl text-blue-500">LP-2100</p>
-                    <p className="text-xs">05-02-2023 08:00 PM</p>
+                    <p className="text-xs text-zinc-500">Route</p>
+                    <p className="text-xl text-blue-500">{schedule.route.from}-{schedule.route.to}</p>
                 </div>
                 <div>
-                    <p className="text-xs mb-1">Select Route</p>
-                    <Select>
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Select route" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectItem value="Lubumbashi-Kolwezi">Lubumbashi-Kolwezi</SelectItem>
-                                <SelectItem value="Lubumbashi-Likasi">Lubumbashi-Likasi</SelectItem>
-                                <SelectItem value="Likasi-kipushi">Likasi-kipushi</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
+                    <p className="text-xs text-zinc-500">Bus No</p>
+                    <p className="text-xl">{schedule.bus.name}</p>
+                </div>
+                <div>
+                    <p className="text-xs text-zinc-500">Date</p>
+                    <p className="text-xl">{format(start, "dd/MM/yyyy")}</p>
+                </div>
+                <div>
+                    <p className="text-xs text-zinc-500">Heure</p>
+                    <p className="text-xl">{format(start, "HH:mm")}</p>
                 </div>
             </div>
         </CardHeader>
@@ -127,7 +118,7 @@ export function SellReserve() {
                         {/* START PASSSENGER DETAILS */}
                         <Card className="flex flex-col">
                             <CardHeader>
-                                <h2 className="font-semibold">Passenger Details</h2>
+                                <h2 className="font-semibold">Details du passager</h2>
                             </CardHeader>
                             <CardContent>
                                 <div className="flex space-x-4">
@@ -137,7 +128,7 @@ export function SellReserve() {
                                             name="seat"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Seat</FormLabel>
+                                                    <FormLabel>Siege</FormLabel>
                                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                         <FormControl>
                                                             <SelectTrigger>
@@ -158,12 +149,12 @@ export function SellReserve() {
                                     <div>
                                         <FormField
                                             control={form.control}
-                                            name="mobile"
+                                            name="email"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                <FormLabel>Mobile</FormLabel>
+                                                <FormLabel>Email</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="+2430070000" {...field} />
+                                                    <Input placeholder="marco@zoan.com" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                                 </FormItem>
@@ -186,56 +177,10 @@ export function SellReserve() {
                                         />
                                     </div>
                                     <div>
-                                        <FormField
-                                            control={form.control}
-                                            name="gender"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Gender</FormLabel>
-                                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                        <FormControl>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Select gender" />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            <SelectItem value="M">M</SelectItem>
-                                                            <SelectItem value="F">F</SelectItem>
-                                                        </SelectContent>
-                                                    </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </div>
-                                    <div>
-                                        <FormField
-                                            control={form.control}
-                                            name="type"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Type</FormLabel>
-                                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                        <FormControl>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Select type" />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            <SelectItem value="adult">Adult</SelectItem>
-                                                            <SelectItem value="child">Child</SelectItem>
-                                                        </SelectContent>
-                                                    </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </div>
-                                    <div>
                                         <FormLabel>Amount</FormLabel>
                                         <div className="flex justify-center mt-4">
                                             <Badge variant="secondary">
-                                                20 $
+                                                {price} $
                                             </Badge>
                                         </div>
                                     </div>
@@ -248,39 +193,21 @@ export function SellReserve() {
                             {/* START STOPPAGE */}
                             <Card className="flex-1 flex flex-col">
                                 <CardHeader>
-                                    <h2 className="font-semibold">Stoppage</h2>
+                                    <h2 className="font-semibold">Details du trajet</h2>
                                 </CardHeader>
                                 <CardContent>
-                                    <FormField
-                                        control={form.control}
-                                        name="boarding"
-                                        render={({ field }) => (
-                                            <FormItem className="flex justify-between items-center space-x-8">
-                                                <FormLabel>Boarding</FormLabel>
-                                                <div className="flex-1">
-                                                    <FormControl>
-                                                        <Input placeholder="LUBUMBASHI TERMINAL - 09:00" {...field} />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </div>
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="dropping"
-                                        render={({ field }) => (
-                                            <FormItem className="flex justify-between items-center space-x-8">
-                                                <FormLabel>Dropping</FormLabel>
-                                                <div className="flex-1">
-                                                    <FormControl>
-                                                        <Input placeholder="KOLWEZI TERMINAL - 14:00" {...field} />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </div>
-                                            </FormItem>
-                                        )}
-                                    />
+                                    <div className="flex justify-between items-center space-x-8">
+                                        <FormLabel>Départ:</FormLabel>
+                                        <div className="flex-[0.7] flex justify-end min-w-[240px] p-2 border bg-zinc-100">
+                                            {schedule.route.from} - {format(start, "HH:mm")}
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-between items-center space-x-8 mt-2">
+                                        <FormLabel>Arrivée</FormLabel>
+                                        <div className="flex-[0.7] flex justify-end min-w-[240px] p-2 border bg-zinc-100">
+                                            {schedule.route.to} - {format(end, "HH:mm")}
+                                        </div>
+                                    </div>
                                 </CardContent>
                             </Card>
                             {/* END STOPPAGE */}
@@ -294,7 +221,7 @@ export function SellReserve() {
                                     <div className="flex justify-between items-center">
                                         <FormLabel>Total</FormLabel>
                                         <Badge variant="secondary">
-                                            20 $
+                                            {price} $
                                         </Badge>
                                     </div>
                                     <div className="flex justify-center mt-8">

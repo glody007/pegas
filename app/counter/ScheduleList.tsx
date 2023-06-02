@@ -155,7 +155,7 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ }) => {
                      
                     </DialogHeader>
                     <div className="mt-4">
-                      <SellReserve />
+                      
                     </div>
                   </DialogContentFull>
                 </Dialog>
