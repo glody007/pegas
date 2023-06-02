@@ -78,9 +78,9 @@ const ManifestCard: React.FC<ManifestCardProps> = ({ schedule }) => {
                         <div className="mt-1">
                             <Badge variant="secondary">{scheduleTravelTime(schedule)}</Badge> 
                         </div>
-                        <div className="text-xs text-gray-500 mt-2">Number of seats | Class</div>
+                        <div className="text-xs text-gray-500 mt-2">Sieges libres | Class</div>
                         <div className="mt-1 flex space-x-2">
-                            <Badge variant="secondary">{schedule.bus.numberOfSeats}</Badge> 
+                            <Badge variant="secondary">{schedule.availableSeats}</Badge> 
                             <Badge variant={schedule.bus.class.name === "vip" ? "default" : "secondary"}>
                                 {schedule.bus.class.name}
                             </Badge>
@@ -97,7 +97,7 @@ const ManifestCard: React.FC<ManifestCardProps> = ({ schedule }) => {
                     <div className="flex-1 flex flex-col justify-between items-end mt-2">
                     <Dialog open={openModal} onOpenChange={setOpenModal}>
                             <DialogTrigger asChild>
-                                <Button>
+                                <Button disabled={schedule.availableSeats <= 0}>
                                     Sell ticket
                                 </Button>
                             </DialogTrigger>

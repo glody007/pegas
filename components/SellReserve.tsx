@@ -119,6 +119,10 @@ export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
                     <p className="text-xs text-zinc-500">Heure</p>
                     <p className="text-xl">{format(start, "HH:mm")}</p>
                 </div>
+                <div>
+                    <p className="text-xs text-zinc-500">Sieges libres</p>
+                    <p className="text-xl">{schedule.availableSeats}</p>
+                </div>
             </div>
         </CardHeader>
         <CardContent>

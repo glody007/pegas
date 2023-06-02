@@ -30,6 +30,7 @@ import { User } from '@/lib/validators/user';
 import { Role } from '@/lib/validators/user';
 import { Schedule, ScheduleFull } from '@/lib/validators/schedule';
 import ScheduleForm from './form/ScheduleForm';
+import { scheduleTravelTime } from '@/lib/utils';
 
 interface ScheduleCardProps {
     schedule: ScheduleFull
@@ -72,9 +73,9 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({ schedule }) => {
                         </div>
                         <div className="text-xs text-gray-500 mt-2">Duration</div>
                         <div className="mt-1">
-                            <Badge variant="secondary">8h</Badge> 
+                            <Badge variant="secondary">{scheduleTravelTime(schedule)}</Badge> 
                         </div>
-                        <div className="text-xs text-gray-500 mt-2">Number of seats</div>
+                        <div className="text-xs text-gray-500 mt-2">Nombre des sieges</div>
                         <div className="mt-1">
                             <Badge variant="secondary">{schedule.bus.numberOfSeats}</Badge> 
                         </div>
