@@ -49,7 +49,7 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ }) => {
 
     const { data: responseRoute, error: errorRoute, isLoading: isLoadingRoute } = useQuery({
       queryFn: allRoutes,
-      queryKey: ["routes"]
+      queryKey: ["routes"],
     })
 
     const { data: responseBus, error: errorBus, isLoading: isLoadingBus } = useQuery({

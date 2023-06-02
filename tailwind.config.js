@@ -2,7 +2,7 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
+    '/pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}", // Tremor module
