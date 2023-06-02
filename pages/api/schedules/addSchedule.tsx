@@ -2,7 +2,7 @@ import { NextApiResponse, NextApiRequest } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import prisma from "@/prisma/client";
-import { ScheduleSchema } from "@/lib/validators/schedule";
+import { Schedule, ScheduleSchema } from "@/lib/validators/schedule";
 
 
 export default async function handler(
@@ -17,7 +17,7 @@ export default async function handler(
             errors: [{ message: "Please sign in" }]
         })
 
-        const schedule = req.body
+        const schedule: Schedule = req.body
         
         const validate = ScheduleSchema.safeParse(schedule)
 
@@ -31,9 +31,26 @@ export default async function handler(
             })
         }
 
+        const bus = await prisma.bus.findUnique({
+            where: {
+                id: schedule.busId
+            },
+            include: {
+                plan: true
+            }
+        })
+
+        if(!bus) {
+            return res.status(403).json({
+                success: false,
+                code: 403,
+                errors: [{ message: "Le bus n'existe pas" }]
+            })
+        }
+
         try {
             const result = await prisma.schedule.create({
-                data: schedule
+                data: {...schedule, availableSeats: bus.numberOfSeats}
             })
 
             res.status(201).json({
