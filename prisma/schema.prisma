@@ -96,11 +96,11 @@ model Schedule {
   id              String         @id @default(cuid())
   start           DateTime
   end             DateTime
-  driver          User           @relation(fields: [driverId], references: [id])
+  driver          User           @relation(fields: [driverId], references: [id], onDelete: Cascade)
   driverId        String
-  bus             Bus            @relation(fields: [busId], references: [id])
+  bus             Bus            @relation(fields: [busId], references: [id], onDelete: Cascade)
   busId           String
-  route           Route          @relation(fields: [routeId], references: [id])
+  route           Route          @relation(fields: [routeId], references: [id], onDelete: Cascade)
   routeId         String
   tickets         Ticket[]
 }
@@ -116,7 +116,7 @@ model Counter {
 model Ticket {
   id              String         @id @default(cuid())
   createdAt       DateTime       @default(now())
-  schedule        Schedule       @relation(fields: [scheduleId], references: [id])
+  schedule        Schedule       @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
   scheduleId      String 
   name            String
   email           String?
