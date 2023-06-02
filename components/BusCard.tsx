@@ -52,7 +52,7 @@ const BusCard: React.FC<BusCardProps> = ({ bus, classes }) => {
                 </div>
                 <div className="flex-[0.5] flex flex-col">
                     <div className="relative flex-1 border border-zinc-100 flex flex-col justify-between rounded-xs mt-2 p-4">
-                        <Image fill src={bus.photoUrl} alt="Bus image" />
+                        <Image fill objectFit="contain" src={bus.photoUrl} alt="Bus image" />
                     </div>
                 </div>
                 <div className="flex-1 flex flex-col">

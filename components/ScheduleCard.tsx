@@ -83,7 +83,7 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({ schedule }) => {
                 </div>
                 <div className="flex-1 flex flex-col">
                     <div className="relative flex-1 border border-zinc-100 flex flex-col justify-between rounded-xs mt-2 p-4">
-                        <Image fill src={schedule.bus.photoUrl} alt="Bus image" />
+                        <Image fill objectFit="contain" src={schedule.bus.photoUrl} alt="Bus image" />
                     </div>
                 </div>
 
