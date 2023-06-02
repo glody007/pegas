@@ -21,7 +21,7 @@ export function TicketMiniBack({ ticket }: TicketMiniBackProps) {
                     </div>
                     <div className="flex flex-col items-end">
                         <p className="text-xs text-gray-500">Seat</p>
-                        <h2>A2</h2>
+                        <h2>{ticket.seat}</h2>
                     </div>
                 </div>
             </div>

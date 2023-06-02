@@ -49,6 +49,7 @@ import { useMutation, useQueryClient } from "react-query"
 import axios, { AxiosError } from "axios"
 import toast from "react-hot-toast"
 import { useState } from "react"
+import { TicketDetails } from "./TicketDetails"
   
 
 interface SellReserveProps {
@@ -58,6 +59,32 @@ interface SellReserveProps {
 
 export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
   const [isDisabled, setIsDisabled] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [ticket, setTicket] = useState({
+        name: "Kaido",
+        scheduleId: "minks",
+        createdAt: new Date(),
+        email: "kizaru@cp.com",
+        seat: "Marin ford",
+        schedule: {
+        id: "minks",
+        start: new Date(),
+        end: new Date(),
+        bus: {
+            id: "chapeau de paille",
+            name: "Mobidik",
+            class: {
+            id: "cl",
+            name: "vip"
+            }
+        },
+        route: {
+            id: "grande line",
+            from: "Cap des jumeaux",
+            to: "Laugh tale"
+        }
+        }
+  })
   let toastAddId: string
 
   const queryClient = useQueryClient()
@@ -88,7 +115,8 @@ export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
             toast.success("Achat effectué avec succès👏", { id: toastAddId })
             setIsDisabled(false)
             queryClient.invalidateQueries(["schedules", "tickets"])
-            if(handleSuccess) handleSuccess(response.data.data)
+            setSuccess(true)
+            //if(handleSuccess) handleSuccess(response.data.data)
         }
     }
   )
@@ -100,7 +128,8 @@ export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
   }
 
   return (
-    <div>
+    <>
+    {!success ? (<div>
         <CardHeader>
             <div className="flex space-x-8">
                 <div>
@@ -252,6 +281,8 @@ export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
                 </form>
             </Form>
         </CardContent>
-    </div>
+    </div>) : (<TicketDetails ticket={ticket} />)
+    }
+    </>
   )
 }

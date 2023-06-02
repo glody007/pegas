@@ -84,7 +84,8 @@ export default async function handler(
                             bus: {
                                 select: {
                                     id: true,
-                                    name: true
+                                    name: true,
+                                    class: true
                                 }
                             }
                         }

@@ -22,7 +22,7 @@ export function TicketDetails({ ticket, handleSuccess }: TicketDetailsProps) {
         <TabsTrigger value="A4">A4</TabsTrigger>
       </TabsList>
       <TabsContent value="mini">
-        <div className="flex flex-col py-4 space-y-4">
+        <div className="flex flex-col py-8 space-y-8">
             <TicketMiniFront ticket={ticket} />
             <TicketMiniBack ticket={ticket} />
         </div>

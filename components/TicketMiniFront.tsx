@@ -8,6 +8,7 @@ interface TicketMiniFrontProps {
 }
 
 export function TicketMiniFront({ ticket }: TicketMiniFrontProps) {
+    console.log(ticket)
 
   return (
     <div className="w-[800px] h-[260] flex flex-col border rounded-xl">
@@ -22,11 +23,11 @@ export function TicketMiniFront({ ticket }: TicketMiniFrontProps) {
                 </div>
                 <div className="flex flex-col">
                     <p className="text-xs text-gray-500">Boarding pass</p>
-                    <h2 className="text-white">CLASS</h2>
+                    <h2 className="text-white">{ticket.schedule.bus.class.name.toUpperCase()}</h2>
                 </div>
                 <div className="flex flex-col">
                     <p className="text-xs text-gray-500">Seat</p>
-                    <h2 className="text-white">12A</h2>
+                    <h2 className="text-white">{ticket.seat}</h2>
                 </div>
             </div>
             <div className="flex justify-between flex-[0.4] px-4 py-2">
@@ -36,7 +37,7 @@ export function TicketMiniFront({ ticket }: TicketMiniFrontProps) {
                 </div>
                 <div className="flex flex-col items-end">
                     <p className="text-xs text-gray-500">Seat</p>
-                    <h2 className="text-white">A2</h2>
+                    <h2 className="text-white">{ticket.seat}</h2>
                 </div>
             </div>
         </div>

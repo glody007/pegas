@@ -41,33 +41,11 @@ interface ScheduleListProps {
   
 }
 
-const ticket: TicketFull = {
-  name: "Kaido",
-  scheduleId: "minks",
-  createdAt: new Date(),
-  email: "kizaru@cp.com",
-  seat: "Marin ford",
-  schedule: {
-    id: "minks",
-    start: new Date(),
-    end: new Date(),
-    bus: {
-      id: "chapeau de paille",
-      name: "Mobidik"
-    },
-    route: {
-      id: "grande line",
-      from: "Cap des jumeaux",
-      to: "Laugh tale"
-    }
-  }
-}
-
 const  ScheduleList: React.FC<ScheduleListProps> = ({ }) => {
     const [from, setFrom] = useState("")
     const [to, setTo] = useState("")
     const [date, setDate] = useState<Date | undefined>(undefined)
-    const [openModal, setOpenModal] = useState(true)
+    const [openModal, setOpenModal] = useState(false)
 
     const { data: responseRoute, error: errorRoute, isLoading: isLoadingRoute } = useQuery({
       queryFn: allRoutes,
@@ -167,16 +145,7 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ }) => {
                     </PopoverContent>
                 </Popover>
               </div>
-                <Dialog open={openModal} onOpenChange={setOpenModal}>
-                  <DialogContentFull>
-                    <DialogHeader>
-                     
-                    </DialogHeader>
-                    <div className="mt-4">
-                      <TicketDetails ticket={ticket} handleSuccess={handleSuccess} />
-                    </div>
-                  </DialogContentFull>
-                </Dialog>
+                
               </div>
               <div className="rounded-md space-y-4">
                 {filteredData.map(schedule => (

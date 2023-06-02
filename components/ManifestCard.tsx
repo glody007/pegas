@@ -27,6 +27,7 @@ import { ScheduleFull } from '@/lib/validators/schedule';
 import { SellReserve } from './SellReserve';
 import { scheduleTravelTime, ticketPrice } from '@/lib/utils';
 import { TicketFull } from '@/lib/validators/ticket';
+import { TicketDetails } from './TicketDetails';
 
 interface ManifestCardProps {
     schedule: ScheduleFull
@@ -34,13 +35,14 @@ interface ManifestCardProps {
 
 const ManifestCard: React.FC<ManifestCardProps> = ({ schedule }) => {
     const [openModal, setOpenModal] = useState(false)
+    const [openModalTicket, setOpenModalTicket] = useState(false)
 
     const start = new Date(schedule.start)
     const end = new Date(schedule.end)
 
     const handleSuccess = (ticket: TicketFull) => {
         setOpenModal(false)
-        console.log(ticket)
+        setTicket(ticket)
     }
 
     return (
@@ -89,7 +91,7 @@ const ManifestCard: React.FC<ManifestCardProps> = ({ schedule }) => {
                 </div>
                 <div className="flex-1 flex flex-col">
                     <div className="relative flex-1 border border-zinc-100 flex flex-col justify-between rounded-xs mt-2 p-4">
-                        <Image fill src={schedule.bus.photoUrl} alt="Bus image" />
+                        <Image fill objectFit='contain'  src={schedule.bus.photoUrl} alt="Bus image" />
                     </div>
                 </div>
 
@@ -108,6 +110,16 @@ const ManifestCard: React.FC<ManifestCardProps> = ({ schedule }) => {
                                 <div className="min-w-[300px]">
                                     <SellReserve schedule={schedule} handleSuccess={handleSuccess} />
                                 </div>  
+                            </DialogContentFull>
+                        </Dialog>
+                        <Dialog open={openModalTicket} onOpenChange={setOpenModalTicket}>
+                            <DialogContentFull>
+                                <DialogHeader>
+                                
+                                </DialogHeader>
+                                <div className="mt-4">
+    
+                                </div>
                             </DialogContentFull>
                         </Dialog>
                         <Dialog>

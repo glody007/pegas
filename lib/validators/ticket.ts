@@ -2,6 +2,7 @@ import {z} from "zod"
 import { BusFullSchema, BusSchema } from "./bus"
 import { RouteSchema } from "./route"
 import { UserSchema } from "./user"
+import { ClassSchema } from "./class"
 
 const DriverMinimumSchema = z.object({
     id: z.string().min(1, {
@@ -19,6 +20,7 @@ const BusMinimumSchema = z.object({
     name: z.string().min(1, {
         message: "Nom obligatoire"
     }),
+    class: ClassSchema
 })
 
 const RouteMinimumSchema = z.object({
