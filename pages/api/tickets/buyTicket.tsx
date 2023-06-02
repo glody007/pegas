@@ -4,7 +4,9 @@ import { authOptions } from "../auth/[...nextauth]";
 import prisma from "@/prisma/client";
 import { Ticket, TicketSchema } from "@/lib/validators/ticket";
 import { ScheduleFull } from "@/lib/validators/schedule";
-import { ticketPrice } from "@/lib/utils";
+import { scheduleTravelTime, ticketPrice } from "@/lib/utils";
+import { CourierClient } from "@trycourier/courier";
+import { format } from "date-fns";
 
 export default async function handler(
     req: NextApiRequest,
@@ -100,6 +102,26 @@ export default async function handler(
                     }
                 }
             })
+
+            if(ticket.email) {
+                const courier = CourierClient({ authorizationToken: process.env.COURIER_API_KEY });
+                const { requestId } = await courier.send({
+                    message: {
+                      to: {
+                        "email": ticket.email
+                      },
+                      template: "PT724M87A2M60AQND5WNQ0AZPVPB",
+                      data: {
+                        nom: ticket.name,
+                        duration: scheduleTravelTime(schedule),
+                        date: format(schedule.start, "dd/MM/yyyy"),
+                        heure: format(schedule.start, "HH:mm"),
+                        trajet: `${schedule.route.from}-${schedule.route.to}`,
+                        prix: price
+                      },
+                    },
+                });
+            }
 
             res.status(201).json({
                 success: true,
