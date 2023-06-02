@@ -93,8 +93,8 @@ export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
                     <p className="text-xl text-blue-500">{schedule.route.from}-{schedule.route.to}</p>
                 </div>
                 <div>
-                    <p className="text-xs text-zinc-500">Bus No</p>
-                    <p className="text-xl">{schedule.bus.name}</p>
+                    <p className="text-xs text-zinc-500">Bus</p>
+                    <p className="text-xl">{schedule.bus.name} | {schedule.bus.class.name.toUpperCase()}</p>
                 </div>
                 <div>
                     <p className="text-xs text-zinc-500">Date</p>
