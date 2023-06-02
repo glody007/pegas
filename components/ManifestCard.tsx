@@ -25,6 +25,7 @@ import {
 import { MoreVertical } from 'lucide-react';
 import { ScheduleFull } from '@/lib/validators/schedule';
 import { SellReserve } from './SellReserve';
+import { scheduleTravelTime, ticketPrice } from '@/lib/utils';
 
 interface ManifestCardProps {
     schedule: ScheduleFull
@@ -62,11 +63,11 @@ const ManifestCard: React.FC<ManifestCardProps> = ({ schedule }) => {
                         <div className="text-xs text-gray-500">Route | Prix</div>
                         <div className="mt-1 flex space-x-2">
                             <Badge variant="secondary">{schedule.route.from}-{schedule.route.to}</Badge> 
-                            <Badge variant="secondary">20$</Badge> 
+                            <Badge variant="secondary">{ticketPrice(schedule)}$</Badge> 
                         </div>
                         <div className="text-xs text-gray-500 mt-2">Duration</div>
                         <div className="mt-1">
-                            <Badge variant="secondary">8h</Badge> 
+                            <Badge variant="secondary">{scheduleTravelTime(schedule)}</Badge> 
                         </div>
                         <div className="text-xs text-gray-500 mt-2">Number of seats</div>
                         <div className="mt-1">
