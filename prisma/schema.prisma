@@ -74,8 +74,8 @@ model Bus {
   brand           String
   numberOfSeats   Int
   photoUrl        String
-  class           Class?         @relation(fields: [classId], references: [id])
-  classId         String?
+  class           Class          @relation(fields: [classId], references: [id])
+  classId         String
   plan            Plan           @relation(fields: [planId], references: [id])
   planId          String
   schedules       Schedule[]
