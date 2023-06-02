@@ -118,7 +118,8 @@ export default async function handler(
                         date: format(schedule.start, "dd/MM/yyyy"),
                         heure: format(schedule.start, "HH:mm"),
                         trajet: `${schedule.route.from}-${schedule.route.to}`,
-                        prix: price
+                        prix: price,
+                        lienQR: `${process.env.VERIFICATION_URL}${result.id}`
                       },
                     },
                 });
