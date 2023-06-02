@@ -18,6 +18,9 @@ export default async function handler(
             const data = await prisma.bus.findUnique({
                 where: {
                     id: query.busId
+                },
+                include: {
+                    class: true
                 }
             })
 

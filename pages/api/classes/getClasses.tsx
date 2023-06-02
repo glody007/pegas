@@ -10,17 +10,7 @@ export default async function handler(
     const session = true //await getServerSession(req, res, authOptions)
     if(req.method === "GET") {
         try {
-            const data = await prisma.schedule.findMany({
-                include: {
-                    driver: true,
-                    route: true,
-                    bus: {
-                        include: {
-                            class: true
-                        }
-                    }
-                }
-            })
+            const data = await prisma.class.findMany()
             res.status(200).json({
                 success: true,
                 code: 200,
@@ -31,7 +21,7 @@ export default async function handler(
             res.status(403).json({
                 success: false,
                 code: 403,
-                errors: [{ message: "Error fetching schedules" }]
+                errors: [{ message: "Error fetching classes" }]
             })
         }  
     }

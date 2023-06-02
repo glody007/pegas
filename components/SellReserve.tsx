@@ -32,7 +32,7 @@ import {
     SelectLabel,
     SelectGroup
 } from "@/components/ui/select"
-import { cn } from "@/lib/utils"
+import { cn, ticketPrice } from "@/lib/utils"
 import {
     Card,
     CardContent,
@@ -66,9 +66,7 @@ interface SellReserveProps {
 export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
   const start = new Date(schedule.start)
   const end = new Date(schedule.end)
-  const routePrice = 20
-  const busTypeMultiplicationFactor = 1.5
-  const price = routePrice * busTypeMultiplicationFactor
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -180,7 +178,7 @@ export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
                                         <FormLabel>Amount</FormLabel>
                                         <div className="flex justify-center mt-4">
                                             <Badge variant="secondary">
-                                                {price} $
+                                                {ticketPrice(schedule)} $
                                             </Badge>
                                         </div>
                                     </div>
@@ -221,7 +219,7 @@ export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
                                     <div className="flex justify-between items-center">
                                         <FormLabel>Total</FormLabel>
                                         <Badge variant="secondary">
-                                            {price} $
+                                            {ticketPrice(schedule)} $
                                         </Badge>
                                     </div>
                                     <div className="flex justify-center mt-8">

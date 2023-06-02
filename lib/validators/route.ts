@@ -8,6 +8,9 @@ export const RouteSchema = z.object({
     to: z.string().min(1, {
       message: "To is required.",
     }),
+    price: z.number().min(1, {
+      message: "Price is required.",
+    }),
     duration: z.number().min(2, {
       message: "Duration is required.",
     }),

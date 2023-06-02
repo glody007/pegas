@@ -24,12 +24,14 @@ import { useMutation, useQueryClient } from "react-query"
 import axios, { AxiosError } from "axios"
 import toast from "react-hot-toast"
 import { useState } from "react"
+import { Class } from "@/lib/validators/class"
 
 interface BusFormProps {
+    classes: Class[],
     handleSuccess?: () => void
 }
 
-export default function BusForm({ handleSuccess }: BusFormProps) {
+export default function BusForm({ classes, handleSuccess }: BusFormProps) {
     const [isDisabled, setIsDisabled] = useState(false)
     let toastAddId: string
 
@@ -40,6 +42,7 @@ export default function BusForm({ handleSuccess }: BusFormProps) {
         defaultValues: {
             name: "",
             brand: "",
+            classId: "",
             planId: "",
             photoUrl: "",
             numberOfSeats: 0
@@ -144,6 +147,29 @@ export default function BusForm({ handleSuccess }: BusFormProps) {
                                     <FormControl>
                                         <Input placeholder="https://" {...field} />
                                     </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="classId"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Class</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={String(field.value)}>
+                                        <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a bus" />
+                                        </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {classes.map((value, index) => (
+                                                <SelectItem key={index} value={value.id || String(index)}>{value.name}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                     <FormMessage />
                                 </FormItem>
                             )}

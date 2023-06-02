@@ -20,6 +20,8 @@ import BusForm from "@/components/form/BusForm"
 import { useQuery } from "react-query"
 import { SkeletonTable } from "@/components/SkeletonTable"
 import { allBuses } from "@/service/bus"
+import { Class } from "@/lib/validators/class"
+import { allClasses } from "@/service/class"
 
 interface FleetProps {
 
@@ -30,16 +32,26 @@ const  BusList = ({ }: FleetProps) => {
     const [brand, setBrand] = useState("")
     const [openModal, setOpenModal] = useState(false)
 
-    const { data: response, error, isLoading } = useQuery({
+    const { data: responseBuses, error: errorBuses, isLoading: isLoadingBuses } = useQuery({
       queryFn: allBuses,
       queryKey: ["buses"]
     })
+
+    const { data: responseClasses, error: errorClasses, isLoading: isLoadingClasses } = useQuery({
+      queryFn: allClasses,
+      queryKey: ["classes"]
+    })
+
+    const error = errorBuses || errorClasses
+    const isLoading = isLoadingBuses || isLoadingClasses
 
     if(error) return <>error...</>
 
     if(isLoading) return <SkeletonTable />
 
-    const buses: Bus[] = response.data
+    const buses: Bus[] = responseBuses.data
+    const classes: Class[] = responseClasses.data
+
     const filteredData = buses.filter(bus => (
       bus.name.toLowerCase().includes(name.toLowerCase()) &&
       bus.brand.toLowerCase().includes(brand.toLowerCase()) 
@@ -83,14 +95,14 @@ const  BusList = ({ }: FleetProps) => {
                       </DialogDescription>
                     </DialogHeader>
                     <div className="mt-4">
-                      <BusForm handleSuccess={handleSuccess} />
+                      <BusForm classes={classes} handleSuccess={handleSuccess} />
                     </div>
                   </DialogContentFull>
                 </Dialog>
               </div>
               <div className="rounded-md space-y-4">
                 {filteredData.map(bus => (
-                  <BusCard bus={bus} />
+                  <BusCard bus={bus} classes={classes} />
                 ))}
               </div>
         </>

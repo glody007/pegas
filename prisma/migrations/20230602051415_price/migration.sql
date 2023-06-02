@@ -1,0 +1,22 @@
+-- AlterTable
+ALTER TABLE "Bus" ADD COLUMN     "classId" TEXT;
+
+-- AlterTable
+ALTER TABLE "Route" ADD COLUMN     "price" DOUBLE PRECISION NOT NULL DEFAULT 10;
+
+-- AlterTable
+ALTER TABLE "Ticket" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN     "email" TEXT,
+ALTER COLUMN "price" SET DATA TYPE DOUBLE PRECISION;
+
+-- CreateTable
+CREATE TABLE "Class" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL DEFAULT 'classic',
+    "priceFactor" DOUBLE PRECISION NOT NULL DEFAULT 1,
+
+    CONSTRAINT "Class_pkey" PRIMARY KEY ("id")
+);
+
+-- AddForeignKey
+ALTER TABLE "Bus" ADD CONSTRAINT "Bus_classId_fkey" FOREIGN KEY ("classId") REFERENCES "Class"("id") ON DELETE SET NULL ON UPDATE CASCADE;

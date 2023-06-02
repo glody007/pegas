@@ -61,12 +61,21 @@ model Plan {
   buses       Bus[]
 }
 
+model Class {
+  id              String         @id @default(cuid())
+  name            String         @default("classic")
+  priceFactor     Float          @default(1)
+  buses           Bus[]
+}
+
 model Bus {
   id              String         @id @default(cuid())
   name            String         @unique
   brand           String
   numberOfSeats   Int
   photoUrl        String
+  class           Class?         @relation(fields: [classId], references: [id])
+  classId         String?
   plan            Plan           @relation(fields: [planId], references: [id])
   planId          String
   schedules       Schedule[]
@@ -78,6 +87,7 @@ model Route {
   from            String   
   to              String
   duration        Int
+  price           Float          @default(10)
   stops           String[]
   schedules       Schedule[]
 }
@@ -105,10 +115,12 @@ model Counter {
 
 model Ticket {
   id              String         @id @default(cuid())
+  createdAt       DateTime       @default(now())
   schedule        Schedule       @relation(fields: [scheduleId], references: [id])
   scheduleId      String 
   name            String
-  price           Int
+  email           String?
+  price           Float
   seat            String
 }
 

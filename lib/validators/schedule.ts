@@ -1,5 +1,5 @@
 import {z} from "zod"
-import { BusSchema } from "./bus"
+import { BusFullSchema, BusSchema } from "./bus"
 import { RouteSchema } from "./route"
 import { UserSchema } from "./user"
 
@@ -19,7 +19,7 @@ export const ScheduleFullSchema = z.object({
     driverId: z.string().min(1, { message: "Driver obligatoire"}),
     driver: UserSchema,
     busId: z.string().min(1, { message: "Driver obligatoire"}),
-    bus: BusSchema,
+    bus: BusFullSchema,
     routeId: z.string().min(1, { message: "Driver obligatoire"}),
     route: RouteSchema
 })

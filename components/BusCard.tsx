@@ -24,12 +24,14 @@ import {
 import { Bus } from '@/lib/validators/bus';
 import { MoreVertical } from 'lucide-react';
 import BusForm from './form/BusForm';
+import { Class } from '@/lib/validators/class';
 
 interface BusCardProps {
-    bus: Bus
+    bus: Bus,
+    classes?: Class[]
 }
 
-const BusCard: React.FC<BusCardProps> = ({ bus }) => {
+const BusCard: React.FC<BusCardProps> = ({ bus, classes }) => {
     return (
         <Card>
             <CardContent className="flex mt-4 h-40 space-x-4">
@@ -92,7 +94,7 @@ const BusCard: React.FC<BusCardProps> = ({ bus }) => {
                                 <DialogTitle className="pl-6"></DialogTitle>
                             </DialogHeader>
                             <div className="min-w-[300px]">
-                                <BusForm /> 
+                                <BusForm classes={classes || []} /> 
                             </div>  
                             </DialogContentFull>
                         </Dialog>

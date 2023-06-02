@@ -85,6 +85,7 @@ export default function RouteForm({ handleSuccess }: RouteFormProps) {
         defaultValues: {
             from: "",
             to: "",
+            price: 10,
             duration: 0,
             stops: []
         },
@@ -200,6 +201,29 @@ export default function RouteForm({ handleSuccess }: RouteFormProps) {
                                                     handleSelect={(item) => {field.onChange(item?.value)}}
                                                 />
                                             </div>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="price"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Price($)</FormLabel>
+                                        <FormControl>
+                                            <Input 
+                                                placeholder="10" {...field} 
+                                                onChange={(e) =>
+                                                    field.onChange(
+                                                        Number.isNaN(parseFloat(e.target.value))
+                                                        ? 0
+                                                        : parseFloat(e.target.value)
+                                                    )
+                                                }
+                                            />
+                                        </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
