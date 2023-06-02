@@ -96,6 +96,7 @@ model Schedule {
   id              String         @id @default(cuid())
   start           DateTime
   end             DateTime
+  availableSeats  Int            @default(0)
   driver          User           @relation(fields: [driverId], references: [id], onDelete: Cascade)
   driverId        String
   bus             Bus            @relation(fields: [busId], references: [id], onDelete: Cascade)

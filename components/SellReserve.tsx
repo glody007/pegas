@@ -44,44 +44,59 @@ import {
 import SeatsPreview from "./SeatsPreview"
 import { Badge } from "@/components/ui/badge"
 import { ScheduleFull } from "@/lib/validators/schedule"
+import { Ticket, TicketFull, TicketSchema } from "@/lib/validators/ticket"
+import { useMutation, useQueryClient } from "react-query"
+import axios, { AxiosError } from "axios"
+import toast from "react-hot-toast"
+import { useState } from "react"
   
-
-const formSchema = z.object({
-  seat: z.string().min(1, {
-    message: "Siege obligatoire",
-  }),
-  email: z.string().email({
-    message: "Email invalide.",
-  }),
-  name: z.string().min(2, {
-    message: "Nom obligatoire.",
-  })
-})
 
 interface SellReserveProps {
     schedule: ScheduleFull,
-    handleSuccess?: () => void
+    handleSuccess?: (ticket: TicketFull) => void
 }
 
 export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
+  const [isDisabled, setIsDisabled] = useState(false)
+  let toastAddId: string
+
+  const queryClient = useQueryClient()
+
   const start = new Date(schedule.start)
   const end = new Date(schedule.end)
 
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<Ticket>({
+    resolver: zodResolver(TicketSchema),
     defaultValues: {
         seat: "",
         email: "",
-        name: ""
+        name: "",
+        scheduleId: schedule.id 
     },
   })
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  const {mutate} = useMutation(
+    async (ticket: Ticket) => await axios.post('/api/tickets/buyTicket', ticket),
+    {
+        onError: (error) => {
+            if(error instanceof AxiosError) {
+                toast.error(error?.response?.data.errors[0].message, {id: toastAddId})
+            }
+            setIsDisabled(false)
+        },
+        onSuccess: (response) => {
+            toast.success("Achat effectué avec succès👏", { id: toastAddId })
+            setIsDisabled(false)
+            queryClient.invalidateQueries(["schedules", "tickets"])
+            if(handleSuccess) handleSuccess(response.data.data)
+        }
+    }
+  )
+
+  function onSubmit(values: Ticket) {
+    toastAddId = toast.loading("Achat en cours", { id: toastAddId })
+    setIsDisabled(true)
+    mutate(values)
   }
 
   return (
@@ -223,7 +238,7 @@ export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
                                         </Badge>
                                     </div>
                                     <div className="flex justify-center mt-8">
-                                        <Button size="lg" color="blue-500">Confirmer</Button>
+                                        <Button disabled={isDisabled} size="lg" color="blue-500">Confirmer</Button>
                                     </div>
                                 </CardContent>
                             </div>

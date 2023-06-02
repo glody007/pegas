@@ -16,6 +16,7 @@ export const ScheduleFullSchema = z.object({
     id: z.string().optional(),
     start: z.coerce.date(),
     end: z.coerce.date(),
+    availableSeats: z.number(),
     driverId: z.string().min(1, { message: "Driver obligatoire"}),
     driver: UserSchema,
     busId: z.string().min(1, { message: "Driver obligatoire"}),

@@ -34,6 +34,7 @@ import { cn, dateAreEquals } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
+import { TicketFull } from "@/lib/validators/ticket"
 
 interface ScheduleListProps {
   
@@ -65,10 +66,6 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ }) => {
       queryKey: ["schedules"]
     })
 
-    const handleSuccess = () => {
-      setOpenModal(false)
-    }
-
     const isLoading = isLoadingBus || isLoadingRoute || isLoadingUser || isLoadingSchedule
     const error = errorBus || errorRoute || errorUser || errorSchedule
 
@@ -93,6 +90,11 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ }) => {
           setDate(undefined)
         }
         setDate(selected as Date)
+    }
+
+    const handleSuccess = (ticket: TicketFull) => {
+      //setOpenModal(false)
+      console.log(ticket)
     }
 
     return (

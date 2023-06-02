@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { format } from "date-fns"
 import { Card, CardContent } from "@/components/ui/card"
@@ -26,14 +26,23 @@ import { MoreVertical } from 'lucide-react';
 import { ScheduleFull } from '@/lib/validators/schedule';
 import { SellReserve } from './SellReserve';
 import { scheduleTravelTime, ticketPrice } from '@/lib/utils';
+import { TicketFull } from '@/lib/validators/ticket';
 
 interface ManifestCardProps {
     schedule: ScheduleFull
 }
 
 const ManifestCard: React.FC<ManifestCardProps> = ({ schedule }) => {
+    const [openModal, setOpenModal] = useState(false)
+
     const start = new Date(schedule.start)
     const end = new Date(schedule.end)
+
+    const handleSuccess = (ticket: TicketFull) => {
+        setOpenModal(false)
+        console.log(ticket)
+    }
+
     return (
         <Card>
             <CardContent className="flex mt-4 space-x-4">
@@ -86,7 +95,7 @@ const ManifestCard: React.FC<ManifestCardProps> = ({ schedule }) => {
 
                 <div className="flex-[0.5] flex flex-col justify-between">
                     <div className="flex-1 flex flex-col justify-between items-end mt-2">
-                    <Dialog>
+                    <Dialog open={openModal} onOpenChange={setOpenModal}>
                             <DialogTrigger asChild>
                                 <Button>
                                     Sell ticket
@@ -97,7 +106,7 @@ const ManifestCard: React.FC<ManifestCardProps> = ({ schedule }) => {
                                     <DialogTitle className="pl-6"></DialogTitle>
                                 </DialogHeader>
                                 <div className="min-w-[300px]">
-                                    <SellReserve schedule={schedule} />
+                                    <SellReserve schedule={schedule} handleSuccess={handleSuccess} />
                                 </div>  
                             </DialogContentFull>
                         </Dialog>

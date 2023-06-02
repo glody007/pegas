@@ -28,7 +28,6 @@ function formatTraveTimePart(name: String, number: Number) {
 }
 
 export function scheduleTravelTime(schedule: ScheduleFull) {
- 
   const DAY_TO_MINUTE = 24 * 60
   const HOUR_TO_MINUTE = 60
   const days = Math.floor(schedule.route.duration / DAY_TO_MINUTE)
