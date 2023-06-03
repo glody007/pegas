@@ -11,6 +11,11 @@ export default async function handler(
     if(req.method === "GET") {
         try {
             const data = await prisma.ticket.findMany({
+                orderBy: {
+                    schedule: {
+                        start: 'asc'
+                    }
+                },
                 include: {
                     schedule: {
                         include: {

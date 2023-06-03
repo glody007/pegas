@@ -10,7 +10,11 @@ export default async function handler(
     const session = true //await getServerSession(req, res, authOptions)
     if(req.method === "GET") {
         try {
-            const data = await prisma.user.findMany()
+            const data = await prisma.user.findMany({
+                orderBy: {
+                    name: 'asc'
+                }
+            })
             res.status(200).json({
                 success: true,
                 code: 200,

@@ -11,6 +11,9 @@ export default async function handler(
     if(req.method === "GET") {
         try {
             const data = await prisma.bus.findMany({
+                orderBy: {
+                    name: 'asc'
+                },
                 include: {
                     class: true
                 }
