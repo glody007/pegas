@@ -4,8 +4,16 @@ import React from "react";
 import Chart from "chart.js";
 import { ChartConfiguration } from "chart.js";
 import { format } from "date-fns";
+import { allRoutes } from "@/service/route";
+import { SkeletonCard } from "../SkeletonCard";
+import { useQuery } from "react-query";
 
 export default function RouteUsage() {
+  const { data: response, error, isLoading } = useQuery({
+    queryFn: allRoutes,
+    queryKey: ["routes"]
+  })
+
   React.useEffect(() => {
     let config: ChartConfiguration = {
       type: "doughnut",
@@ -27,9 +35,19 @@ export default function RouteUsage() {
       }
     };
     const canvas = document.getElementById("doughnut") as HTMLCanvasElement
-    let ctx = canvas.getContext("2d");
+    let ctx = canvas?.getContext("2d");
     if(ctx) window.myDoughnut = new Chart(ctx, config);
-  }, []);
+  }, [response, error, isLoading]);
+
+  if(isLoading) return (
+    <div className="h-full w-full">
+      <SkeletonCard />
+      <div className="w-[0px] h-[0px]">
+        <canvas id="doughnut"></canvas>
+      </div>
+    </div>
+  )
+
   return (
       <div className="relative flex flex-col min-w-0 break-words bg-white w-full h-full mb-6 shadow-lg rounded">
         <div className="rounded-t mb-0 px-4 py-3 bg-transparent">

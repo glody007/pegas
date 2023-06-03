@@ -15,6 +15,7 @@ import {
 import { Card } from "@tremor/react"
 import { Icon } from "@tremor/react"
 import User from "@/components/chart/user"
+import Ticket from "@/components/chart/ticket"
 
 export default function Home() {
   return (
@@ -26,13 +27,13 @@ export default function Home() {
             <RouteUsage />
         </div>
         <div className="rounded-xl">
-            <Counter />
+            <Ticket />
         </div>
         <div className="rounded-xl">
             <Fleet />
         </div>
         <div className="rounded-xl">
-            <Departure />
+            <Counter />
         </div>
         <div className="rounded-xl">
             <User />

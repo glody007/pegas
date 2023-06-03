@@ -1,13 +1,7 @@
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { format } from "date-fns";
+'use client'
+import { allRoutes } from "@/service/route"
+import { useQuery } from "react-query"
+import { SkeletonCard } from "./SkeletonCard"
 
 export type Notification = {
     id: number
@@ -54,6 +48,15 @@ const data: Array<Notification> = [
 ] 
 
 export default function Notifications() {
+    const { data, error, isLoading } = useQuery({
+    queryFn: allRoutes,
+    queryKey: ["routes"]
+    })
+
+    if(error) return <>error...</>
+
+    if(isLoading) return <div className="h-[400px]"><SkeletonCard /></div>
+
     return (
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700">
         <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
@@ -69,7 +72,7 @@ export default function Notifications() {
         <div className="p-4 flex-auto">
           {/* Chart */}
           <div className="relative h-[400px] space-y-2">
-            {data.map((notification) => (
+            {data.map((notification: Notification) => (
                 <div className="flex items-center space-x-2">
                     <div className={`w-2 h-2 rounded-full ${notification.state === "pending" ? `bg-green-400` : `bg-red-400`}`}></div>
                     <div className="text-gray text-xs">{notification.message}</div>

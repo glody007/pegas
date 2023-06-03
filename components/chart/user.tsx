@@ -1,5 +1,18 @@
+'use client'
+
+import { allUsers } from "@/service/user"
+import { useQuery } from "react-query"
+import { SkeletonCard } from "../SkeletonCard"
 
 export default function User() {
+    const { data: response, error, isLoading } = useQuery({
+      queryFn: allUsers,
+      queryKey: ["users"]
+    })
+
+    if(error) return <>error...</>
+
+    if(isLoading) return <SkeletonCard />
     return (
         <div className="relative flex flex-col min-w-0 break-words w-full h-full mb-6 shadow-lg rounded bg-blueGray-700">
         <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
@@ -11,7 +24,7 @@ export default function User() {
         </div>
         <div className="px-4">
             <div className="text-2xl font-bold text-red-400">
-                50
+                {response.data.length}
             </div>
             <div className="text-xs text-gray-500 mt-2">
                 This month

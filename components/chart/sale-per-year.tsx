@@ -4,8 +4,17 @@ import React from "react";
 import Chart from "chart.js";
 import { ChartConfiguration } from "chart.js";
 import { format } from "date-fns";
+import { allUsers } from "@/service/user";
+import { useQuery } from "react-query";
+import { SkeletonCard } from "../SkeletonCard";
+import { allTickets } from "@/service/tickets";
 
 export default function SalePerYear() {
+  const { data: response, error, isLoading } = useQuery({
+    queryFn: allTickets,
+    queryKey: ["tickets"]
+  })
+
   React.useEffect(() => {
     let config: ChartConfiguration = {
       type: "bar",
@@ -21,7 +30,7 @@ export default function SalePerYear() {
         ],
         datasets: [
           {
-            label: format(new Date().getFullYear(), "dd/MM/yyyy"),
+            label: format(new Date(2022, 1, 1), "dd/MM/yyyy"),
             backgroundColor: "#4a5568",
             borderColor: "#4a5568",
             data: [30, 78, 56, 34, 100, 45, 13],
@@ -29,7 +38,7 @@ export default function SalePerYear() {
             barThickness: 8,
           },
           {
-            label: format(new Date().getFullYear()-1, "dd/MM/yyyy"),
+            label: format(new Date(), "dd/MM/yyyy"),
             fill: false,
             backgroundColor: "#3182ce",
             borderColor: "#3182ce",
@@ -100,9 +109,21 @@ export default function SalePerYear() {
       },
     };
     const canvas = document.getElementById("bar-chart") as HTMLCanvasElement
-    let ctx = canvas.getContext("2d");
+    let ctx = canvas?.getContext("2d");
     if(ctx) window.myBar = new Chart(ctx, config);
-  }, []);
+  }, [response, error, isLoading]);
+
+  if(error) return <>error...</>
+
+  if(isLoading) return (
+    <div className="h-full w-full">
+      <SkeletonCard />
+      <div className="w-[0px] h-[0px]">
+        <canvas id="bar-chart"></canvas>
+      </div>
+    </div>
+  )
+
   return (
       <div className="relative flex flex-col min-w-0 break-words bg-white w-full h-full mb-6 shadow-lg rounded">
         <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
@@ -112,7 +133,7 @@ export default function SalePerYear() {
                 Performance
               </h6>
               <h2 className="text-blueGray-700 text-xl font-semibold">
-                Total orders
+                Ventes
               </h2>
             </div>
           </div>

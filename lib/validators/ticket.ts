@@ -75,7 +75,8 @@ export const TicketFullSchema = z.object({
     }),
     seat: z.string().min(1, {
         message: "Siege obligatoire"
-    })
+    }),
+    price: z.number().optional()
 })
 
 export const TicketArraySchema = z.array(TicketSchema)

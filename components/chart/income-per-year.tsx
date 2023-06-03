@@ -1,20 +1,20 @@
 "use client"
 
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
 import { format } from "date-fns";
 
 import React from "react";
 import Chart from "chart.js";
 import { ChartConfiguration } from "chart.js";
+import { allTickets } from "@/service/tickets";
+import { SkeletonCard } from "../SkeletonCard";
+import { useQuery } from "react-query";
 
 export default function CardLineChart() {
+  const { data: response, error, isLoading } = useQuery({
+    queryFn: allTickets,
+    queryKey: ["tickets"]
+  })
+
   React.useEffect(() => {
     var config: ChartConfiguration = {
       type: "line",
@@ -30,14 +30,14 @@ export default function CardLineChart() {
         ],
         datasets: [
           {
-            label: format(new Date().getFullYear(), "dd/MM/yyyy"),
+            label: format(new Date(2022, 1, 1), "dd/MM/yyyy"),
             backgroundColor: "#4a5568",
             borderColor: "#4a5568",
             data: [65, 78, 66, 44, 56, 67, 75],
             fill: false,
           },
           {
-            label: format(new Date().getFullYear()-1, "dd/MM/yyyy"),
+            label: format(new Date(), "dd/MM/yyyy"),
             fill: false,
             backgroundColor: "#3182ce",
             borderColor: "#3182ce",
@@ -119,7 +119,18 @@ export default function CardLineChart() {
     const canvas = document.getElementById("line-chart") as HTMLCanvasElement
     const ctx = canvas?.getContext("2d");
     if(ctx) window.myLine = new Chart(ctx, config);
-  }, []);
+  }, [response, error, isLoading]);
+
+  if(error) return <>error...</>
+
+  if(isLoading) return (
+    <div className="h-full w-full">
+      <SkeletonCard />
+      <div className="w-[0px] h-[0px]">
+        <canvas id="line-chart"></canvas>
+      </div>
+    </div>
+  )
 
   return (
     <>
@@ -130,7 +141,7 @@ export default function CardLineChart() {
               <h6 className="uppercase text-blueGray-100 mb-1 text-xs font-semibold">
                 Overview
               </h6>
-              <h2 className="text-blueGray-100 text-xl font-semibold">Sales per year</h2>
+              <h2 className="text-blueGray-100 text-xl font-semibold">Ventes par année</h2>
             </div>
           </div>
         </div>
