@@ -74,8 +74,9 @@ export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
             id: "chapeau de paille",
             name: "Mobidik",
             class: {
-            id: "cl",
-            name: "vip"
+                id: "cl",
+                name: "vip",
+                priceFactor: 1
             }
         },
         route: {
