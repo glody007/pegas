@@ -174,13 +174,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     >
       {/* NAV BAR HEADER */}
       <div className="flex items-center justify-center space-x-2 mx-4">
-        <Image 
-          src={logo}
-          alt="Logo"
-          width={80}
-          height={80}
-          className="rounded-full"
-        />
+        <Link href='/feature'>
+          <Image 
+            src={logo}
+            alt="Logo"
+            width={80}
+            height={80}
+            className="rounded-full"
+          />
+        </Link>
         <h2 className="text-3xl text-slate-600"></h2>
       </div>
 
