@@ -48,7 +48,7 @@ const data: Array<Notification> = [
 ] 
 
 export default function Notifications() {
-    const { data, error, isLoading } = useQuery({
+    const { data: response, error, isLoading } = useQuery({
     queryFn: allRoutes,
     queryKey: ["routes"]
     })
