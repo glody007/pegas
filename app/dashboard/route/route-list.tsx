@@ -22,10 +22,10 @@ import { SkeletonTable } from "@/components/SkeletonTable"
 import { allRoutes } from "@/service/route"
 
 interface RouteListProps {
-  data: Array<Route>
+  
 }
 
-export default function RouteList({ data }: RouteListProps) {
+export default function RouteList({ }: RouteListProps) {
     const [from, setFrom] = useState("")
     const [to, setTo] = useState("")
     const [openModal, setOpenModal] = useState(false)
