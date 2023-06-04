@@ -1,6 +1,7 @@
 'use client'
-import { ReactNode, useState } from 'react';
+import { ReactNode, Suspense, useState } from 'react';
 import Header from './Header';
+import Loading from './loading';
 import Sidebar from './Sidebar';
 
 interface DashboardLayoutProps {
@@ -27,7 +28,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
             <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-              {children}
+                {children}
             </div>
           </main>
           {/* <!-- ===== Main Content End ===== --> */}
