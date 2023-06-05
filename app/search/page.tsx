@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import ScheduleList from "./ScheduleList";
 
 export default function Search() {
     const searchParams = useSearchParams();
@@ -48,13 +49,9 @@ export default function Search() {
             <div className="flex w-full space-x-4 max-w-[1200px]">
                 <div className="flex-[0.2] flex flex-col">
                     <PassengerSearchFilter />
-
                 </div>
                 <div className="flex-[0.8] flex flex-col min-h-[200px]">
-                    <p className="text-xl font-semibold">
-                        Resultats: 0 bus trouvés
-                    </p>
-
+                    <ScheduleList from={from ?? ""} to={to ?? ""} date={date ? new Date(date) : new Date()} />
                 </div>
             </div>
         </div>
