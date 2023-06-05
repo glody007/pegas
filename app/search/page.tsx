@@ -12,7 +12,7 @@ export default function Search() {
     const searchParams = useSearchParams();
     const from = searchParams?.get('from') ?? undefined
     const to = searchParams?.get('to') ?? undefined
-    const date = searchParams?.get('date') ?? undefined
+    const date = searchParams?.get('date') ?? String(new Date())
 
     return (
         <main className="">
@@ -38,7 +38,7 @@ export default function Search() {
                 </div>
             </div>
             <div className="flex w-full justify-center mt-8">
-                <SearchBar from={from} to={to} date={date ? new Date(date) : undefined} />
+                <SearchBar from={from} to={to} date={date ? new Date(date) : new Date()} />
             </div>
             </div>
         </div>

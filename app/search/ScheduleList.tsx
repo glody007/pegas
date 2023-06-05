@@ -31,10 +31,10 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ from, to, date }) => {
     if(isLoading) return <SkeletonCard />
 
     const schedules: ScheduleFull[] = responseSchedule.data
-
+    console.log(from, to)
     const filteredData = schedules.filter(schedule => (
-      String(schedule.route.from).toLowerCase().includes(from.toLowerCase()) &&
-      String(schedule.route.to).toLowerCase().includes(to.toLowerCase()) &&
+      (from !== ""  || String(schedule.route.from).toLowerCase().includes(from.toLowerCase())) &&
+      (to !== ""  || String(schedule.route.to).toLowerCase().includes(to.toLowerCase())) &&
       (!date || dateAreEquals(new Date(schedule.start), date))
     ))
 

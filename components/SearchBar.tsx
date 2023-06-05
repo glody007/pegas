@@ -26,24 +26,14 @@ import { CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from '@/lib/utils'
 import { CitySchema } from '@/lib/validators/city'
+import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
-  from: z.string().min(2, {
-    message: "From must be at least 2 characters.",
-  }),
-  to: z.string().min(2, {
-    message: "To must be at least 2 characters.",
-  }),
-  date: z.coerce.date(),
+  from: z.string().optional(),
+  to: z.string().optional(),
+  date: z.coerce.date().optional(),
 })
 
- 
-// 2. Define a submit handler.
-function onSubmit(values: z.infer<typeof formSchema>) {
-// Do something with the form values.
-// ✅ This will be type-safe and validated.
-console.log(values)
-}
 
 interface Props {
     from?: string,
@@ -51,18 +41,31 @@ interface Props {
     date?: Date
 }
 
+
+
+
 export default function SearchBar({ from, to, date }: Props) {
-  // 1. Define your form.
+    const router = useRouter()
+
+    const DEFAULT_FROM = ""
+    const DEFAULT_TO = ""
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            from: from ?? "",
-            to: to ?? "",
+            from: from ?? DEFAULT_FROM,
+            to: to ?? DEFAULT_TO,
             date: date ?? new Date()
         },
     })
 
   const cities = Object.values(CitySchema.Values).map(value => value)
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const date = format(values.date || new Date(), "yyyy-MM-dd")
+    const link = `/search?from=${values.from}&to=${values.to}&date=${date}`
+    router.push(link)
+  }
 
   return (
     <div className="flex-1 p-8 bg-white rounded-xl">
@@ -85,8 +88,8 @@ export default function SearchBar({ from, to, date }: Props) {
                                         label: city
                                     }))}
                                     defaultValue={{
-                                        value: from || "",
-                                        label: from || ""
+                                        value: from || DEFAULT_FROM,
+                                        label: from || DEFAULT_FROM
                                     }}
                                     handleSelect={field.onChange}
                                 />
@@ -108,8 +111,8 @@ export default function SearchBar({ from, to, date }: Props) {
                                         label: city
                                     }))}
                                     defaultValue={{
-                                        value: to || "",
-                                        label: to || ""
+                                        value: to || DEFAULT_TO,
+                                        label: to || DEFAULT_TO
                                     }}
                                     handleSelect={field.onChange}
                                 />
@@ -127,7 +130,7 @@ export default function SearchBar({ from, to, date }: Props) {
                                     <PopoverTrigger asChild>
                                     <FormControl>
                                         <Button
-                                        variant={"outline"}
+                                     variant={"outline"}
                                         className={cn(
                                             "w-full pl-3 text-left font-normal",
                                             !field.value && "text-muted-foreground"
