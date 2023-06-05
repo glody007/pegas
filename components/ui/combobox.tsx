@@ -28,7 +28,8 @@ export interface ComboboxProps {
     searchHint: string
     items: Array<comboboxItem>
     handleSelect?: (item: comboboxItem | undefined) => void,
-    disabled?: boolean
+    disabled?: boolean,
+    defaultValue?: comboboxItem
 }
 
 export type ComboboxHandle = {
@@ -40,10 +41,11 @@ const Combobox = React.forwardRef(({
     searchHint, 
     items,
     handleSelect,
-    disabled
+    disabled,
+    defaultValue
 } : ComboboxProps, ref: any) => {
   const [open, setOpen] = React.useState(false)
-  const [selected, setSelected] = React.useState<comboboxItem | undefined>(undefined)
+  const [selected, setSelected] = React.useState<comboboxItem | undefined>(defaultValue)
 
   const onSelect = (currentValue: string, selectedItem: comboboxItem) => {
     const currentItem = currentValue === selected?.label.toLowerCase() ? undefined : selectedItem

@@ -45,16 +45,20 @@ function onSubmit(values: z.infer<typeof formSchema>) {
 console.log(values)
 }
 
-type Props = {}
+interface Props {
+    from?: string,
+    to?: string,
+    date?: Date
+}
 
-export default function SearchBar({}: Props) {
+export default function SearchBar({ from, to, date }: Props) {
   // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            from: "",
-            to: "",
-            date: new Date()
+            from: from ?? "",
+            to: to ?? "",
+            date: date ?? new Date()
         },
     })
 
@@ -80,6 +84,10 @@ export default function SearchBar({}: Props) {
                                         value: city,
                                         label: city
                                     }))}
+                                    defaultValue={{
+                                        value: from || "",
+                                        label: from || ""
+                                    }}
                                     handleSelect={field.onChange}
                                 />
                             </FormItem>
@@ -99,6 +107,10 @@ export default function SearchBar({}: Props) {
                                         value: city,
                                         label: city
                                     }))}
+                                    defaultValue={{
+                                        value: to || "",
+                                        label: to || ""
+                                    }}
                                     handleSelect={field.onChange}
                                 />
                             </FormItem>
