@@ -1,5 +1,6 @@
 'use client'
 
+import PassengerSearchFilter from "@/components/PassengerSearchFilter";
 import SearchBar from "@/components/SearchBar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -18,7 +19,7 @@ export default function Search() {
         <div className="relative flex flex-col w-full justify-center items-center justify-center p-4 pb-8">
 
             <div className="absolute top-0 left-0 w-full h-full">
-            <Image fill objectFit="cover" src="/images/booking-background.jpg" alt="Background Image" />
+                <Image fill objectFit="cover" src="/images/booking-background.jpg" alt="Background Image" />
             </div>
             <div className="absolute top-0 left-0 w-full h-full bg-blue-600 opacity-60"></div>
 
@@ -41,6 +42,22 @@ export default function Search() {
             </div>
         </div>
         {/* END HERO SECTION */}
+
+        {/* END TRENDING SECTION */}
+        <div className="flex justify-center my-8">
+            <div className="flex w-full space-x-4 max-w-[1200px]">
+                <div className="flex-[0.2] flex flex-col">
+                    <PassengerSearchFilter />
+
+                </div>
+                <div className="flex-[0.8] flex flex-col min-h-[200px]">
+                    <p className="text-xl font-semibold">
+                        Resultats: 0 bus trouvés
+                    </p>
+
+                </div>
+            </div>
+        </div>
         
         </main>
     )
