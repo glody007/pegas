@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { format } from "date-fns"
@@ -22,7 +22,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { CalendarIcon } from "lucide-react"
+import { CalendarIcon, Loader2 } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from '@/lib/utils'
 import { CitySchema } from '@/lib/validators/city'
@@ -45,6 +45,7 @@ interface Props {
 
 
 export default function SearchBar({ from, to, date }: Props) {
+    const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
 
     const DEFAULT_FROM = ""
@@ -62,9 +63,13 @@ export default function SearchBar({ from, to, date }: Props) {
   const cities = Object.values(CitySchema.Values).map(value => value)
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    setIsLoading(true)
     const date = format(values.date || new Date(), "yyyy-MM-dd")
     const link = `/search?from=${values.from}&to=${values.to}&date=${date}`
     router.push(link)
+    setTimeout(() => {
+        setIsLoading(false)
+    }, 2000)
   }
 
   return (
@@ -161,7 +166,8 @@ export default function SearchBar({ from, to, date }: Props) {
                         )}
                     />
                 </div>
-                <Button type="submit" className="w-[200px] sm:flex-[0.6]">
+                <Button disabled={isLoading} type="submit" className="w-[200px] sm:flex-[0.6]">
+                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Recherche
                 </Button>
             </form>
