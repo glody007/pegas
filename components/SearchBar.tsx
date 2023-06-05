@@ -65,7 +65,7 @@ export default function SearchBar({}: Props) {
         <Form {...form}>
             <form 
                 onSubmit={form.handleSubmit(onSubmit)} 
-                className="flex items-center space-x-2"
+                className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-2 space-y-2  sm:space-y-0"
             >
                 <div>
                     <FormField
@@ -86,7 +86,7 @@ export default function SearchBar({}: Props) {
                         )}
                     />
                 </div>
-                <div>
+                <div className="">
                     <FormField
                         control={form.control}
                         name="to"
@@ -105,7 +105,7 @@ export default function SearchBar({}: Props) {
                         )}
                     />
                 </div>
-                <div className="flex-[0.6]">
+                <div className="w-[200px] sm:flex-[0.6]">
                     <FormField
                         control={form.control}
                         name="date"
@@ -146,7 +146,7 @@ export default function SearchBar({}: Props) {
                         )}
                     />
                 </div>
-                <Button type="submit" className="flex-[0.6]">
+                <Button type="submit" className="w-[200px] sm:flex-[0.6]">
                     Recherche
                 </Button>
             </form>
