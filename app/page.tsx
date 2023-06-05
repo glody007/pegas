@@ -3,7 +3,6 @@ import SearchBar from "@/components/SearchBar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import background from '../images/booking-background.jpg'
 
 export default function Home() {
   return (
@@ -12,7 +11,7 @@ export default function Home() {
       <div className="relative flex flex-col w-full justify-center items-center justify-center p-4 pb-16">
 
         <div className="absolute top-0 left-0 w-full h-full">
-          <Image fill objectFit="cover" src={background} alt="Background Image" />
+          <Image fill objectFit="cover" src="/images/booking-background.jpg" alt="Background Image" />
         </div>
         <div className="absolute top-0 left-0 w-full h-full bg-blue-600 opacity-60"></div>
 
