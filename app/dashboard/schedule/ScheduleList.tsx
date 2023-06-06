@@ -109,7 +109,7 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ data }) => {
                     <DialogHeader>
                       <DialogTitle>New schedule</DialogTitle>
                       <DialogDescription>
-                        Fill the bus form. Click save when you're done.
+                        {"Fill the bus form. Click save when you&aposre done."}
                       </DialogDescription>
                     </DialogHeader>
                     <div className="mt-4">
@@ -125,7 +125,7 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ data }) => {
               </div>
               <div className="rounded-md space-y-4">
                 {filteredData.map(schedule => (
-                  <ScheduleCard schedule={schedule} />
+                  <ScheduleCard key={schedule.id} schedule={schedule} />
                 ))}
               </div>
         </>

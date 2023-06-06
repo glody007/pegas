@@ -151,9 +151,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       <div>
         <ul className="mt-4">
           {items.map(item => (
-            <Link href={item.link}>
+            <Link key={item.name} href={item.link}>
               <li 
-                key={item.name} 
                 onClick={() => setCurrentPathName(item.link)}
                 className={`relative flex items-center text-xs px-8 py-2 ${isSelected(item.link) ? 'bg-white rounded-l-full text-gray-600' : 'hover:bg-slate-200 z-50 text-slate-600'}`}
               >

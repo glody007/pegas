@@ -118,7 +118,6 @@ export const columns: ColumnDef<departure>[] = [
           <DialogHeader>
             <DialogTitle className="pl-6"></DialogTitle>
           </DialogHeader>
-          <SellReserve />   
         </DialogContentFull>
         </Dialog>
       )

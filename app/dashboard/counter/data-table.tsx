@@ -100,7 +100,7 @@ export function DataTable<TData, TValue>({
                 <DialogHeader>
                   <DialogTitle>New counter</DialogTitle>
                   <DialogDescription>
-                    Fill the counter form. Click save when you're done.
+                    {`Fill the counter form. Click save when you&aposre done.`}
                   </DialogDescription>
                 </DialogHeader>
                 <CounterForm handleSuccess={handleSuccess} />

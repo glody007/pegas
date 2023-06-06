@@ -19,11 +19,11 @@ export function ticketPrice(schedule: ScheduleFull) {
   return  routePrice * busTypePriceFactor
 }
 
-function makePluralIfMany(name: String, number: Number) {
+function makePluralIfMany(name: String, number: number) {
   return `${name}${number>1 ? 's' : ''}`
 }
 
-function formatTraveTimePart(name: String, number: Number) {
+function formatTraveTimePart(name: String, number: number) {
   return `${number>0 ? `${number} ${makePluralIfMany(name, number)}` : ''}`
 }
 

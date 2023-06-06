@@ -91,7 +91,7 @@ const  BusList = ({ }: FleetProps) => {
                     <DialogHeader>
                       <DialogTitle>New bus</DialogTitle>
                       <DialogDescription>
-                        Fill the bus form. Click save when you're done.
+                        {"Fill the bus form. Click save when you&aposre done."}
                       </DialogDescription>
                     </DialogHeader>
                     <div className="mt-4">
@@ -102,7 +102,7 @@ const  BusList = ({ }: FleetProps) => {
               </div>
               <div className="rounded-md space-y-4">
                 {filteredData.map(bus => (
-                  <BusCard bus={bus} classes={classes} />
+                  <BusCard key={bus.id} bus={bus} classes={classes} />
                 ))}
               </div>
         </>

@@ -149,7 +149,7 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ }) => {
               </div>
               <div className="rounded-md space-y-4">
                 {filteredData.map(schedule => (
-                  <ManifestCard schedule={schedule} />
+                  <ManifestCard key={schedule.id} schedule={schedule} />
                 ))}
               </div>
               {filteredData.length === 0 && (

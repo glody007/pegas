@@ -131,7 +131,7 @@ const  TicketList: React.FC<TicketListProps> = ({ }) => {
                 </div>
 
                 {filteredData.map(ticket => (
-                  <TicketRow ticket={ticket} />
+                  <TicketRow key={ticket.id} ticket={ticket} />
                 ))}
               </div>
               {filteredData.length === 0 && (

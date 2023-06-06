@@ -190,7 +190,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       <div>
         <ul className="mt-4">
           {items.map(item => (
-            <Link href={item.link}>
+            <Link key={item.name} href={item.link}>
               <li 
                 key={item.name} 
                 onClick={() => setCurrentPathName(item.link)}

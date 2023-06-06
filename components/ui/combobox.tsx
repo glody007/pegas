@@ -106,6 +106,8 @@ const Combobox = React.forwardRef(({
   )
 })
 
+Combobox.displayName = "combobox"
+
 export {
     Combobox
 }

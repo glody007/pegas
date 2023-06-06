@@ -95,7 +95,7 @@ export function DataTable<TData, TValue>({
                 <DialogHeader>
                   <DialogTitle>New departure</DialogTitle>
                   <DialogDescription>
-                    Fill the departure form. Click save when you're done.
+                    {`Fill the departure form. Click save when you&aposre done.`}
                   </DialogDescription>
                 </DialogHeader>
                 <DepartureForm />

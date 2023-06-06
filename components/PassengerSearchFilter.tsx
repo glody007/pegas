@@ -91,7 +91,7 @@ export default function PassengerSearchFilter({}: Props) {
             <p className="text-sm font-semibold">Bugdet</p>
           </div>
           {budgets.map(budget => (
-            <div className="items-center flex space-x-2">
+            <div key={budget.id} className="items-center flex space-x-2">
               <Checkbox id="budgets" />
               <div className="grid gap-1.5 leading-none">
                 <label
@@ -110,7 +110,7 @@ export default function PassengerSearchFilter({}: Props) {
             <p className="text-sm font-semibold">Classes</p>
           </div>
           {classes.map(classe => (
-            <div className="items-center flex space-x-2">
+            <div key={classe.id} className="items-center flex space-x-2">
               <Checkbox id="classes" />
               <div className="grid gap-1.5 leading-none">
                 <label
@@ -129,7 +129,7 @@ export default function PassengerSearchFilter({}: Props) {
             <p className="text-sm font-semibold">Heures</p>
           </div>
           {hours.map(hour => (
-            <div className="items-center flex space-x-2">
+            <div key={hour.id} className="items-center flex space-x-2">
               <Checkbox id="hours" />
               <div className="grid gap-1.5 leading-none">
                 <label

@@ -29,7 +29,7 @@ export default function Details() {
         } 
         return (
             <div className="flex justify-center p-4 rounded bg-red-100 text-gray-500 text-xs">
-                Une erreur s'est produite verifiez votre connection
+                {"Une erreur s&aposest produite verifiez votre connection"}
             </div>
         )
     }

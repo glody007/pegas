@@ -45,7 +45,7 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ from, to, date }) => {
           </p>
           <div className="rounded-md space-y-4">
             {filteredData.map(schedule => (
-                <SheduleCardForCustomer schedule={schedule} />
+                <SheduleCardForCustomer key={schedule.id} schedule={schedule} />
             ))}
           </div>
           {filteredData.length === 0 && (

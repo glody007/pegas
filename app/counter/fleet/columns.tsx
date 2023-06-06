@@ -108,7 +108,6 @@ export const columns: ColumnDef<Schedule>[] = [
           <DialogHeader>
             <DialogTitle className="pl-6">Sell Ticket</DialogTitle>
           </DialogHeader>
-          <SellReserve />   
         </DialogContentFull>
         </Dialog>
       )

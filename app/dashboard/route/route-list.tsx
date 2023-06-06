@@ -80,7 +80,7 @@ export default function RouteList({ }: RouteListProps) {
                     <DialogHeader>
                       <DialogTitle>New route</DialogTitle>
                       <DialogDescription>
-                        Fill the departure form. Click save when you're done.
+                        {"Fill the departure form. Click save when you&aposre done."}
                       </DialogDescription>
                     </DialogHeader>
                     <div className="mt-4">
@@ -91,7 +91,7 @@ export default function RouteList({ }: RouteListProps) {
               </div>
               <div className="rounded-md space-y-4">
                 {filteredData.map(route => (
-                  <RouteCard route={route} />
+                  <RouteCard key={route.id} route={route} />
                 ))}
               </div>
         </>

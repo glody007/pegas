@@ -73,7 +73,7 @@ export default function Notifications() {
           {/* Chart */}
           <div className="relative h-[400px] space-y-2">
             {data.map((notification: Notification) => (
-                <div className="flex items-center space-x-2">
+                <div key={notification.id} className="flex items-center space-x-2">
                     <div className={`w-2 h-2 rounded-full ${notification.state === "pending" ? `bg-green-400` : `bg-red-400`}`}></div>
                     <div className="text-gray text-xs">{notification.message}</div>
                 </div> 

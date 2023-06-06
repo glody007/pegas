@@ -42,7 +42,7 @@ export default function RouteCard({ route }: RouteCardProps) {
                         <div className="absolute top-[46%] w-full flex h-2 rounded-xl bg-blue-200" />
                         <div className="z-50 flex justify-between items-center">
                             {route.stops.map((place, index) => (
-                                <div className="relative bg-blue-200 rounded-full">
+                                <div key={place} className="relative bg-blue-200 rounded-full">
                                     <div className="m-2 w-8 h-8 text-white flex items-center justify-center bg-blue-400 rounded-full">
                                         {index + 1}
                                     </div>

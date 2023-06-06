@@ -91,7 +91,7 @@ export function DataTable<TData, TValue>({
                 <DialogHeader>
                   <DialogTitle>New user</DialogTitle>
                   <DialogDescription>
-                    Fill the user form. Click save when you're done.
+                    {"Fill the user form. Click save when you&aposre done."}
                   </DialogDescription>
                 </DialogHeader>
                 <UserForm handleSuccess={handleSuccess} />

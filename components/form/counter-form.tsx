@@ -104,7 +104,7 @@ export default function CounterForm({ handleSuccess }: UserFormProps) {
                                         </FormControl>
                                         <SelectContent>
                                             {cities.map(value => (
-                                                <SelectItem value={value}>{value}</SelectItem>
+                                                <SelectItem key={value} value={value}>{value}</SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
@@ -127,7 +127,7 @@ export default function CounterForm({ handleSuccess }: UserFormProps) {
                                         </FormControl>
                                         <SelectContent>
                                             {countries.map(value => (
-                                                <SelectItem value={value}>{value}</SelectItem>
+                                                <SelectItem key={value} value={value}>{value}</SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
