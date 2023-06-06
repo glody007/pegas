@@ -34,15 +34,11 @@ const formSchema = z.object({
   date: z.coerce.date().optional(),
 })
 
-
 interface Props {
     from?: string,
     to?: string,
     date?: Date
 }
-
-
-
 
 export default function SearchBar({ from, to, date }: Props) {
     const [isLoading, setIsLoading] = useState(false)
@@ -96,7 +92,7 @@ export default function SearchBar({ from, to, date }: Props) {
                                         value: from || DEFAULT_FROM,
                                         label: from || DEFAULT_FROM
                                     }}
-                                    handleSelect={field.onChange}
+                                    handleSelect={(value) => field.onChange(value?.value)}
                                 />
                             </FormItem>
                         )}
@@ -119,7 +115,7 @@ export default function SearchBar({ from, to, date }: Props) {
                                         value: to || DEFAULT_TO,
                                         label: to || DEFAULT_TO
                                     }}
-                                    handleSelect={field.onChange}
+                                    handleSelect={(value) => field.onChange(value?.value)}
                                 />
                             </FormItem>
                         )}

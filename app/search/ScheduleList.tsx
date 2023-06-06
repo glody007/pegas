@@ -33,8 +33,8 @@ const  ScheduleList: React.FC<ScheduleListProps> = ({ from, to, date }) => {
     const schedules: ScheduleFull[] = responseSchedule.data
 
     const filteredData = schedules.filter(schedule => (
-      (from !== ""  || String(schedule.route.from).toLowerCase().includes(from.toLowerCase())) &&
-      (to !== ""  || String(schedule.route.to).toLowerCase().includes(to.toLowerCase())) &&
+      (from === ""  || String(schedule.route.from).toLowerCase().includes(from.toLowerCase())) &&
+      (to === ""  || String(schedule.route.to).toLowerCase().includes(to.toLowerCase())) &&
       (!date || dateAreEquals(new Date(schedule.start), date))
     ))
 

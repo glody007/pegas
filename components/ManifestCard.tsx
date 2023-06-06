@@ -42,7 +42,6 @@ const ManifestCard: React.FC<ManifestCardProps> = ({ schedule }) => {
 
     const handleSuccess = (ticket: TicketFull) => {
         setOpenModal(false)
-        setTicket(ticket)
     }
 
     return (
