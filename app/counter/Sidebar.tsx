@@ -23,6 +23,7 @@ import {
   CalculatorIcon,
   TrendingUpIcon
 } from "@heroicons/react/outline";
+import { usePathname } from 'next/navigation';
 
 const items = [
   {
@@ -78,16 +79,13 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
-  const { pathname } = location;
+  const pathname = usePathname()
   const [currentPathName, setCurrentPathName] = useState(pathname)
 
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
 
-  const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
-  const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
-  );
+  const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
   const isSelected = (path: String) => path === currentPathName
 
