@@ -50,7 +50,7 @@ export default function BusForm({ classes, handleSuccess }: BusFormProps) {
     })
 
     const {mutate} = useMutation(
-        async (bus: Bus) => await axios.post('/api/buses/addBus', bus),
+        async (bus: Bus) => await axios.post('/api/buses', bus),
         {
             onError: (error) => {
                 if(error instanceof AxiosError) {
