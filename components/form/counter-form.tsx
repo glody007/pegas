@@ -46,7 +46,7 @@ export default function CounterForm({ handleSuccess }: UserFormProps) {
     })
 
     const {mutate} = useMutation(
-        async (counter: Counter) => await axios.post('/api/counters/addCounter', counter),
+        async (counter: Counter) => await axios.post('/api/counters', counter),
         {
             onError: (error) => {
                 if(error instanceof AxiosError) {
