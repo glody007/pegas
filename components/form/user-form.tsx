@@ -59,7 +59,7 @@ export default function UserForm({ handleSuccess }: UserFormProps) {
     const sexes = Object.values(SexSchema.Values).map(value => value)
 
     const {mutate} = useMutation(
-        async (user: User) => await axios.post('/api/users/addUser', user),
+        async (user: User) => await axios.post('/api/users', user),
         {
             onError: (error) => {
                 if(error instanceof AxiosError) {
