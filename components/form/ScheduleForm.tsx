@@ -68,7 +68,7 @@ export default function ScheduleForm({
     })
 
     const {mutate} = useMutation(
-        async (schedule: Schedule) => await axios.post('/api/schedules/addSchedule', schedule),
+        async (schedule: Schedule) => await axios.post('/api/schedules', schedule),
         {
             onError: (error) => {
                 if(error instanceof AxiosError) {
