@@ -24,7 +24,7 @@ export async function GET(
 }
 
 export async function POST(
-    req: NextResponse
+    req: NextRequest
 ) {
     const session = true //await getServerSession(req, res, authOptions)
     if(!session) return NextResponse.json({

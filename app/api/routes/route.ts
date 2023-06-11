@@ -3,7 +3,7 @@ import prisma from "@/prisma/client";
 import { Route, RouteSchema } from "@/lib/validators/route";
 
 export async function GET(
-    req: NextResponse
+    req: NextRequest
 ) {
     const session = true //await getServerSession(req, res, authOptions)
     try {
