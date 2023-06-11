@@ -97,7 +97,7 @@ export default function RouteForm({ handleSuccess }: RouteFormProps) {
     const refTo = useRef<ComboHandle>(null); 
 
     const {mutate} = useMutation(
-        async (route: Route) => await axios.post('/api/routes/addRoute', route),
+        async (route: Route) => await axios.post('/api/routes', route),
         {
             onError: (error) => {
                 if(error instanceof AxiosError) {
