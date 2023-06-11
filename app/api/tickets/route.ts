@@ -1,37 +1,82 @@
-import { NextApiResponse, NextApiRequest } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]";
-import prisma from "@/prisma/client";
-import { Ticket, TicketSchema } from "@/lib/validators/ticket";
 import { ScheduleFull } from "@/lib/validators/schedule";
+import { Ticket, TicketSchema } from "@/lib/validators/ticket";
+import prisma from "@/prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 import { scheduleTravelTime, ticketPrice } from "@/lib/utils";
 import { CourierClient } from "@trycourier/courier";
 import { format } from "date-fns";
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
+export async function GET(
+    req: NextRequest
+) {
+    const session = true //await getServerSession(req, res, authOptions)
+    try {
+        const data = await prisma.ticket.findMany({
+            orderBy: {
+                schedule: {
+                    start: 'asc'
+                }
+            },
+            include: {
+                schedule: {
+                    include: {
+                        route: {
+                            select: {
+                                id: true,
+                                from: true,
+                                to: true
+                            }
+                        },
+                        bus: {
+                            select: {
+                                id: true,
+                                name: true,
+                                class: true
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        return NextResponse.json({
+            success: true,
+            code: 200,
+            data: data
+        }, { status: 200 })
+    } catch(err) {
+        console.log(err)
+        return NextResponse.json({
+            success: false,
+            code: 500,
+            errors: [{ message: "Error fetching tickets" }]
+        }, { status: 500 })
+    }  
+}
+
+
+export async function POST(
+    req: NextRequest
 ) {
     const session = true //await getServerSession(req, res, authOptions)
     if(req.method === "POST") {
-        if(!session) return res.status(401).json({
+        if(!session) return NextResponse.json({
             success: false,
             code: 401,
             errors: [{ message: "Please sign in" }]
-        })
+        }, { status: 401 })
 
-        const ticket: Ticket = req.body
+        const ticket: Ticket = await req.json()
         
         const validate = TicketSchema.safeParse(ticket)
 
         if(!validate.success) {
-            return res.status(403).json({
+            return NextResponse.json({
                 success: false,
                 code: 403,
                 errors: validate.error.issues.map(issue => ({
                     message: issue.message
                 }))
-            })
+            }, { status: 403 })
         }
 
         const data = await prisma.schedule.findUnique({
@@ -50,21 +95,21 @@ export default async function handler(
         })
 
         if(!data) {
-            return res.status(403).json({
+            return NextResponse.json({
                 success: false,
                 code: 403,
                 errors: [{ message: "Le schedule n'existe pas" }]
-            })
+            }, { status: 403 })
         }
 
         const schedule: ScheduleFull = data as ScheduleFull
 
         if(schedule.availableSeats <= 0) {
-            return res.status(403).json({
+            return NextResponse.json({
                 success: false,
                 code: 403,
                 errors: [{ message: "Le bus est deja rempli" }]
-            })
+            }, { status: 403 })
         }
 
         try {
@@ -125,18 +170,18 @@ export default async function handler(
                 });
             }
 
-            res.status(201).json({
+            return NextResponse.json({
                 success: true,
                 code: 201,
                 data: result
-            })
+            }, { status: 201 })
         } catch(err) {
             console.log(err)
-            res.status(403).json({
+            return NextResponse.json({
                 success: false,
-                code: 403,
-                errors: [{ message: "Error has occured while making buying ticket" }]
-            })
+                code: 500,
+                errors: [{ message: "Error has occured while buying ticket" }]
+            }, { status: 500 })
         }
         
     }

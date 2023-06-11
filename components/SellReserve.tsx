@@ -104,7 +104,7 @@ export function SellReserve({ schedule, handleSuccess }: SellReserveProps) {
   })
 
   const {mutate} = useMutation(
-    async (ticket: Ticket) => await axios.post('/api/tickets/buyTicket', ticket),
+    async (ticket: Ticket) => await axios.post('/api/tickets', ticket),
     {
         onError: (error) => {
             if(error instanceof AxiosError) {

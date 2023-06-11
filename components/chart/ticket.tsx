@@ -1,7 +1,7 @@
 'use client'
 
 import { TicketFull } from "@/lib/validators/ticket"
-import { allTickets } from "@/service/tickets"
+import { allTickets } from "@/service/ticket"
 import { data } from "autoprefixer"
 import { useQuery } from "react-query"
 import { SkeletonCard } from "../SkeletonCard"

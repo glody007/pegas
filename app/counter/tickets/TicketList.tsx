@@ -36,7 +36,7 @@ import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import { Ticket, TicketFull } from "@/lib/validators/ticket"
 import { TicketDetails } from "@/components/TicketDetails"
-import { allTickets } from "@/service/tickets"
+import { allTickets } from "@/service/ticket"
 import { TicketMiniFront } from "@/components/TicketMiniFront"
 import { TicketRow } from "@/components/TicketRow"
 

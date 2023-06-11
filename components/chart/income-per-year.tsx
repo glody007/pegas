@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import React from "react";
 import Chart from "chart.js";
 import { ChartConfiguration } from "chart.js";
-import { allTickets } from "@/service/tickets";
+import { allTickets } from "@/service/ticket";
 import { SkeletonCard } from "../SkeletonCard";
 import { useQuery } from "react-query";
 

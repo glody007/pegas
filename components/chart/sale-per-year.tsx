@@ -7,7 +7,7 @@ import { format } from "date-fns";
 import { allUsers } from "@/service/user";
 import { useQuery } from "react-query";
 import { SkeletonCard } from "../SkeletonCard";
-import { allTickets } from "@/service/tickets";
+import { allTickets } from "@/service/ticket";
 
 export default function SalePerYear() {
   const { data: response, error, isLoading } = useQuery({
