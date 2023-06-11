@@ -51,6 +51,18 @@ export async function PUT(
             errors: [{ message: "Please sign in" }]
         }, { status: 401 })
 
+        const data = await prisma.route.findUnique({
+            where: {
+                id: params.routeId
+            }
+        })
+
+        if(!data) return NextResponse.json({
+            success: true,
+            code: 404,
+            errors: [{message: "Not found"}]
+        }, { status: 404 })
+
         const route: Route = await req.json()
         
         const validate = RouteSchema.safeParse(route)
