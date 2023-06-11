@@ -7,7 +7,7 @@ interface Query {
 }
 
 export async function GET(
-    req: NextResponse,
+    req: NextRequest,
     { params }: { params: Query }
 ) {
     try {
