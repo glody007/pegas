@@ -23,6 +23,19 @@ const DialogPortal = ({
 )
 DialogPortal.displayName = DialogPrimitive.Portal.displayName
 
+const DialogLateralPortal = ({
+  className,
+  children,
+  ...props
+}: DialogPrimitive.DialogPortalProps) => (
+  <DialogPrimitive.Portal className={cn(className)} {...props}>
+    <div className="fixed inset-0 z-50 flex items-start justify-end sm:items-start">
+      {children}
+    </div>
+  </DialogPrimitive.Portal>
+)
+DialogLateralPortal.displayName = DialogPrimitive.Portal.displayName
+
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
@@ -82,6 +95,27 @@ const DialogContentFull = React.forwardRef<
   </DialogPortal>
 ))
 DialogContentFull.displayName = DialogPrimitive.Content.displayName
+
+const DialogContentLateral = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+>(({ className, children, ...props }, ref) => (
+  <DialogLateralPortal>
+    <DialogOverlay className="bg-black/70 backdrop-blur-none" />
+    <DialogPrimitive.Content
+      ref={ref}
+      className="fixed z-50 p-6 rounded-none h-screen border border-l-2 bg-background p-6 shadow-lg animate-in data-[state=open]:fade-in-90 data-[state=open]:slide-in-from-bottom-100"
+      {...props}
+    >
+      {children}
+      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+        <X className="h-4 w-4" />
+        <span className="sr-only">Close</span>
+      </DialogPrimitive.Close>
+    </DialogPrimitive.Content>
+  </DialogLateralPortal>
+))
+DialogContentLateral.displayName = DialogPrimitive.Content.displayName
 
 const DialogHeader = ({
   className,
@@ -143,6 +177,7 @@ export {
   DialogTrigger,
   DialogContent,
   DialogContentFull,
+  DialogContentLateral,
   DialogHeader,
   DialogFooter,
   DialogTitle,
