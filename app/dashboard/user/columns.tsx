@@ -27,6 +27,8 @@ import { Role } from "@/types/role"
 import UserRole from "@/components/role"
 import { Badge } from "@/components/ui/badge"
 import { User } from "@/lib/validators/user"
+import UserForm from "@/components/form/user-form"
+import { useState } from "react"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -115,10 +117,15 @@ export const columns: ColumnDef<User>[] = [
   {
     id: "Actions",
     cell: ({ row }) => {
-      const payment = row.original
+      const [openModal, setOpenModal] = useState(false)
+      const user = row.original
+
+      const handleSuccess = () => {
+        setOpenModal(false)
+      }
  
       return (
-        <Dialog>
+        <Dialog open={openModal} onOpenChange={setOpenModal}>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
@@ -129,9 +136,11 @@ export const columns: ColumnDef<User>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              Edit
-            </DropdownMenuItem>
+            <DialogTrigger>
+              <DropdownMenuItem>
+                Edit
+              </DropdownMenuItem>
+            </DialogTrigger>
             <DropdownMenuItem className="text-red-500">
               Remove
             </DropdownMenuItem>
@@ -140,8 +149,12 @@ export const columns: ColumnDef<User>[] = [
 
         <DialogContentFull>
           <DialogHeader>
-            <DialogTitle className="pl-6"></DialogTitle>
+            <DialogTitle>Update user</DialogTitle>
+            <DialogDescription>
+              {"Update the user form. Click save when you&aposre done."}
+            </DialogDescription>
           </DialogHeader>
+          <UserForm user={user} handleSuccess={handleSuccess} />
         </DialogContentFull>
         </Dialog>
       )

@@ -72,7 +72,7 @@ export async function PUT(
             }
         })
     
-        if(exist) {
+        if(exist && exist.id !== params.userId) {
             return NextResponse.json({
                 success: false,
                 code: 403,

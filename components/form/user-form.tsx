@@ -36,30 +36,40 @@ import toast from "react-hot-toast"
 
 interface UserFormProps {
     handleSuccess?: () => void
+    user?: User
 }
 
-export default function UserForm({ handleSuccess }: UserFormProps) {
+export default function UserForm({ handleSuccess, user }: UserFormProps) {
     const [isDisabled, setIsDisabled] = useState(false)
     let toastAddId: string
 
     const queryClient = useQueryClient()
 
+    const defaultUser: User = {
+        name: "",
+        email: "",
+        sex: SexSchema.enum.M,
+        birthday: new Date(),
+        role: RoleSchema.enum.passenger
+    }
+
     const form = useForm<z.infer<typeof UserSchema>>({
         resolver: zodResolver(UserSchema),
-        defaultValues: {
-            name: "",
-            email: "",
-            sex: SexSchema.enum.M,
-            birthday: new Date(),
-            role: RoleSchema.enum.passenger
-        },
+        defaultValues: user ? {...user, birthday: new Date(user.birthday)} : defaultUser
     })
 
     const roles = Object.values(RoleSchema.Values).map(value => value)
     const sexes = Object.values(SexSchema.Values).map(value => value)
 
+    const operation = user ? 'Modification' : 'Ajout'
+
+    const request = (data: User) => {
+        if(user) return axios.put(`/api/users/${user.id}`, data)
+        return axios.post('/api/users', data)
+    }
+
     const {mutate} = useMutation(
-        async (user: User) => await axios.post('/api/users', user),
+        async (user: User) => await request(user),
         {
             onError: (error) => {
                 if(error instanceof AxiosError) {
@@ -68,7 +78,7 @@ export default function UserForm({ handleSuccess }: UserFormProps) {
                 setIsDisabled(false)
             },
             onSuccess: (data) => {
-                toast.success("Ajout reussi 👏", { id: toastAddId })
+                toast.success(`${operation} reussi 👏`, { id: toastAddId })
                 setIsDisabled(false)
                 queryClient.invalidateQueries(["users"])
                 if(handleSuccess) handleSuccess()
@@ -77,7 +87,7 @@ export default function UserForm({ handleSuccess }: UserFormProps) {
     )
 
     function onSubmit(values: User) {
-        toastAddId = toast.loading("Ajout en cours", { id: toastAddId })
+        toastAddId = toast.loading(`${operation} en cours`, { id: toastAddId })
         setIsDisabled(true)
         mutate(values)
     }
@@ -202,7 +212,7 @@ export default function UserForm({ handleSuccess }: UserFormProps) {
                             )}
                         />
                     </div>
-                    <Button disabled={isDisabled}  type="submit" className="mt-8">Save</Button>
+                    <Button disabled={isDisabled}  type="submit" className="mt-8">Confirmer</Button>
                 </form>
             </Form>
     )
