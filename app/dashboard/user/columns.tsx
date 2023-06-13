@@ -15,6 +15,7 @@ import {
   Dialog,
   DialogContent,
   DialogContentFull,
+  DialogContentLateral,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -147,7 +148,7 @@ export const columns: ColumnDef<User>[] = [
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <DialogContentFull>
+        <DialogContentLateral>
           <DialogHeader>
             <DialogTitle>Update user</DialogTitle>
             <DialogDescription>
@@ -155,7 +156,7 @@ export const columns: ColumnDef<User>[] = [
             </DialogDescription>
           </DialogHeader>
           <UserForm user={user} handleSuccess={handleSuccess} />
-        </DialogContentFull>
+        </DialogContentLateral>
         </Dialog>
       )
     },
