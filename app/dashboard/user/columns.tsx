@@ -118,15 +118,15 @@ export const columns: ColumnDef<User>[] = [
   {
     id: "Actions",
     cell: ({ row }) => {
-      const [openModal, setOpenModal] = useState(false)
+      // const [openModal, setOpenModal] = useState(false)
       const user = row.original
 
-      const handleSuccess = () => {
-        setOpenModal(false)
-      }
+      // const handleSuccess = () => {
+      //   setOpenModal(false)
+      // }
  
       return (
-        <Dialog open={openModal} onOpenChange={setOpenModal}>
+        <Dialog>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
@@ -155,7 +155,7 @@ export const columns: ColumnDef<User>[] = [
               {"Update the user form. Click save when you&aposre done."}
             </DialogDescription>
           </DialogHeader>
-          <UserForm user={user} handleSuccess={handleSuccess} />
+          <UserForm user={user} />
         </DialogContentLateral>
         </Dialog>
       )
